@@ -9,5 +9,8 @@ router.get('/admin',function(req,res){
     user: req.session.user
   })
 })
-
+router.post('/admin', function(req, res){
+  var body = req.body
+  console.log(body)
+})
 module.exports = router;

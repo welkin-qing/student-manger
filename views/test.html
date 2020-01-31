@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+  <link rel="stylesheet" href="/public/lib/bootstrapvalidator/dist/css/bootstrapValidator.css">
+</head>
+<body>
+  <form>
+    <div class="form-group">
+      <label>password0</label>
+      <input type="password" class="form-control" name="password0" />
+    </div>
+    <div class="form-group">
+      <label>password1</label>
+      <input type="password" class="form-control" name="password1" />
+    </div>
+    <div class="form-group">
+      <label>password2</label>
+      <input type="password" class="form-control" name="password2" />
+    </div>
+    <div class="form-group">
+      <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
+
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src="/public/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
+<script>
+  $(function () {
+    $('form').bootstrapValidator({
+      message: 'This value is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        username: {
+          message: '用户名验证失败',
+          validators: {
+            notEmpty: {
+              message: '用户名不能为空'
+            }
+          }
+        },
+        password0:{
+          validators: {
+            notEmpty: {
+              message: '密码不能为空'
+            }
+          }
+        },
+        password1:{
+          validators: {
+            identical: {
+              field: 'password2',
+              message: '两次输入的密码不相符'
+            }
+          }
+        },
+        password2:{
+          validators: {
+            identical: {
+              field: 'password1',
+              message: '两次输入的密码不相符'
+            }
+          }
+        },
+        email: {
+          validators: {
+            notEmpty: {
+              message: '邮箱地址不能为空'
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>

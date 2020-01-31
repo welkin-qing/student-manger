@@ -20,12 +20,12 @@
     <form id="login_form">
       <div class="form-group">
         <label for="">学号</label>
-        <input type="text" class="form-control" id="" name="number" placeholder="学号" autofocus>
+        <input type="text" class="form-control"  name="number" placeholder="学号" autofocus>
       </div>
       <div class="form-group">
         <label for="">密码</label>
         <!-- <a class="pull-right" href="">忘记密码？</a> -->
-        <input type="password" class="form-control" id="" name="password" placeholder="密码">
+        <input type="password" class="form-control"  name="password" placeholder="密码">
       </div>
       <div class="checkbox">
         <label>
@@ -51,14 +51,14 @@
       e.preventDefault()
       var formData = $(this).serialize()
      // console.log(formData)
-     console.log('eeeeeeeee')
+    // console.log('eeeeeeeee')
       $.ajax({
         url: '/login',
         type: 'post',
         data: formData,
         dataType: 'json',
         success: function (data) {
-          console.log(data)
+         // console.log(data)
           var err_code = data.err_code
           if (err_code === 0) {
              window.alert('登录成功!')

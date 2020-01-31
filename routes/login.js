@@ -16,7 +16,7 @@ router.post('/login', function (req, res, next) {
   var duty = body.duty
   var num = body.number
   var password = body.password
-  console.log(duty)
+//  console.log(duty)
   if (duty == 0) {
     //manger
     //console.log('i am manger')
@@ -77,10 +77,9 @@ router.post('/login', function (req, res, next) {
     //student
     //console.log('i am student')
     var str = 'select * from student where num = ' + num;
-
     db.query(str, (err, result) => {
       if (err) { throw err }
-       console.log(result)
+      // console.log(result)
       if (result.length === 0) {
         //console.log("找不到账号！")
         res.status(200).json({
@@ -96,7 +95,7 @@ router.post('/login', function (req, res, next) {
       }
       else {
         // console.log("成功登陆！!")
-        console.log(result[0].password)
+        //console.log(result[0].password)
         req.session.user = result[0]
         res.status(200).json({
           err_code: 0,

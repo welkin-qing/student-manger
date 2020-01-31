@@ -11,11 +11,16 @@ router.get('/', function (req, res) {
     user: req.session.user
   })
 })
+//test
+router.get('/test',function(req, res){
+  res.render("test.html")
+})
 
 /*后台系统登录界面*/
 router.get('/login',require("./login"));
 router.post('/login',require("./login"));
 //settings
 router.get('/admin',require('./settings'))
+router.post('/admin',require('./settings'))
 
 module.exports = router;
