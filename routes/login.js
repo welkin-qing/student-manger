@@ -20,7 +20,7 @@ router.post('/login', function (req, res, next) {
   if (duty == 0) {
     //manger
     //console.log('i am manger')
-    var str = 'select password from manger where num = ' + num;
+    var str = 'select * from manger where num = ' + num;
     db.query(str, (err, result) => {
       if (err) { throw err }
       // console.log(result)
@@ -50,7 +50,7 @@ router.post('/login', function (req, res, next) {
   } else if (duty == 1) {
     //teacher
     //console.log('i am teacher')
-    var str = 'select password from teacher where num = ' + num;
+    var str = 'select * from teacher where num = ' + num;
     db.query(str, (err, result) => {
       if (err) { throw err }
       // console.log(result)
@@ -70,6 +70,7 @@ router.post('/login', function (req, res, next) {
       else {
         // console.log("成功登陆！!")
         req.session.user = result[0]
+       // console.log(req.session.user)
         req.session.user.duty = 1
         res.status(200).json({
           err_code: 0,

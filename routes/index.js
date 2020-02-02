@@ -24,4 +24,12 @@ router.get('/admin',require('./settings'))
 router.post('/admin',require('./settings'))
 router.get('/profile', require('./settings'))
 router.post('/profile', require('./settings'))
+
+//logout
+router.get('/logout', function (req, res) {
+  // 清除登陆状态
+  req.session.user = null
+  // 重定向到登录页
+  res.redirect('/login')
+})
 module.exports = router;

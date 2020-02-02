@@ -77,5 +77,34 @@ router.get('/profile', function (req, res) {
 })
 router.post('/profile', function(req, res){
   var body = req.body
+  console.log(body)
+  var duty = req.session.user.duty
+  var num = req.session.user.num
+  if(duty === 1){
+    //teacher
+    var str = "update student set name='"+body.name+"',book='"+body.book+"',sex='"+body.sex+"',phone='"+body.phone+"' where num='"+num+"';"
+    db.query(str, (err, result) => {
+      if(err) { throw err }
+      res.status(200).json({
+        err_code: 0,
+        message: 'ok'
+      })
+    })
+  }else if(duty === 2){
+    //student  update student set sex = '1',phone ='17691266938'where num = '04151027';
+    var str = "update student set name='"+body.name+"',class='"+body.class+"',sex='"+body.sex+"',phone='"+body.phone+"' where num='"+num+"';"
+    db.query(str, (err, result) => {
+      if(err) { throw err }
+      res.status(200).json({
+        err_code: 0,
+        message: 'ok'
+      })
+    })
+  }else{
+    res.status(200).json({
+      err_code: 500,
+      message: 'server error'
+    })
+  }
 })
 module.exports = router;

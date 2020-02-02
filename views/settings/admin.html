@@ -1,6 +1,11 @@
-{{extend '../_layouts/home.html'}} {{block 'title'}}{{'多人博客 - 首页'}}{{/block}} {{block 'head'}}
+{{extend '../_layouts/home.html'}} 
+{{block 'title'}}{{'多人博客 - 首页'}}{{/block}} 
+
+{{block 'head'}}
 <link rel="stylesheet" href="/public/lib/bootstrapvalidator/dist/css/bootstrapValidator.css"></link>
-{{/block}} {{block 'body'}}
+{{/block}} 
+
+{{block 'body'}}
 <section class="container">
   {{include '../_partials/settings-nav.html'}}
   <div class="col-md-5">
@@ -85,7 +90,7 @@
    var password0 = $('input[name="password0"]').val()
    var password1 = $('input[name="password1"]').val()
   // console.log(password0, password1)
-   console.log('1111')
+   //console.log('1111')
     $.ajax({
       url: '/admin',
       type: 'post',
@@ -103,7 +108,7 @@
           window.alert("原始密码输入错误，请重新输入!")
           window.location.replace(window.location.href)
         } else if (err_code === 500) {
-          window.alert('服务器忙，请稍后重试！')
+          window.alert('服务器忙，请稍后重试!')
         }
       }
     })
