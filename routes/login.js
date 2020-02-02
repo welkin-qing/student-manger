@@ -28,17 +28,19 @@ router.post('/login', function (req, res, next) {
         //console.log("找不到账号！")
         res.status(200).json({
           err_code: 2,
-          message: 'OK'
+          message: 'not find number'
         })
       } else if (password != result[0].password) {
         //console.log("密码错误")
         res.status(200).json({
           err_code: 1,
-          message: 'OK'
+          message: 'password error'
         })
       }
       else {
         // console.log("成功登陆!")
+        req.session.user = result[0]
+        req.session.user.duty = 0
         res.status(200).json({
           err_code: 0,
           message: 'OK'
@@ -56,17 +58,19 @@ router.post('/login', function (req, res, next) {
         //console.log("找不到账号！")
         res.status(200).json({
           err_code: 2,
-          message: 'OK'
+          message: 'not find number'
         })
       } else if (password != result[0].password) {
         //console.log("密码错误")
         res.status(200).json({
           err_code: 1,
-          message: 'OK'
+          message: 'password error'
         })
       }
       else {
         // console.log("成功登陆！!")
+        req.session.user = result[0]
+        req.session.user.duty = 1
         res.status(200).json({
           err_code: 0,
           message: 'OK'
@@ -79,24 +83,25 @@ router.post('/login', function (req, res, next) {
     var str = 'select * from student where num = ' + num;
     db.query(str, (err, result) => {
       if (err) { throw err }
-      // console.log(result)
+      // console.log(result[0].password)
       if (result.length === 0) {
         //console.log("找不到账号！")
         res.status(200).json({
           err_code: 2,
-          message: 'OK'
+          message: 'not find number'
         })
       } else if (password != result[0].password) {
         //console.log("密码错误")
         res.status(200).json({
           err_code: 1,
-          message: 'OK'
+          message: 'password error'
         })
       }
       else {
         // console.log("成功登陆！!")
         //console.log(result[0].password)
         req.session.user = result[0]
+        req.session.user.duty = 2
         res.status(200).json({
           err_code: 0,
           message: 'OK'

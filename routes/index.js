@@ -22,5 +22,6 @@ router.post('/login',require("./login"));
 //settings
 router.get('/admin',require('./settings'))
 router.post('/admin',require('./settings'))
-
+router.get('/profile', require('./settings'))
+router.post('/profile', require('./settings'))
 module.exports = router;

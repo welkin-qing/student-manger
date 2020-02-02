@@ -21,7 +21,7 @@
         <label for="exampleInputPassword1">确认密码</label>
         <input type="password" class="form-control" name="password2" placeholder="请确认新密码">
       </div>
-      <button type="submit" class="btn btn-success">保存</button>
+      <button type="submit" id="admin_btn" class="btn btn-success">保存</button>
     </form>
     <!-- <div class="subhead">
       <h2>注销账号</h2>
@@ -40,57 +40,74 @@
 {{block 'script'}}
 <script src="../../public/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
 <script>
-//动态处理密码是否为空
-$(function () {
-  $('form').bootstrapValidator({
-    message: 'This value is not valid',
-    feedbackIcons: {
-      valid: 'glyphicon glyphicon-ok',
-      invalid: 'glyphicon glyphicon-remove',
-      validating: 'glyphicon glyphicon-refresh'
-    },
-    fields: {
-      password0: {
-        validators: {
-          notEmpty: {
-            message: '密码不能为空'
-          }
-        }
+  //动态处理密码是否为空
+  $(function () {
+    $('form').bootstrapValidator({
+      message: 'This value is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
       },
-      password1: {
-        validators: {
-          identical: {
-            field: 'password2',
-            message: '两次输入的密码不相符'
+      fields: {
+        password0: {
+          validators: {
+            notEmpty: {
+              message: '密码不能为空'
+            }
           }
-        }
-      },
-      password2: {
-        validators: {
-          identical: {
-            field: 'password1',
-            message: '两次输入的密码不相符'
+        },
+        password1: {
+          validators: {
+            identical: {
+              field: 'password2',
+              message: '两次输入的密码不相符'
+            }
+          }
+        },
+        password2: {
+          validators: {
+            identical: {
+              field: 'password1',
+              message: '两次输入的密码不相符'
+            }
           }
         }
       }
-    }
+    });
   });
-});
 </script>
 <script>
-$('#admin_form').on('submit', function (e) {
-  e.preventDefault()
-  var formData = $(this).serialize()
-  console.log(formData)
-  $.ajax({
-    url: '/admin',
-    type: 'post',
-    data: formData,
-    dataType: 'json',
-    success: function (data) {
-      console.log(data)
-    }
+  $('#admin_btn').on('click', function (e) {
+    e.preventDefault()
+    //var formData = $(this).serialize()
+   // console.log(formData)
+   var password0 = $('input[name="password0"]').val()
+   var password1 = $('input[name="password1"]').val()
+  // console.log(password0, password1)
+   console.log('1111')
+    $.ajax({
+      url: '/admin',
+      type: 'post',
+      data: {
+        "password0": password0,
+        "password1": password1
+      },
+      dataType: 'json',
+      success: function (data) {
+        var err_code = data.err_code
+        if (err_code === 0) {
+          window.alert("密码修改成功，请重新登录!")
+          window.location.href = '/login'
+        } else if (err_code === 1) {
+          window.alert("原始密码输入错误，请重新输入!")
+          window.location.replace(window.location.href)
+        } else if (err_code === 500) {
+          window.alert('服务器忙，请稍后重试！')
+        }
+      }
+    })
+    return false;
   })
-})
 </script> 
 {{/block}}

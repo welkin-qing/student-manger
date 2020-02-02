@@ -1,4 +1,4 @@
-//login function
+//login function  未使用
 function login_function(str, password, result) {
   db.query(str, (err, result) => {
     if (err) { throw err }
