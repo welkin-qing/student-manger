@@ -5,28 +5,48 @@
 {{block 'body'}}
 <section class="container">
   <div class="row">
-    <div class="col-md-5">
-      <form>
+    <div class="col-md-2"></div>
+    <div class="col-md-7">
+      <form id="new_form">
         <div class="form-group">
-          <label for="exampleInputEmail1">选择板块</label>
-          <select class="form-control">
-            <option>分享</option>
-            <option>问答</option>
-            <option>招聘</option>
-            <option>客户端测试</option>
-          </select>
+          <label for="text2">标题</label>
+          <input type="text" class="form-control" name="topic" placeholder="请输入标题">
         </div>
         <div class="form-group">
-          <label for="exampleInputEmail1">标题</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+          <label for="exampleInputText1">内容</label>
+          <textarea class="form-control" rows="10" name="content"></textarea>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">内容</label>
-          <textarea class="form-control" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+            <label for="exampleInputEmail1">上传文件</label>
+            <input type="file" name="file">
+            <!-- <select class="form-control">
+              <option>分享</option>
+              <option>问答</option>
+              <option>招聘</option>
+              <option>客户端测试</option>
+            </select> -->
+          </div>
+        <button type="submit" class="btn btn-success">Submit</button>
       </form>
     </div>
   </div>
 </section>
+{{/block}}
+
+{{block 'script'}}
+<script>
+$('#new_form').on('submit', function(e){
+  e.preventDefault()
+  var formData = $(this).serialize()
+  $.ajax({
+    url: '/new',
+    type: 'post',
+    data: formData,
+    dataType: 'json',
+    success: function (data){
+      console.log(data)
+    }
+  })
+})
+</script>
 {{/block}}

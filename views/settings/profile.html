@@ -83,18 +83,18 @@ $('#profile_form').on('submit', function(e){
   var formData = $(this).serialize()
   $.ajax({
     url: '/profile',
-      type: 'post',
-      data: formData,
-      dataType: 'json',
-      success: function (data){
-        var err_code = data.err_code
-        if(err_code === 0){
-          window.alert("信息修改成功!")
-          window.location.replace(window.location.href)
-        }else if(err_code === 500){
-          window.alert('服务器忙，请稍后重试!')
-        }
+    type: 'post',
+    data: formData,
+    dataType: 'json',
+    success: function (data){
+      var err_code = data.err_code
+      if(err_code === 0){
+        window.alert("信息修改成功!")
+        window.location.replace(window.location.href)
+      }else if(err_code === 500){
+        window.alert('服务器忙，请稍后重试!')
       }
+    }
   })
 })
 </script>

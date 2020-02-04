@@ -77,7 +77,7 @@ router.get('/profile', function (req, res) {
 })
 router.post('/profile', function(req, res){
   var body = req.body
-  console.log(body)
+ // console.log(body)
   var duty = req.session.user.duty
   var num = req.session.user.num
   if(duty === 1){
