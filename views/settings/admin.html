@@ -1,5 +1,5 @@
 {{extend '../_layouts/home.html'}} 
-{{block 'title'}}{{'多人博客 - 首页'}}{{/block}} 
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}} 
 
 {{block 'head'}}
 <link rel="stylesheet" href="/public/lib/bootstrapvalidator/dist/css/bootstrapValidator.css"></link>
@@ -16,7 +16,7 @@
     <form id="admin_form">
       <div class="form-group">
         <label for="exampleInputPassword1">当前密码</label>
-        <input type="password" class="form-control" name="password0" placeholder="请输入原始密码">
+        <input type="password" class="form-control" name="password0" placeholder="请输入原始密码" autofocus>
       </div>
       <div class="form-group">
         <label for="exampleInputPassword1">新的密码</label>
@@ -81,6 +81,7 @@
       }
     });
   });
+
 </script>
 <script>
   $('#admin_btn').on('click', function (e) {
@@ -89,6 +90,13 @@
    // console.log(formData)
    var password0 = $('input[name="password0"]').val()
    var password1 = $('input[name="password1"]').val()
+   var password2 = $('input[name="password2"]').val()
+   //console.log(password0,password1,password2)
+   if(password0 == "" || password1==""){
+     window.alert('密码不能为空，请重新输入!')
+     window.location.replace(window.location.href)
+     return;
+   }
   // console.log(password0, password1)
    //console.log('1111')
     $.ajax({

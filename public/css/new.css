@@ -1,0 +1,38 @@
+ .upload_file{
+    display: block;
+    width: 120px;
+    height: 35px;
+    color: #fff;
+    background: #48D1CC;
+    border-radius: 3px;
+    font-size: 20px;
+    text-align: center;
+    line-height: 35px;
+  }
+  .tips{
+    background: #fff;
+    width: 400px;
+    height: 310px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 1px solid #ccc;
+    display: none;
+    margin-left: -200px;
+    margin-top: -155px;
+    z-index: 3;
+    border-radius: 10px;
+  }
+  .tips, h2{
+    text-align: center;
+  }
+  .mask{
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    z-index: 1;
+    opacity: 0.4;
+    display: none;
+    position: absolute;
+    top: 0px;
+  }

@@ -25,8 +25,8 @@ router.post('/admin',require('./settings'))
 router.get('/profile', require('./settings'))
 router.post('/profile', require('./settings'))
 //topic
-router.get('/edit',require('./topic'))
 router.get('/new',require('./topic'))
+router.post('/new', require('./topic'))
 router.get('/show',require('./topic'))
 
 //logout

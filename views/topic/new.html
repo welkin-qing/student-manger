@@ -1,8 +1,13 @@
 {{extend '../_layouts/home.html'}}
 
-{{block 'title'}}{{'多人博客 - 首页'}}{{/block}}
-
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
+{{ block 'head' }}
+<link rel="stylesheet" href="../../public/css/new.css">
+<link rel="stylesheet" href="../../public/lib/qiniu/css/highlight.css">
+<link rel="stylesheet" href="../../public/lib/qiniu/css/main.css">
+{{ /block }}
 {{block 'body'}}
+<div class="mask"></div>
 <section class="container">
   <div class="row">
     <div class="col-md-2"></div>
@@ -10,15 +15,16 @@
       <form id="new_form">
         <div class="form-group">
           <label for="text2">标题</label>
-          <input type="text" class="form-control" name="topic" placeholder="请输入标题">
+          <input type="text" class="form-control" name="topic" placeholder="请输入标题" autofocus>
         </div>
         <div class="form-group">
           <label for="exampleInputText1">内容</label>
-          <textarea class="form-control" rows="10" name="content"></textarea>
+          <textarea class="form-control" rows="10" name="content" placeholder="请输入内容"></textarea>
         </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">上传文件</label>
-            <input type="file" name="file">
+            <!-- <label for="exampleInputEmail1">上传文件</label> -->
+            <span class="upload_file" style="cursor:pointer;">上传文件</span>
+            <!-- <input type="file" name="file"> -->
             <!-- <select class="form-control">
               <option>分享</option>
               <option>问答</option>
@@ -26,25 +32,142 @@
               <option>客户端测试</option>
             </select> -->
           </div>
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" id="new_btn" class="btn btn-success">Submit</button>
       </form>
     </div>
   </div>
+  <div class="tips">
+    <div style="margin-top: 20px;">
+        <img class="delete_img" style="cursor:pointer;height:40px;width:40px;position:absolute;top:5px;right:10px;" src="../../public/img/delete.png"></div>
+        <h2>文件上传</h2>
+        <div style="text-align:left;margin-left:20px;">
+        <p>1.上传作品时请使用压缩文件(ZIP/RAR/Z7)</p>
+        <p>2.压缩文件大小不超过20MB</p>
+        <p>3.文件命名请不要使用中文</p>
+        <p>4.请在文件上传完成后再关闭网页，勿中途关闭</p>
+        <p>5.请使用电脑上传作品</p>
+    </div>
+
+    <div style="margin-top: 30px;">
+      <div class="">
+    
+    
+        <input type="hidden" id="domain" value="http://7xl4c6.com1.z0.glb.clouddn.com/">
+        <input type="hidden" id="uptoken_url" value="uptoken">
+    
+    
+        <div id="container">
+          <a class="btn btn-warning btn-lg " id="pickfiles" href="http://jssdk.demo.qiniu.io/#" style="position: relative; z-index: 1;">
+            <i style="font-size: 12px;"class="glyphicon glyphicon-plus"></i>
+            <span style="font-size:16px;">选择文件</span>
+          </a>
+          <div id="html5_1aj3rtennnga1n5h927gjn8343_container" class="moxie-shim moxie-shim-html5" style="position: absolute; top: 0px; left: 0px; width: 171px; height: 46px; overflow: hidden; z-index: 0;">
+            <input id="html5_1aj3rtennnga1n5h927gjn8343" type="file" style="font-size: 999px; opacity: 0; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;"
+              multiple="" accept="">
+          </div>
+        </div>
+    
+        <div style="display:none;text-align:center;" id="success">
+          <div class="alert-success">
+            <span>文件上传完毕，谢谢合作!</span>
+          </div>
+        </div>
+    
+    
+      </div>
+    </div>
+  </div>
 </section>
+<input type="text" id="hh">
 {{/block}}
 
 {{block 'script'}}
+<script type="text/javascript" src="../../public/lib/qiniu/js/jquery.min.js"></script>
+<!-- <script type="text/javascript" src="../../public/lib/qiniu/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="../../public/lib/qiniu/js/moxie.js"></script>
+<script type="text/javascript" src="../../public/lib/qiniu/js/plupload.dev.js"></script>
+<!-- <script type="text/javascript" src="bower_components/plupload/js/plupload.full.min.js"></script> -->
+<script type="text/javascript" src="../../public/lib/qiniu/js/zh_CN.js"></script>
+<script type="text/javascript" src="../../public/lib/qiniu/js/ui.js"></script>
+<script type="text/javascript" src="../../public/lib/qiniu/js/qiniu.js"></script>
+<script type="text/javascript" src="../../public/lib/qiniu/js/highlight.js"></script>
+<script type="text/javascript" src="../../public/lib/qiniu/js/main.js"></script>
+<script type="text/javascript">hljs.initHighlightingOnLoad();</script>
+<script src="../../public/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
 <script>
-$('#new_form').on('submit', function(e){
+  $('.upload_file').on('click', function(e){
+    e.preventDefault()
+    $('.tips').css('display','block')
+    $('.mask').css('display', 'block')
+  })
+  $('.delete_img').on('click',function(e){
+    e.preventDefault()
+    $('.tips').css('display','none')
+    $('.mask').css('display', 'none')
+  })
+  $(function () {
+    $('form').bootstrapValidator({
+      message: 'This value is not valid',
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        topic: {
+          validators: {
+            notEmpty: {
+              message: '标题不能为空'
+            }
+          }
+        },
+        content: {
+          validators: {
+            notEmpty: {
+              message: '内容不能为空'
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
+<script>
+$('#hh').css('display','none')
+$('#new_btn').on('click', function(e){
   e.preventDefault()
-  var formData = $(this).serialize()
+  //var formData = $(this).serialize()
+  var time = new Date().getTime()
+  var topic = $('input[name="topic"]').val()
+  var content = $('textarea[name="content"]').val()
+  //var fileUrl = 'http://q57rsiym9.bkt.clouddn.com/'+$('#hh').val()
+  var fileUrl = $('#hh').val()
+ // console.log(content)
+ // console.log(fileUrl)
+  if(topic == "" || content ==""){
+    window.alert('输入不能为空，请重新输入!')
+    window.location.replace(window.location.href)
+    return;
+  }
   $.ajax({
     url: '/new',
     type: 'post',
-    data: formData,
+    data: {
+      'topic': topic,
+      'content': content,
+      'fileUrl': fileUrl,
+      'time': time
+    },
     dataType: 'json',
     success: function (data){
       console.log(data)
+      var err_code = data.err_code
+      if(err_code == 0){
+        window.alert('发布成功!')
+        window.location.href = '/'
+      }else if(err_code === 500){
+        window.alert('服务器忙，请稍后重试!')
+      }
     }
   })
 })

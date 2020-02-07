@@ -1,92 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
-  <link rel="stylesheet" href="/public/lib/bootstrapvalidator/dist/css/bootstrapValidator.css">
-</head>
-<body>
-  <form>
-    <div class="form-group">
-      <label>password0</label>
-      <input type="password" class="form-control" name="password0" />
-    </div>
-    <div class="form-group">
-      <label>password1</label>
-      <input type="password" class="form-control" name="password1" />
-    </div>
-    <div class="form-group">
-      <label>password2</label>
-      <input type="password" class="form-control" name="password2" />
-    </div>
-    <div class="form-group">
-      <button type="submit" name="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>七牛云上传代码</title>
+		<script src="../node_modules/jquery/dist/jquery.js"></script>
+	</head>
+	<body>
+		<div style="width: 80%;text-align: center;"> 
+		<div>七牛云文件上传</div> <br/>
+		<input type="file" /><button id="sub">确定上传</button>
+		<img id="mypic" width="200px" height="200px" src=""/>
+		<div style="margin-left: auto;margin-top:100px;">图片地址:<input type="text" id="imgUrl" style="width:300px;height: 40px;"></div>
+		</div>
+	</body>
+	<script>
+			// //七牛token 七牛云平台安全标识
+			// var qiniutoken = '';
+			// //七牛云图片base64格式上传地址
+			// var uploadUrl = "http://upload.qiniup.com/putb64/-1";
+			// //需要上传的图片内容 base64格式
+			// var imgStr = '';
+			
+			// //七牛云平台 配置的域名
+			// var urlHeader = "https://shop.hncheshiku.com/";
+ 
+			// //获取七牛云token
+			// function qnToken() {
+			// 	$.ajax({
+			// 		url: 'http://XXXXXXX/b2c/app/api/homePage/getToken.do',
+			// 		type: 'get',
+			// 		dataType: 'json',
+			// 		//平台登录token 不重启30天过期
+			// 		headers: {
+			// 			'token': 'eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NDgyMjk4NDcsImlzcyI6IkNhclNoaUxpYnJhcnkiLCJzdWIiOiJbMTA5MCxcIjE3NjA4NDg1MjAzXCJdIn0.AcZUEEqhEHpj2GMzS0JQLsvnG65MoLGadiRDNaN_WAw'
+			// 		},
+			// 		async:false,
+			// 		success: function(data) {
+			// 			qiniutoken = data.data;
+			// 			console.log('获取七牛云token为:' + qiniutoken);
+			// 		},
+			// 		error: function(e){
+			// 			alert(JSON.stringify(e));
+			// 		}
+			// 	})
+			// }
+ 
+			// //上传图片
+			// function uploadImg() {
+			// 	var xhr = new XMLHttpRequest();
+			// 	xhr.open("POST", uploadUrl, true);
+			// 	//文本类型
+			// 	xhr.setRequestHeader("Content-Type", "application/octet-stream");
+			// 	//七牛认证信息 注意空格
+			// 	xhr.setRequestHeader("Authorization", "UpToken " + qiniutoken);
+			// 	xhr.send(imgStr);
+			// 	//监听状态
+			// 	xhr.onreadystatechange = function() {
+			// 		if(xhr.readyState == 4) {
+			// 			var result = xhr.responseText;
+			// 			console.log('上传请求结果数据:' + result);
+			// 			result = JSON.parse(result);
+			// 			$("#mypic").attr("src", urlHeader + result.hash);
+			// 			$("#imgUrl").val(urlHeader + result.hash);
+			// 		}
+			// 	}
+ 
+			// }
+ 
+			// //将图片转为base64格式的字符串
+			// $('input[type=file]').on('change', function() {
+			// 	var reader = new FileReader();
+			// 	//filses就是input[type=file]文件列表，files[0]就是第一个文件，这里就是将选择的第一个图片文件转化为base64的码
+			// 	reader.readAsDataURL(this.files[0]);
+			// 	reader.onload = function(e) {
+			// 		//或者 e.target.result都是一样的，都是base64码
+			// 		imgStr = reader.result.split(',')[1];
+			// 		console.log('需要上传的base64格式图片:' + imgStr);
+			// 	}
+			// });
+			
+			
+			// //开始上传
+			// $("#sub").click(function(){
+			// 	//获取最新token
+			// 	qnToken();
+			// 	uploadImg();
+			// });
+			
+				$.ajax({
+					url: 'http://zzzia.net:8080/qiniu/',
+					type: 'post',
+					data: {
+						'accessKey':'T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ',
+						'secretKey':'jPMbUre4ePKefJdmiPHUcr11cxCnB62SnxcVxe28',
+						'bucket':'kxgl2333'
+					},
+					dataType: 'json',
+					success: function (data) {
 
-  <form method="post" enctype="multipart/form-data" action="/file-upload">
-    <input type="text" name="username">
-    <input type="password" name="password">
-    <input type="file" name="thumbnail">
-    <input type="submit">
-  </form>
-<script src="/node_modules/jquery/dist/jquery.js"></script>
-<script src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script src="/public/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
-<script>
-  $(function () {
-    $('form').bootstrapValidator({
-      message: 'This value is not valid',
-      feedbackIcons: {
-        valid: 'glyphicon glyphicon-ok',
-        invalid: 'glyphicon glyphicon-remove',
-        validating: 'glyphicon glyphicon-refresh'
-      },
-      fields: {
-        username: {
-          message: '用户名验证失败',
-          validators: {
-            notEmpty: {
-              message: '用户名不能为空'
-            }
-          }
-        },
-        password0:{
-          validators: {
-            notEmpty: {
-              message: '密码不能为空'
-            }
-          }
-        },
-        password1:{
-          validators: {
-            identical: {
-              field: 'password2',
-              message: '两次输入的密码不相符'
-            }
-          }
-        },
-        password2:{
-          validators: {
-            identical: {
-              field: 'password1',
-              message: '两次输入的密码不相符'
-            }
-          }
-        },
-        email: {
-          validators: {
-            notEmpty: {
-              message: '邮箱地址不能为空'
-            }
-          }
-        }
-      }
-    });
-  });
-</script>
-</body>
+					}
+			})
+	</script>
+ 
 </html>

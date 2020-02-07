@@ -1,6 +1,6 @@
 {{extend '../_layouts/home.html'}}
 
-{{block 'title'}}{{'多人博客 - 首页'}}{{/block}}
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
 
 {{block 'body'}}
 <section class="container">
@@ -20,7 +20,7 @@
       {{ /if }}
       <div class="form-group">
         <label for="exampleInputPassword1">姓名：</label>
-        <input type="text" class="form-control" name="name" value="{{user.name}}" placeholder="请输入姓名">
+        <input type="text" class="form-control" name="name" value="{{user.name}}" placeholder="请输入姓名" autofocus>
       </div>
       {{ if user.class }}
       <div class="form-group">
@@ -67,13 +67,15 @@
     <dl>
       <dt>头像设置</dt>
       <dd>
-        <img class="avatar" width="150" height="150" src="../public/img/avatar-max-img.png" alt="">
+         <img class="avatar" width="150" height="150" src="http://q57rsiym9.bkt.clouddn.com/image/me.jpg" alt=""> -->
+        <!-- <input type="file"id="test" multiple onchange="changeHandler()">
         <div>
-          <button class="btn btn-default" href="">Upload new picture</button>
+          <button class="btn btn-default" href="">上传头像</button>
         </div>
       </dd>
     </dl>
-  </div> -->
+  </div>
+  <div id="myDiv"></div> --> 
 </section>
 {{/block}}
 {{block 'script'}}
@@ -81,6 +83,13 @@
 $('#profile_form').on('submit', function(e){
   e.preventDefault()
   var formData = $(this).serialize()
+  var password0 = $('input[name="name"]').val()
+ // console.log(password0,password1,password2)
+  if(password0 == ""){
+    window.alert('姓名不能为空，请重新输入!')
+    window.location.replace(window.location.href)
+    return;
+  }
   $.ajax({
     url: '/profile',
     type: 'post',
@@ -97,5 +106,26 @@ $('#profile_form').on('submit', function(e){
     }
   })
 })
+</script>
+<script>
+// function changeHandler(e){
+//   console.log('111')
+//   console.log($('#test').val())
+// }
+
+// function changeHandler(){
+//   var pic = "填写你的base64后的字符串";
+//   var url = "http://upload-z2.qiniup.com/kxgl2333/image"; //非华东空间需要根据注意事项 1 修改上传域名
+//   var xhr = new XMLHttpRequest();
+//   xhr.onreadystatechange=function(){
+//     if (xhr.readyState==4){
+//       document.getElementById("myDiv").innerHTML=xhr.responseText;
+//     }
+//   }
+//   xhr.open("POST", url, true);
+//   xhr.setRequestHeader("Content-Type", "application/octet-stream");
+//   xhr.setRequestHeader("Authorization", "UpToken 填写你从服务端获取的上传token");
+//   xhr.send(pic);
+// }
 </script>
 {{/block}}
