@@ -20,9 +20,11 @@ router.post('/new', function (req, res) {
   if (duty === 1) {
     //teacher
     var num = req.session.user.num
+    var name = req.session.user.name
     var id = body.time
     // str = 'select * from file;'
-    var str = "insert into file (id,topic,content,time,teacher_num,file_name) values ('" + id + "','" + body.topic + "', '" + body.content + "', '" + body.time + "', '" + num + "','" + body.fileUrl + "');"
+     var str = "insert into file (id,topic,content,time,teacher_name,teacher_num,file_name) values ('" + id + "','" + body.topic + "', '" + body.content + "', '" + body.time + "', '" + name + "','" + "', '" + num + "','" + body.fileUrl + "');"
+    //var str = "insert into file (id,content,time,teacher_num,file_name) values ('" + id + "','" + body.content + "','" + body.time + "', '" + num + "','" + body.fileUrl + "');"
     // console.log(str)
     db.query(str, (err, result) => {
       if (err) { throw err }

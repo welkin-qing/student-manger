@@ -1,232 +1,118 @@
 {{extend './_layouts/home.html'}}
 
 {{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
-
+{{ block 'head'}}
+<style>
+  .media{
+    cursor: pointer;
+    padding: 5px;
+    color: #666;
+    border-left: 1px solid #FFF;
+    border-right: 1px solid #FFF;
+    border-top: 1px solid #FFF;
+    border-bottom: 1px solid #e1e1e1;
+    background-color: #fff;
+    margin: 0px;
+  }
+  .media:hover{
+    border-color: #0BD;
+  }
+  .media-heading {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+  .media-object{
+    width:80px;
+    height: 80px;
+    vertical-align:middle;
+    margin-right:10px;
+  }
+  .name{
+    border: 1px solid #ccc;
+    height: 18px;
+    line-height: 18px;
+    text-align: center;
+    border-radius: 4px;
+    margin-right: 20px;
+    vertical-align: middle;
+    font-size: 14px;
+    padding: 4px 8px;
+    margin-top: -32px;
+  }
+  .media-body, span{
+    margin-right: 5px;
+  }
+  /* .download{
+    display: none;
+  } */
+</style>
+{{/block}}
 {{block 'body'}}
 <section class="container">
   <ul class="media-list">
-    <li class="media">
+    <!-- <li class="media">
       <div class="media-left">
-        <!-- <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a> -->
+        <img width="40" height="40" class="media-object" src="../public/img/info.png" alt="...">
       </div>
       <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
+        <h4 class="media-heading">
+          <span class="name">董梁</span>
+          <a href="/topics/123">第一章</a>
+        </h4>
+        <p>
+          <span class="time">2017-10-20 13:45</span> | 回复:
+          <span class="reply">95</span> | 阅读:
+          <span class="read">89</span>
+        </p>
+        <div>
+          <p>问君能有几多愁，恰似一江春水向东流</p>
+        </div>
       </div>
     </li>
     <li class="media">
       <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
+        <img width="40" height="40" class="media-object" src="../public/img/info.png" alt="...">
       </div>
       <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
+        <h4 class="media-heading">
+          <span class="name">董梁</span>
+          <a href="/topics/123">第一章</a>
+        </h4>
+        <p>
+          <span class="time">2017-10-20 13:45</span> | 回复:
+          <span class="reply">95</span> | 阅读:
+          <span class="read">89</span>
+        </p>
+        <div>
+          <p>问君能有几多愁，恰似一江春水向东流</p>
+        </div>
       </div>
     </li>
     <li class="media">
       <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
+        <img width="40" height="40" class="media-object" src="../public/img/file.png" alt="...">
       </div>
       <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
+        <h4 class="media-heading">
+          <span class="name">董梁</span>
+          <a href="/topics/123">Verilog</a>
+        </h4>
+        <p>
+          <span class="time">2017-10-20 13:45</span> | 回复:
+          <span class="reply">95</span> | 阅读:
+          <span class="read">89</span>
+          <span class="download">   |   <a>下载</a></span>
+        </p>
+        <div>
+          <p>问君能有几多愁，恰似一江春水向东流</p>
+        </div>
       </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
-    <li class="media">
-      <div class="media-left">
-        <a href="#">
-            <img width="40" height="40" class="media-object" src="../public/img/avatar-max-img.png" alt="...">
-          </a>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading"><a href="/topics/123">Media heading</a></h4>
-        <p>sueysok 回复了问题 • 2 人关注 • 1 个回复 • 187 次浏览 • 2017-10-20 13:45</p>
-      </div>
-    </li>
+  
+    </li> -->
+  
   </ul>
-  <nav aria-label="Page navigation">
+  <!-- 分页 -->
+  <!-- <nav aria-label="Page navigation">
     <ul class="pagination">
       <li>
         <a href="#" aria-label="Previous">
@@ -244,6 +130,85 @@
       </a>
       </li>
     </ul>
-  </nav>
+  </nav> -->
 </section>
 {{/block}}
+{{ block 'script' }}
+<script src="../public/js/main.js"></script>
+<script>
+  $.ajax({
+    url: '/file',
+    type: 'get',
+    success: function(data){
+      var err_code = data.err_code
+      if(err_code === 0){
+        var result = data.result
+       // console.log(result)
+       var str = ''
+        for(let i=result.length-1;i>=0;i--){
+          //console.log(result[i].file_name)
+          var str =str+`<li class="media">
+      <div class="media-left">`
+          var str2 =''
+          if(result[i].file_name == null){
+            //var time = formatDate(result[i].time)
+            str = str+`<img width="40" height="40" class="media-object" src="../public/img/info.png">
+          </div>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <span class="name">`+result[i].teacher_name+`</span>
+          <a href="/topics/123">`+result[i].topic+`</a>
+        </h4>
+        <p>
+          <span class="time">`+formatDate(parseInt(result[i].time))+`</span>  <!-- |   回复:
+          <span class="reply">95</span>   |   阅读:
+          <span class="read">89</span>-->
+          <span>   |   <a href="delete/`+result[i].id+`">删除</a></span>`
+          }else{
+            // $('.download').css('display', 'inline-block')
+            // $('.file_path').attr('href',result[i].file_name)
+            str = str+`<img width="40" height="40" class="media-object" src="../public/img/file.png" alt="文件">
+          </div>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <span class="name">`+result[i].teacher_name+`</span>
+          <a href="/topics/123">`+result[i].topic+`</a>
+        </h4>
+        <p>
+          <span class="time">`+formatDate(parseInt(result[i].time))+`</span> <!--  |   回复:
+          <span class="reply">95</span>   |   阅读:
+          <span class="read">89</span>-->
+          <span>   |   <a href="http://q57rsiym9.bkt.clouddn.com/`+result[i].file_name+`">下载</a></span>
+          <span>   |   <a href="delete/`+result[i].id+`">删除</a></span>`
+          }
+          var str= str+ `
+        </p>
+        <div>
+          <p>`+result[i].content+`</p>
+        </div>
+      </div>
+    </li>`
+     //str = str1+str2+str3
+          // if(result[i].file_name != null){
+          //   $('.download').css('display', 'inline-block')
+          //   $('.file_path').attr('href',result[i].file_name)
+          // }
+        }
+       // str= str+str
+      }
+      
+      $('.media-list').html(str)
+    }
+  })
+</script>
+<script>
+  $.ajax({
+    url: '/delete'+id,
+    type: 'get',
+    success: function(data){
+      console.log(data)
+    }
+
+  })
+</script>
+{{ /block }}

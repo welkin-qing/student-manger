@@ -11,6 +11,22 @@ router.get('/', function (req, res) {
     user: req.session.user
   })
 })
+router.get('/file', function(req, res){
+  var str = "select * from file"
+  db.query(str, (err, result) => {
+    if(err) { throw err}
+    //console.log(result)
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      result: result
+    })
+  })
+})
+//delete
+router.get('/delete:id',function(req, res){
+
+})
 //test
 router.get('/test',function(req, res){
   res.render("test.html")
