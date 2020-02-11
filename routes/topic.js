@@ -17,15 +17,15 @@ router.post('/new', function (req, res) {
 
   var duty = req.session.user.duty
   var body = req.body
+  //console.log(body)
   if (duty === 1) {
     //teacher
     var num = req.session.user.num
     var name = req.session.user.name
     var id = body.time
     // str = 'select * from file;'
-     var str = "insert into file (id,topic,content,time,teacher_name,teacher_num,file_name) values ('" + id + "','" + body.topic + "', '" + body.content + "', '" + body.time + "', '" + name + "','" + "', '" + num + "','" + body.fileUrl + "');"
-    //var str = "insert into file (id,content,time,teacher_num,file_name) values ('" + id + "','" + body.content + "','" + body.time + "', '" + num + "','" + body.fileUrl + "');"
-    // console.log(str)
+    var str = `insert into file (id, topic, content, time, teacher_name, teacher_num, file_name, is_group)
+       values('`+id+`', '`+body.topic+`', '`+body.content+`', '`+body.time+`', '`+name+`', '`+num+`', '`+body.fileUrl+`', '`+body.group+`');`
     db.query(str, (err, result) => {
       if (err) { throw err }
       //console.log(result.length)//得到数据长度
@@ -38,9 +38,19 @@ router.post('/new', function (req, res) {
 })
 //show
 router.get('/show', function (req, res) {
-  res.render('topic/show.html', {
-    user: req.session.user
+  var id = req.query.id
+  var str = "select * from file where id = '"+id+"';"
+  db.query(str, (err, result) => {
+    if(err){ throw err}
+    res.render('topic/show.html', {
+      user: req.session.user,
+      result: result[0]
+    })
   })
+  
 })
-
+// router.get('/show/content', function(req, res){
+//   var id = req.query.id
+//   console.log(id)
+// })
 module.exports = router;

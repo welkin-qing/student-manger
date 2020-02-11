@@ -31,7 +31,18 @@
               <option>招聘</option>
               <option>客户端测试</option>
             </select> -->
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">是否分组：</label>
+          <div style="display: inline;">
+            <label class="radio-inline">
+              <input type="radio" name="group" value="0" checked> 否
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="group" value="1"> 是
+            </label>
           </div>
+        </div>
         <button type="submit" id="new_btn" class="btn btn-success">Submit</button>
       </form>
     </div>
@@ -140,6 +151,8 @@ $('#new_btn').on('click', function(e){
   var time = new Date().getTime()
   var topic = $('input[name="topic"]').val()
   var content = $('textarea[name="content"]').val()
+  var group = $('input[name="group"]').val()
+  console.log(group)
   //var fileUrl = 'http://q57rsiym9.bkt.clouddn.com/'+$('#hh').val()
   var fileUrl = $('#hh').val()
  // console.log(content)
@@ -153,10 +166,11 @@ $('#new_btn').on('click', function(e){
     url: '/new',
     type: 'post',
     data: {
-      // 'topic': topic,
+      'topic': topic,
       'content': content,
       'fileUrl': fileUrl,
-      'time': time
+      'time': time,
+      'group': group
     },
     dataType: 'json',
     success: function (data){

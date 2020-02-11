@@ -7,12 +7,21 @@ var router = express.Router()
 
 router.get('/', function (req, res) {
   // console.log(req.session.user)
+  // var str = "select * from file;"
+  // db.query(str, (err, result) => {
+  //   if(err) { throw err}
+  //   //console.log(result)
+  //   res.render('index.html', {
+  //     user: req.session.user,
+  //     result: result
+  //   })
+  // })
   res.render('index.html', {
     user: req.session.user
   })
 })
 router.get('/file', function(req, res){
-  var str = "select * from file"
+  var str = "select * from file;"
   db.query(str, (err, result) => {
     if(err) { throw err}
     //console.log(result)
@@ -24,8 +33,15 @@ router.get('/file', function(req, res){
   })
 })
 //delete
-router.get('/delete:id',function(req, res){
-
+router.get('/delete', function (req, res) {
+  var id = req.query.id
+  var str = "delete from file where id =" + id + ";"
+  db.query(str, (err, result) => {
+    if (err) {
+      return res.status(500).send('Server error.')
+    }
+    res.redirect('/')
+  })
 })
 //test
 router.get('/test',function(req, res){

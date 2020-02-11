@@ -134,6 +134,7 @@
 </section>
 {{/block}}
 {{ block 'script' }}
+<script src="../public/lib/layer-v3.1.1/layer/layer.js"></script>
 <script src="../public/js/main.js"></script>
 <script>
   $.ajax({
@@ -150,20 +151,20 @@
           var str =str+`<li class="media">
       <div class="media-left">`
           var str2 =''
-          if(result[i].file_name == null){
+          if(result[i].file_name == null||result[i].file_name==''){
             //var time = formatDate(result[i].time)
             str = str+`<img width="40" height="40" class="media-object" src="../public/img/info.png">
           </div>
       <div class="media-body">
         <h4 class="media-heading">
           <span class="name">`+result[i].teacher_name+`</span>
-          <a href="/topics/123">`+result[i].topic+`</a>
+          <a href="/show?id=`+result[i].id+`">`+result[i].topic+`</a>
         </h4>
         <p>
           <span class="time">`+formatDate(parseInt(result[i].time))+`</span>  <!-- |   回复:
           <span class="reply">95</span>   |   阅读:
           <span class="read">89</span>-->
-          <span>   |   <a href="delete/`+result[i].id+`">删除</a></span>`
+          <span>   |   <a href="javascript:del_btn('/delete?id=`+result[i].id+`')">删除</a></span>`
           }else{
             // $('.download').css('display', 'inline-block')
             // $('.file_path').attr('href',result[i].file_name)
@@ -172,14 +173,14 @@
       <div class="media-body">
         <h4 class="media-heading">
           <span class="name">`+result[i].teacher_name+`</span>
-          <a href="/topics/123">`+result[i].topic+`</a>
+          <a href="/show?id=`+result[i].id+`">`+result[i].topic+`</a>
         </h4>
         <p>
           <span class="time">`+formatDate(parseInt(result[i].time))+`</span> <!--  |   回复:
           <span class="reply">95</span>   |   阅读:
           <span class="read">89</span>-->
           <span>   |   <a href="http://q57rsiym9.bkt.clouddn.com/`+result[i].file_name+`">下载</a></span>
-          <span>   |   <a href="delete/`+result[i].id+`">删除</a></span>`
+          <span>   |   <a href="javascript:del_btn('/delete?id=`+result[i].id+`')">删除</a></span>`
           }
           var str= str+ `
         </p>
@@ -202,13 +203,15 @@
   })
 </script>
 <script>
-  $.ajax({
-    url: '/delete'+id,
-    type: 'get',
-    success: function(data){
-      console.log(data)
-    }
-
-  })
+  function del_btn(url) {
+    layer.confirm('确定删除？', {
+      btn: ['删除', '取消'] //按钮
+    }, function () {
+      layer.msg('删除成功', { icon: 1 });   //点击删除按钮，页面跳转
+      self.location.href = url
+    }, function () {
+      layer.msg('取消', {});   // 点击取消按钮，弹出框消失，页面不跳转
+    });
+  }
 </script>
 {{ /block }}
