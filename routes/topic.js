@@ -42,13 +42,44 @@ router.get('/show', function (req, res) {
   var str = "select * from file where id = '"+id+"';"
   db.query(str, (err, result) => {
     if(err){ throw err}
-    res.render('topic/show.html', {
-      user: req.session.user,
-      result: result[0]
+    var str1 = "select * from put where file_id ='"+id+"';"
+    db.query(str1, (err, data) => {
+      if(err){ throw err}
+      res.render('topic/show.html', {
+        user: req.session.user,
+        result: result[0],
+        data: data
+      })
     })
+    
   })
   
 })
+router.post('/show', function(req, res){
+  var body = req.body
+//  console.log(body)
+  var num = req.session.user.num
+  var name = req.session.user.name
+  console.log(num, name)
+  var str = `insert into put (id, content, time, file_id, file_name, student_num, student_name)
+  values
+  ('`+body.id+`','`+body.content+`','`+body.time+`','`+body.file_id+`','`+body.file_name+`','`+num+`','`+name+`');`
+  db.query(str, (err, result) => {
+    if(err) { throw err }
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok'
+    })
+  })
+})
+
+//获取评论列表
+// router.get('/put', function(req, res){
+//   var body = req.body
+//   console.log(body)
+//   var id = req.query.id
+//   console.log(id)
+// })
 // router.get('/show/content', function(req, res){
 //   var id = req.query.id
 //   console.log(id)

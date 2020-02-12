@@ -152,7 +152,7 @@ $('#new_btn').on('click', function(e){
   var topic = $('input[name="topic"]').val()
   var content = $('textarea[name="content"]').val()
   var group = $('input[name="group"]').val()
-  console.log(group)
+  //console.log(group)
   //var fileUrl = 'http://q57rsiym9.bkt.clouddn.com/'+$('#hh').val()
   var fileUrl = $('#hh').val()
  // console.log(content)
@@ -174,7 +174,7 @@ $('#new_btn').on('click', function(e){
     },
     dataType: 'json',
     success: function (data){
-      console.log(data)
+      //console.log(data)
       var err_code = data.err_code
       if(err_code == 0){
         window.alert('发布成功!')

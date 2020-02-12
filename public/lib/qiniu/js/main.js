@@ -13,7 +13,7 @@ $(function() {
         dragdrop: true,
         chunk_size: '4mb',
         // uptoken_url: $('#uptoken_url').val(),
-        uptoken: "T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ:_9n04V8gBRVCjaNvTeOkw6BjQyw=:eyJzY29wZSI6Imt4Z2wyMzMzIiwiZGVhZGxpbmUiOjE1ODEwOTAyNjd9",
+        uptoken: "T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ:bPT_0R3Y4zDisQIsKMFwfO0LwSY=:eyJzY29wZSI6Imt4Z2wyMzMzIiwiZGVhZGxpbmUiOjE1ODE0OTM0MTZ9",
         multi_selection: !(mOxie.Env.OS.toLowerCase()==="ios"),
 
 

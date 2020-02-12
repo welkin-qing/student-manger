@@ -60,7 +60,8 @@ router.post('/profile', require('./settings'))
 router.get('/new',require('./topic'))
 router.post('/new', require('./topic'))
 router.get('/show',require('./topic'))
-
+router.post('/show',require('./topic'))
+router.get('/put', require('./topic'))
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

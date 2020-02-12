@@ -18,6 +18,7 @@ app.use('/node_modules/', express.static(path.join(__dirname, './node_modules/')
 //    div
 //      h1
 app.engine('html', require('express-art-template'))
+app.set('view engine', 'html');
 app.set('views', path.join(__dirname, './views/')) // 默认就是 ./views 目录
 
 // 配置解析表单 POST 请求体插件（注意：一定要在 app.use(router) 之前 ）
