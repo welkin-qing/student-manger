@@ -1,0 +1,64 @@
+{{extend '../_layouts/home.html'}}
+
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
+{{block 'head'}}
+<link rel="stylesheet" href="../../public/css/course.css">
+{{/block}}
+{{block 'body'}}
+<section class="container">
+  <div class="course">
+    <h4>我的课程：</h4>
+    <ul class="course_list">
+      {{ each result }}
+          <li class="course_item">
+            <a href="/class?id={{$value.id}}" onclick="return false;">
+            <div class="course_img">
+              <img src="../../public/img/course.png" alt="">
+            </div>
+            <div class="course_info">
+              <span class="info_teacher">{{ $value.name }}</span>
+              <span class="info_name">{{ $value.course_name}}</span>
+              <span class="info_target">进入<i class="glyphicon glyphicon-menu-right"></i></span>
+            </div>
+          </a>
+          </li>
+          {{ /each }}
+      <!-- <li class="course_item">
+        <div class="course_img">
+          <img src="../../public/img/course.png" alt="">
+        </div>
+        <div class="course_info">
+          <span class="info_teacher">董梁</span>
+          <span class="info_name">verilog</span>
+          <span class="info_target">进入
+            <i class="glyphicon glyphicon-menu-right"></i>
+          </span>
+        </div>
+      </li>
+      <li class="course_item">
+        <div class="course_img">
+          <img src="../../public/img/course.png" alt="">
+        </div>
+        <div class="course_info">
+          <span class="info_teacher">董梁</span>
+          <span class="info_name">verilog</span>
+          <span class="info_target">进入
+            <i class="glyphicon glyphicon-menu-right"></i>
+          </span>
+        </div>
+      </li> -->
+    </ul>
+  </div>
+</section>
+{{/block}}
+{{block 'script'}}
+<script>
+$('.course_item').on('click', function () {
+
+  var obj = $(this).children("a");
+  /*获取第一个a标签，进行跳转*/
+  window.location.href = $(obj[0]).attr("href");
+  //  console.log(obj[0].href)
+})
+</script>
+{{/block}}

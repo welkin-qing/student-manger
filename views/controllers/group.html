@@ -1,0 +1,72 @@
+{{extend '../_layouts/home.html'}}
+
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
+
+{{block 'body'}}
+<section class="container">
+  {{include '../_partials/controllers-nav.html'}}
+  <div class="col-md-7">
+    <h4>当前所在的组：</h4>
+    <div class="my_group">
+        <table class="table table-hover table-bordered">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>组长</th>
+                <th>组员1</th>
+                <th>组员2</th>
+                <th>组员3</th>
+              </tr>
+            </thead>
+            <tbody>
+  
+              <tr>
+                <td>1</td>
+                <td>文清</td>
+                <td>刘生玺</td>
+                <td>李静</td>
+                <td>刘强</td>
+              </tr>
+  
+            </tbody>
+          </table>
+    </div>
+    <h4>组员信息：</h4>
+    <div class="group">
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>组长</th>
+            <th>组员1</th>
+            <th>组员2</th>
+            <th>组员3</th>
+          </tr>
+        </thead>
+        <tbody>
+    
+          <tr>
+            <td>1</td>
+            <td>文清</td>
+            <td>刘生玺</td>
+            <td>李静</td>
+            <td>刘强</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>张三</td>
+            <td>李四</td>
+            <td>王五</td>
+            <td>马六</td>
+          </tr>
+    
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+{{/block}}
+{{block 'script'}}
+<script>
+</script>
+{{/block}}
