@@ -86,20 +86,97 @@
 			// 	qnToken();
 			// 	uploadImg();
 			// });
-			
-				$.ajax({
-					url: 'http://zzzia.net:8080/qiniu/',
-					type: 'post',
-					data: {
-						'accessKey':'T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ',
-						'secretKey':'jPMbUre4ePKefJdmiPHUcr11cxCnB62SnxcVxe28',
-						'bucket':'kxgl2333'
-					},
-					dataType: 'json',
-					success: function (data) {
 
-					}
-			})
+			//获取七牛的token
+			// 	$.ajax({
+			// 		url: 'http://zzzia.net:8080/qiniu/',
+			// 		type: 'post',
+			// 		data: {
+			// 			'accessKey':'T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ',
+			// 			'secretKey':'jPMbUre4ePKefJdmiPHUcr11cxCnB62SnxcVxe28',
+			// 			'bucket':'kxgl2333'
+			// 		},
+			// 		dataType: 'json',
+			// 		success: function (data) {
+
+			// 		}
+			// })
 	</script>
- 
+ <script>
+	var str = [
+		{"id":1,"name":"文清","num":4151027,"class":"计科1601","course_id":"2020213"},
+		{"id":1,"name":"刘生玺","num":4166016,"class":"计科1606","course_id":"2020213"},
+		{"id":1,"name":null,"num":null,"class":null,"course_id":"2020213"},
+		{"id":1,"name":null,"num":null,"class":null,"course_id":"2020213"},
+		{"id":2,"name":"张三","num":4161121,"class":"计科1605","course_id":"2020213"},
+		{"id":2,"name":"李四","num":4161122,"class":"计科1608","course_id":"2020213"},
+		{"id":2,"name":"王五","num":4161123,"class":"计科1603","course_id":"2020213"},
+		{"id":2,"name":"马六","num":4161124,"class":"计科1601","course_id":"2020213"},
+		{"id":3,"name":"李静","num":4161125,"class":"计科1603","course_id":"2020213"},
+		{"id":3,"name":"朱琪","num":4161126,"class":"计科1602","course_id":"2020213"},
+		{"id":3,"name":null,"num":null,"class":null,"course_id":"2020213"},
+		{"id":3,"name":null,"num":null,"class":null,"course_id":"2020213"}
+	]
+
+// console.log(str)
+function translate_json(data){
+	// var result = {}
+	// let j = 0
+	// let m = 0
+	// var content = {}
+	// for(let i=0; i<data.length;i++){
+	// 	content[m].name = data[i].name
+	// 	content[m].num = data[i].num
+	// 	content[m].class = data[i].class
+	// 	if(i%4==0){
+	// 		result[j].id = data[i].id
+	// 		result[j].course_id = data[i].course_id
+	// 		result[j].content = content
+	// 		j = j+1
+	// 		m = 0
+	// 	}
+	// 	m++
+	// }
+	// return result
+
+	let dataFilter = {}
+    data.map((item) => {
+        if (dataFilter[String(item.id)]) {
+						dataFilter[String(item.id)].push(item)
+					//	console.log(item)
+        } else {
+            let arr = []
+						arr.push(item)
+					//	console.log(arr)
+            dataFilter[String(item.id)] = arr
+        }
+		})
+		return dataFilter
+}
+var ceshi = translate_json(str)
+console.log(ceshi)
+console.log(ceshi[1])
+// var data = [
+// 	{
+// 		id: '1',
+// 		content: [
+// 			{name: 'hh',num:'',class:''},
+// 			{name: 'hh',num:'',class:''},
+// 			{name: 'hh',num:'',class:''},
+// 			{name: 'hh',num:'',class:''}
+// 		],
+// 		course_id: '2020213'
+// 	},
+// 	{
+// 		id: '2',
+// 		content: [
+// 			{name: 'hh',num:'',class:''},
+// 			{name: 'hh',num:'',class:''},
+// 			{name: 'hh',num:'',class:''},
+// 			{name: 'hh',num:'',class:''}
+// 		],
+// 		course_id: '2020213'
+// 	}
+// ]
+ </script>
 </html>

@@ -66,6 +66,8 @@ router.get('/put', require('./topic'))
 router.get('/course', require('./controllers'))
 router.get('/class', require('./controllers'))
 router.get('/group', require('./controllers'))
+router.get('/group/quit', require('./controllers'))
+router.get('/group/add', require('./controllers'))
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

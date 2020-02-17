@@ -1,36 +1,70 @@
 {{extend '../_layouts/home.html'}}
 
 {{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
-
+{{block 'head'}}
+<style>
+  .table, th ,td{
+    text-align: center
+  }
+  /* td>a{
+    text-decoration: none;
+  } */
+  /* #table_me{
+    display: none;
+  } */
+</style>
+{{/block}}
 {{block 'body'}}
 <section class="container">
   {{include '../_partials/controllers-nav.html'}}
   <div class="col-md-7">
-    <h4>当前所在的组：</h4>
+    <h4>当前所在的组：</h4>    
+    <!-- {{if data.length != 0}} -->
+    <table id="table_me"class="table table-hover table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>组长</th>
+            <th>组员1</th>
+            <th>组员2</th>
+            <th>组员3</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{each data}}
+          <tr>
+            <td width="60px;">{{$value[0].id}}</td>
+            {{if $value[0].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            {{if $value[1].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            {{if $value[2].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            {{if $value[3].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            <td><a id="quit" href="javascript:del_btn('/group/quit')">退出该组</a></td>
+          </tr>
+          {{/each}}
+        </tbody>
+    </table>
+    <!-- {{else}} -->
     <div class="my_group">
-        <table class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>组长</th>
-                <th>组员1</th>
-                <th>组员2</th>
-                <th>组员3</th>
-              </tr>
-            </thead>
-            <tbody>
-  
-              <tr>
-                <td>1</td>
-                <td>文清</td>
-                <td>刘生玺</td>
-                <td>李静</td>
-                <td>刘强</td>
-              </tr>
-  
-            </tbody>
-          </table>
+        <p style="margin-left: 150px;">您当前没有在任何组!</p>
     </div>
+    <!-- {{/if}} -->
     <h4>组员信息：</h4>
     <div class="group">
       <table class="table table-hover table-bordered">
@@ -41,25 +75,53 @@
             <th>组员1</th>
             <th>组员2</th>
             <th>组员3</th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody>
-    
+          {{each result }}
           <tr>
-            <td>1</td>
-            <td>文清</td>
-            <td>刘生玺</td>
-            <td>李静</td>
-            <td>刘强</td>
+            <td width="60px;">{{$value[0].id}}</td>
+            <!-- <td>{{$value[0].name}}</td>
+            <td>{{$value[1].name}}</td>
+            <td>{{$value[2].name}}</td>
+            <td>{{$value[3].name}}</td> -->
+            {{if $value[0].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            {{if $value[1].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            {{if $value[2].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            {{if $value[3].name}}
+            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
+            {{else}}
+            <td></td>
+            {{/if}}
+            <td><a class="add" href="/group/add?id={{$value[0].id}}" onclick="return false;">加入该组</a></td>
           </tr>
-          <tr>
-            <td>2</td>
-            <td>张三</td>
-            <td>李四</td>
+          {{ /each}}
+
+          <!-- {{result}}
+          {{ each result}}
+         
+            {{if $value.id == 1 }}
+            <td>{{$value.id}}</td>
+            <td>{{$value.name}}</td>
+            <!-- <td>李四</td>
             <td>王五</td>
-            <td>马六</td>
-          </tr>
-    
+            <td>马六</td> -->
+            <!-- {{/if}}
+       
+          {{ /each}} --> 
         </tbody>
       </table>
     </div>
@@ -67,6 +129,37 @@
 </section>
 {{/block}}
 {{block 'script'}}
+<script src="../../public/lib/layer-v3.1.1/layer/layer.js"></script>
 <script>
+  // $('#example').tooltip(options)
+  $(function () {
+    $('[data-toggle="popover"]').popover(); // 也可以使用 $('#text').tooltip(); 来启用弹窗
+    // $('[data-toggle="popover"]').css('z-index','4')
+  });
+</script>
+<script>
+  function del_btn(url) {
+    layer.confirm('确定退出？', {
+      btn: ['退出', '取消'] //按钮
+    }, function () {
+      layer.msg('退出成功', { icon: 1 });   //点击删除按钮，页面跳转
+      self.location.href = url
+    }, function () {
+      layer.msg('取消', {});   // 点击取消按钮，弹出框消失，页面不跳转
+    });
+  }
+  $('.add').on('click', function(e){
+    console.log('add')
+  })
+
+  //console.log(Object.keys({{data}}).length)
+  var arr = Object.getOwnPropertyNames({{data}});
+  if(arr.length === 0){
+    $('#table_me').css('display', "none")
+    $('.my_group').css('display'," block")
+  }else{
+    $('#table_me').css('display', "block")
+    $('.my_group').css('display'," none")
+  }
 </script>
 {{/block}}
