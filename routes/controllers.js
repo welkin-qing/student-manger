@@ -53,7 +53,6 @@ router.get('/group', function(req, res){
   var str1 = "select * from mygroup2 where id in (select id from mygroup2 where num ='"+num+"');"
   db.query(str1, (err, data) => {
     if(err) {throw err}
-    //console.log(data)
     if(data.length == 0){
       //自己的组不存在
       req.session.user.group_id = 0
@@ -98,24 +97,55 @@ router.get('/group', function(req, res){
   })
 })
 //quit group
-router.get('/group/quit', function(req ,res){
+router.get('/group/quit', function (req, res) {
   var num = req.session.user.num
   var course_id = req.session.user.course
-  // var group_id = req.session.user.group_id
+  //将session中的自己的组group_id置空
   req.session.user.group_id = 0
-  // var str = "update mygroup2 set name='',num = '',class='' where num = '"+num+"';"
-  // db.query(str, (err, result) => {
-  //   if(err) {throw err}
-  //   res.redirect('/group')
-  // })
- 
- var url = '/group?id='+course_id
- res.redirect(url)
- //console.log('333')
+  var str = "update mygroup2 set name='',num = '',class='' where num = '" + num + "';"
+  db.query(str, (err, result) => {
+    if (err) { throw err }
+    //res.redirect('/group')
+    var url = '/group?id=' + course_id
+    res.redirect(url)
+  })
 })
 // add group
 router.get('/group/add', function(req, res){
-  var id  = req.query.id
-  console.log(id)
+  var group_id  = req.query.id
+  var course_id = req.session.user.course
+  var name = req.session.user.name
+  var num = req.session.user.num
+  var class_id = req.session.user.class
+  let m  = 5  //表示即将加入的位置
+  var str = "select * from mygroup2 where id = '"+group_id+"' and course_id='"+course_id+"';"
+  db.query(str, (err, data) => {
+    if(err) {throw err}
+    for(let i =0; i<data.length;i++){
+     // console.log(data[i].num)
+      if(!data[i].num){
+        m--
+      }
+    }
+
+    if(m == 5){
+      //人员满
+      var url = '/group?id=' + course_id
+      res.redirect(url)
+    }else{
+      var str1 = "update mygroup2 set name='"+name+"',num='"+num+"',class='"+class_id+"' where id = '"+group_id+"'and course_id='"+course_id+"'and sort='"+m+"';"
+      db.query(str1, (err, result) => {
+        if(err) {throw err}
+        // res.status(200).json({
+        //   err_code: 0,
+        //   message: 'ok'
+        // })
+       // res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'}); 
+       // res.send("<script>alert('添加成功!');</script>");
+        var url = '/group?id=' + course_id
+        res.redirect(url)
+      })
+     }
+   })
 })
 module.exports = router;

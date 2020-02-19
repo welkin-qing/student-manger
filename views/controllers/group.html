@@ -9,62 +9,58 @@
   /* td>a{
     text-decoration: none;
   } */
-  /* #table_me{
-    display: none;
-  } */
 </style>
 {{/block}}
 {{block 'body'}}
 <section class="container">
   {{include '../_partials/controllers-nav.html'}}
   <div class="col-md-7">
-    <h4>当前所在的组：</h4>    
-    <!-- {{if data.length != 0}} -->
-    <table id="table_me"class="table table-hover table-bordered">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>组长</th>
-            <th>组员1</th>
-            <th>组员2</th>
-            <th>组员3</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{each data}}
-          <tr>
-            <td width="60px;">{{$value[0].id}}</td>
-            {{if $value[0].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            {{if $value[1].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            {{if $value[2].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            {{if $value[3].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
-            {{else}}
-            <td></td>
-            {{/if}}
-            <td><a id="quit" href="javascript:del_btn('/group/quit')">退出该组</a></td>
-          </tr>
-          {{/each}}
-        </tbody>
-    </table>
-    <!-- {{else}} -->
-    <div class="my_group">
-        <p style="margin-left: 150px;">您当前没有在任何组!</p>
+    <h4>当前所在的组：</h4> <input id="add_id" style="display: none;"type="text" value="{{user.group_id}}">
+    {{if user.group_id == 0}}
+    <div>
+      <p style="margin-left: 150px;">您当前没有在任何组!</p>
     </div>
-    <!-- {{/if}} -->
+    {{else}}
+    <table class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>组长</th>
+          <th>组员1</th>
+          <th>组员2</th>
+          <th>组员3</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{each data}}
+        <tr>
+          <td width="60px;">{{$value[0].id}}</td>
+          {{if $value[0].name}}
+          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
+          {{else}}
+          <td></td>
+          {{/if}} {{if $value[1].name}}
+          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
+          {{else}}
+          <td></td>
+          {{/if}} {{if $value[2].name}}
+          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
+          {{else}}
+          <td></td>
+          {{/if}} {{if $value[3].name}}
+          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
+          {{else}}
+          <td></td>
+          {{/if}}
+          <td>
+            <a id="quit" href="javascript:del_btn('/group/quit')">退出该组</a>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
     <h4>组员信息：</h4>
     <div class="group">
       <table class="table table-hover table-bordered">
@@ -106,7 +102,11 @@
             {{else}}
             <td></td>
             {{/if}}
-            <td><a class="add" href="/group/add?id={{$value[0].id}}" onclick="return false;">加入该组</a></td>
+            {{if $value[3].name}}
+            <td><a href="javascript:void(0)">该组已满</a></td>
+            {{else}}
+            <td><a class="add" href="/group/add?id={{$value[0].id}}" return false>加入该组</a></td>
+            {{/if}}
           </tr>
           {{ /each}}
 
@@ -143,23 +143,23 @@
       btn: ['退出', '取消'] //按钮
     }, function () {
       layer.msg('退出成功', { icon: 1 });   //点击删除按钮，页面跳转
-      self.location.href = url
+      self.location.href = url //发起后台请求
+    //  window.location.replace(window.location.href) 
     }, function () {
       layer.msg('取消', {});   // 点击取消按钮，弹出框消失，页面不跳转
     });
   }
   $('.add').on('click', function(e){
-    console.log('add')
+    
+    var group_id = $('#add_id').val()
+    if(group_id == 0){
+      alert('添加成功')
+    }else{
+      window.alert('您现在已在组内，请先退出自己所在的组!')
+    }
   })
 
-  //console.log(Object.keys({{data}}).length)
-  var arr = Object.getOwnPropertyNames({{data}});
-  if(arr.length === 0){
-    $('#table_me').css('display', "none")
-    $('.my_group').css('display'," block")
-  }else{
-    $('#table_me').css('display', "block")
-    $('.my_group').css('display'," none")
-  }
+
+
 </script>
 {{/block}}
