@@ -50,26 +50,48 @@
 {{block 'body'}}
 <section class="container">
   <ul class="media-list">
-    <!-- <li class="media">
+    {{each result}}
+     <li class="media">
       <div class="media-left">
+        {{ if $value.file_name}}
+        <img width="40" height="40" class="media-object" src="../public/img/file.png" alt="...">
+        {{else}}
         <img width="40" height="40" class="media-object" src="../public/img/info.png" alt="...">
+        {{/if}}
       </div>
       <div class="media-body">
         <h4 class="media-heading">
-          <span class="name">董梁</span>
-          <a href="/topics/123">第一章</a>
+          <span class="name">{{$value.teacher_name}}</span>
+          <a href="/show?id={{$value.id}}">{{ $value.topic }}</a>
         </h4>
         <p>
-          <span class="time">2017-10-20 13:45</span> | 回复:
-          <span class="reply">95</span> | 阅读:
-          <span class="read">89</span>
+          <span class="time">{{$value.time}}</span>
+          {{ if $value.is_group}}
+          <span>   |   &nbsp;已分组</span>
+          {{else}}
+          <span>   |   &nbsp;未分组</span>
+          {{/if}}
+          {{ if $value.file_name}}
+          <span>   |   &nbsp;<a href="http://q57rsiym9.bkt.clouddn.com/{{$value.file_name}}">下载</a></span>
+          {{/if}}
+          <!-- 删除操作 -->
+          {{ if user}}
+          <!-- <span>111</span> -->
+              {{if user.num == $value.teacher_num}}
+          <span>   |   &nbsp;<a href="javascript:del_btn('/delete?id={{$value.id}}+')">删除</a></span>
+              {{/if}}
+          {{else}}
+          <!-- <span>777</span> -->
+          {{ /if}}
+          <!-- ///删除操作 -->
         </p>
         <div>
-          <p>问君能有几多愁，恰似一江春水向东流</p>
+          <p>{{$value.content}}</p>
         </div>
       </div>
     </li>
-    <li class="media">
+    {{/each}}
+    <!-- <li class="media">
       <div class="media-left">
         <img width="40" height="40" class="media-object" src="../public/img/info.png" alt="...">
       </div>
@@ -137,70 +159,78 @@
 <script src="../public/lib/layer-v3.1.1/layer/layer.js"></script>
 <script src="../public/js/main.js"></script>
 <script>
-  $.ajax({
-    url: '/file',
-    type: 'get',
-    success: function(data){
-      var err_code = data.err_code
-      if(err_code === 0){
-        var result = data.result
-       // console.log(result)
-       var str = ''
-        for(let i=result.length-1;i>=0;i--){
-          //console.log(result[i].file_name)
-          var str =str+`<li class="media">
-      <div class="media-left">`
-          var str2 =''
-          if(result[i].file_name == null||result[i].file_name==''){
-            //var time = formatDate(result[i].time)
-            str = str+`<img width="40" height="40" class="media-object" src="../public/img/info.png">
-          </div>
-      <div class="media-body">
-        <h4 class="media-heading">
-          <span class="name">`+result[i].teacher_name+`</span>
-          <a href="/show?id=`+result[i].id+`">`+result[i].topic+`</a>
-        </h4>
-        <p>
-          <span class="time">`+formatDate(parseInt(result[i].time))+`</span>  <!-- |   回复:
-          <span class="reply">95</span>   |   阅读:
-          <span class="read">89</span>-->
-          <span>   |   <a href="javascript:del_btn('/delete?id=`+result[i].id+`')">删除</a></span>`
-          }else{
-            // $('.download').css('display', 'inline-block')
-            // $('.file_path').attr('href',result[i].file_name)
-            str = str+`<img width="40" height="40" class="media-object" src="../public/img/file.png" alt="文件">
-          </div>
-      <div class="media-body">
-        <h4 class="media-heading">
-          <span class="name">`+result[i].teacher_name+`</span>
-          <a href="/show?id=`+result[i].id+`">`+result[i].topic+`</a>
-        </h4>
-        <p>
-          <span class="time">`+formatDate(parseInt(result[i].time))+`</span> <!--  |   回复:
-          <span class="reply">95</span>   |   阅读:
-          <span class="read">89</span>-->
-          <span>   |   <a href="http://q57rsiym9.bkt.clouddn.com/`+result[i].file_name+`">下载</a></span>
-          <span>   |   <a href="javascript:del_btn('/delete?id=`+result[i].id+`')">删除</a></span>`
-          }
-          var str= str+ `
-        </p>
-        <div>
-          <p>`+result[i].content+`</p>
-        </div>
-      </div>
-    </li>`
-     //str = str1+str2+str3
-          // if(result[i].file_name != null){
-          //   $('.download').css('display', 'inline-block')
-          //   $('.file_path').attr('href',result[i].file_name)
-          // }
-        }
-       // str= str+str
-      }
+  // $.ajax({
+  //   url: '/file',
+  //   type: 'get',
+  //   success: function(data){
+  //     var err_code = data.err_code
+  //     if(err_code === 0){
+  //       var result = data.result
+  //      // console.log(result)
+  //      var str = ''
+  //       for(let i=result.length-1;i>=0;i--){
+  //         //console.log(result[i].file_name)
+  //         var str =str+`<li class="media">
+  //     <div class="media-left">`
+  //         var str2 =''
+  //         if(result[i].file_name == null||result[i].file_name==''){
+  //           //var time = formatDate(result[i].time)
+  //           str = str+`<img width="40" height="40" class="media-object" src="../public/img/info.png">
+  //         </div>
+  //     <div class="media-body">
+  //       <h4 class="media-heading">
+  //         <span class="name">`+result[i].teacher_name+`</span>
+  //         <a href="/show?id=`+result[i].id+`">`+result[i].topic+`</a>
+  //       </h4>
+  //       <p>
+  //         <span class="time">`+formatDate(parseInt(result[i].time))+`</span>  <!-- |   回复:
+  //         <span class="reply">95</span>   |   阅读:
+  //         <span class="read">89</span>-->
+  //         <span>   |   <a href="javascript:del_btn('/delete?id=`+result[i].id+`')">删除</a></span>`
+  //         }else{
+  //           // $('.download').css('display', 'inline-block')
+  //           // $('.file_path').attr('href',result[i].file_name)
+  //           str = str+`<img width="40" height="40" class="media-object" src="../public/img/file.png" alt="文件">
+  //         </div>
+  //     <div class="media-body">
+  //       <h4 class="media-heading">
+  //         <span class="name">`+result[i].teacher_name+`</span>
+  //         <a href="/show?id=`+result[i].id+`">`+result[i].topic+`</a>
+  //       </h4>
+  //       <p>
+  //         <span class="time">`+formatDate(parseInt(result[i].time))+`</span> <!--  |   回复:
+  //         <span class="reply">95</span>   |   阅读:
+  //         <span class="read">89</span>-->
+  //         <span>   |   <a href="http://q57rsiym9.bkt.clouddn.com/`+result[i].file_name+`">下载</a></span>
+  //         <span>   |   <a href="javascript:del_btn('/delete?id=`+result[i].id+`')">删除</a></span>`
+  //         }
+  //         var str= str+ `
+  //       </p>
+  //       <div>
+  //         <p>`+result[i].content+`</p>
+  //       </div>
+  //     </div>
+  //   </li>`
+  //    //str = str1+str2+str3
+  //         // if(result[i].file_name != null){
+  //         //   $('.download').css('display', 'inline-block')
+  //         //   $('.file_path').attr('href',result[i].file_name)
+  //         // }
+  //       }
+  //      // str= str+str
+  //     }
       
-      $('.media-list').html(str)
-    }
-  })
+  //     $('.media-list').html(str)
+  //   }
+  // })
+</script>
+<script>
+  var time = document.getElementsByClassName('time')
+  for(let i=0;i<time.length;i++){
+    var a = time[i].innerHTML
+    var date = formatDate(parseInt(a))
+    time[i].innerHTML  = date
+  }
 </script>
 <script>
   function del_btn(url) {

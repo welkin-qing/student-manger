@@ -103,7 +103,7 @@
             <td></td>
             {{/if}}
             {{if $value[3].name}}
-            <td><a href="javascript:void(0)">该组已满</a></td>
+            <td><span style="color: red;">该组已满</span></td>
             {{else}}
             <td><a class="add" href="/group/add?id={{$value[0].id}}" return false>加入该组</a></td>
             {{/if}}

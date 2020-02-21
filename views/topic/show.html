@@ -54,7 +54,7 @@
               <span class="group">未分组</span>
               {{ /if }}
                |  &nbsp;&nbsp;  全部回答:    
-              <span class="reply">95</span>
+              <span class="reply">{{length}}</span>
             </p>
             <div>
               <p>{{ result.content }}</p>
@@ -95,6 +95,9 @@
               <div class="panel-heading">
                 <span>{{ $value.student_name}}</span> 
                 <span class="time">{{ $value.time }}</span>
+                {{if $value.group_id}}
+                第<span>{{$value.group_id}}</span>组
+                {{/if}}
                 {{if $value.file_name}}
                 <span class="action">
                   <a href="http://q57rsiym9.bkt.clouddn.com/{{ $value.file_name }}">
@@ -135,9 +138,15 @@
       <hr>
       <form>
         <div class="form-group">
-          <label for="exampleInputPassword1">添加回复</label>
+          <label for="exampleInputPassword1">添加回复：</label>
           <textarea class="form-control" name="content" cols="10" rows="3"></textarea>
         </div>
+        {{ if result.is_group }}
+        <div class="form-group">
+          <label for="group_id">所在的组：</label>
+          <input type="number" name="group_id" min='1' max='10' value="1" placeholder='1'>
+        </div>
+        {{/if}}
         <div class="form-group">
           <span class="upload_file" style="cursor:pointer;">上传文件</span>
       </div>
@@ -255,13 +264,19 @@ $('#show_btn').on('click', function(e){
   // var num = '0'+{{user.num}}
   // var name = {{user.name}}
   var file_id = (window.location.href).split('=')
-  console.log(file_id[1])
+ // console.log(file_id[1])
   var fileUrl = $('#hh').val()
-  console.log(fileUrl)
+ // console.log(fileUrl)
   if(content ==""){
     window.alert('输入不能为空，请重新输入!')
     window.location.replace(window.location.href)
     return;
+  }
+  var group_id = $('input[name="group_id"]').val()
+  if(group_id){
+    group_id = parseInt(group_id)
+  }else{
+    group_id = 0
   }
   $.ajax({
     url:'/show',
@@ -271,7 +286,8 @@ $('#show_btn').on('click', function(e){
       'content': content,     
       'time': time,
       'file_id': file_id[1],
-      'file_name': fileUrl
+      'file_name': fileUrl,
+      'group_id': group_id
     },
     dataType: 'json',
     success: function(data){

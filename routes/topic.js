@@ -45,25 +45,28 @@ router.get('/show', function (req, res) {
     var str1 = "select * from put where file_id ='"+id+"';"
     db.query(str1, (err, data) => {
       if(err){ throw err}
+      var length = data.length
       res.render('topic/show.html', {
         user: req.session.user,
         result: result[0],
-        data: data
+        data: data,
+        length: length
       })
     })
     
   })
   
 })
+//评论
 router.post('/show', function(req, res){
   var body = req.body
 //  console.log(body)
   var num = req.session.user.num
   var name = req.session.user.name
-  console.log(num, name)
-  var str = `insert into put (id, content, time, file_id, file_name, student_num, student_name)
+ // console.log(num, name)
+  var str = `insert into put (id, content, time, file_id, file_name, student_num, student_name, group_id)
   values
-  ('`+body.id+`','`+body.content+`','`+body.time+`','`+body.file_id+`','`+body.file_name+`','`+num+`','`+name+`');`
+  ('`+body.id+`','`+body.content+`','`+body.time+`','`+body.file_id+`','`+body.file_name+`','`+num+`','`+name+`','`+body.group_id+`');`
   db.query(str, (err, result) => {
     if(err) { throw err }
     res.status(200).json({

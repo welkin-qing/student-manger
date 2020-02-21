@@ -6,32 +6,32 @@ var md5 = require('blueimp-md5')
 var router = express.Router()
 
 router.get('/', function (req, res) {
-  // console.log(req.session.user)
-  // var str = "select * from file;"
-  // db.query(str, (err, result) => {
-  //   if(err) { throw err}
-  //   //console.log(result)
-  //   res.render('index.html', {
-  //     user: req.session.user,
-  //     result: result
-  //   })
-  // })
-  res.render('index.html', {
-    user: req.session.user
-  })
-})
-router.get('/file', function(req, res){
+ // console.log(req.session.user)
   var str = "select * from file;"
   db.query(str, (err, result) => {
     if(err) { throw err}
     //console.log(result)
-    res.status(200).json({
-      err_code: 0,
-      message: 'ok',
+    res.render('index.html', {
+      user: req.session.user,
       result: result
     })
   })
+  // res.render('index.html', {
+  //   user: req.session.user
+  // })
 })
+// router.get('/file', function(req, res){
+//   var str = "select * from file;"
+//   db.query(str, (err, result) => {
+//     if(err) { throw err}
+//     //console.log(result)
+//     res.status(200).json({
+//       err_code: 0,
+//       message: 'ok',
+//       result: result
+//     })
+//   })
+// })
 //delete
 router.get('/delete', function (req, res) {
   var id = req.query.id
