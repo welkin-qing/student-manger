@@ -1,0 +1,57 @@
+{{extend '../_layouts/home.html'}}
+
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
+{{block 'head'}}
+<link rel="stylesheet" href="../../public/css/choice.css">
+{{/block}}
+
+{{block 'body'}}
+
+
+    <div class="login-box flex-box">
+        <!--登录标题栏-->
+        <h2 class="sign-title box-width">请选择一个头像</h2>
+        <!--头像栏-->
+        <div class="picture-carousel">
+            <div class="arrow left-arrow">
+                <div class="before-arrow"></div>
+            </div>
+            <img class="p1 img-setting" src="/public/img/1.png" alt="1.png">
+            <img class="p2 img-setting" src="/public/img/2.png" alt="2.png">
+            <img class="p3 img-setting" src="public/img/3.png" alt="3.png">
+            <img class="p2 img-setting" src="/public/img/4.png" alt="4.png">
+            <img class="p1 img-setting" src="/public/img/5.png" alt="5.png">
+            <div class="arrow right-arrow">
+                <div class="after-arrow"></div>
+            </div>
+        </div>
+        <!--用户名栏-->
+        <!-- <div class="name-box box-width">
+            <input type="text" class="user-name box-width" placeholder="Please Type Your Name">
+        </div> -->
+        <!--确认栏-->
+        <!-- <div class="button-box box-width">
+            <input type="button" class="login-button box-width" value="开始聊天">
+        </div> -->
+        <a class="btn btn-primary start_talk">开始聊天</a>
+        <!--错误信息栏-->
+        <div class="error-box box-width">
+            <span class="error-message">Welcome to chatroom!</span>
+        </div>
+    </div>
+
+{{/block}}
+{{block 'script'}}
+<script src="../../public/js/socket.io.js"></script>
+<script src="../../public/js/choice.js"></script>
+<script>
+$('.start_talk').on('click', function(){
+  var str = $('.p3').attr('src')
+  var a = str.split('/')
+  var num = a[2].split('.')
+  console.log(num[0])
+  window.location.href = "/talk?selectpicture="+num[0]+""
+})
+
+</script>
+{{/block}}

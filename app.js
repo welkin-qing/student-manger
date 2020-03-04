@@ -7,6 +7,12 @@ var router = require('./routes/index')
 
 var app = express()
 
+//3.4
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var path = require('path');
+//3.4 end
+
 app.use('/public/', express.static(path.join(__dirname, './public/')))
 app.use('/node_modules/', express.static(path.join(__dirname, './node_modules/')))
 
@@ -60,30 +66,40 @@ app.use(function (err, req, res, next) {
   })
 })
 
-app.listen(5000, function () {
-  console.log('running...')
-})
 
+//3.4 
+// 在线人数统计
+var onlineCount = 0;
+app.use(express.static(__dirname));
 
-//1.29
-// connection.query('SELECT 1 + 1 AS solution', (err, results, fields) => {
-//   if (err) { throw err; };
-//   console.log('The solution is:', results[0].solution); // 返回第一条记录的solution列的内容 
-//   console.log('The solution is:', results[0]); 
-// });
-//connection.query('use kxgl')
+//console.log(111)
+// 当有用户连接进来时
+io.on('connection', function (socket) {
+  console.log('a user connected');
 
-// var str = "1234uigbwelkin"
-// // connection.query(str,function(err,result){
-// //   if(err){
-// //     console.log('err')
-// //   }else{
-// //     console.log('chengg')
-// //   }
-// // })
-// const sql1 = 'select * from users'
-// connection.query(sql1, (err, result) => {
-//   if(err) return console.log(err.message)
-//   console.log(result)
+  // 发送给客户端在线人数
+  io.emit('connected', ++onlineCount);
+
+  // 当有用户断开
+  socket.on('disconnect', function () {
+    console.log('user disconnected');
+
+    // 发送给客户端断在线人数
+    io.emit('disconnected', --onlineCount);
+    console.log(onlineCount);
+  });
+
+  // 收到了客户端发来的消息
+  socket.on('message', function (message) {
+    // 给客户端发送消息
+    io.emit('message', message);
+  });
+
+});
+var app = http.listen(5000, function () {
+  console.log('Sever is running');
+});
+// 3.4 end
+// app.listen(5000, function () {
+//   console.log('running...')
 // })
-//console.log(connection)

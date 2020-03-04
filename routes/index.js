@@ -68,6 +68,10 @@ router.get('/class', require('./controllers'))
 router.get('/group', require('./controllers'))
 router.get('/group/quit', require('./controllers'))
 router.get('/group/add', require('./controllers'))
+//talk
+router.get('/talk', require('./talk'))
+router.get('/choice', require('./talk'))
+
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

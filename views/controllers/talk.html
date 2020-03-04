@@ -1,0 +1,61 @@
+{{extend '../_layouts/home.html'}}
+
+{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
+{{block 'head'}}
+<link rel="stylesheet" href="../../public/css/talk.css">
+<style>
+  #name_talk{
+    display: none;
+  }
+</style>
+{{/block}}
+
+{{block 'body'}}
+      <div class="chat-box">
+          <!--聊天框头部-->
+          <div class="chat-header">
+              <div class="button-box">
+                  <!-- <input type="button" class="log-out" value="LOGOUT"> -->
+                  <a href="/">
+                  <img width="25px;" src="../../public/img/delete.png" alt="">
+                  </a>
+              </div>
+          </div>
+          <!--聊天框主体-->
+          <div class="chat-body">
+              <!--聊天框左侧-->
+              <div class="chat-body-left">
+                  <!--聊天框左侧聊天内容-->
+                  <div class="chat-content"></div>
+                  <!--聊天框左侧聊天输入框-->
+                  <div class="chat-edit">
+                      <input type="text" class="edit-box" placeholder="Please Type You Message" maxlength="15"> 
+                      <input type="button" class="edit-button" value="发送">
+                  </div>
+              </div>
+              <!--聊天框右侧-->
+              <div class="chat-body-right">
+                  <!--聊天框右侧统计人数-->
+                  <div class="online-count">Online:0</div>
+                  <!--聊天框右侧用户名-->
+                  <div class="user-name">user-name</div>
+                  <!-- <div class="user-name">{{user.name}}</div> -->
+                  <!--聊天框右侧头像-->
+                  <img class="user-img" />
+              </div>
+          </div>
+  </div>
+  
+<input id="name_talk" type="text" value="{{user.name}}">
+{{/block}}
+{{block 'script'}}
+<script src="../../public/js/socket.io.js"></script>
+<script src="../../public/js/talk.js"></script>
+<script>
+  var str = $('#name_talk').val()
+  //console.log(str)
+
+  $('.user-name').html(str)
+
+</script>
+{{/block}}
