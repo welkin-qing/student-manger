@@ -111,4 +111,63 @@ router.post('/login', function (req, res, next) {
     })
   }
 })
+router.get('/register', function(req, res){
+  res.render('register.html')
+})
+router.post('/register', function(req, res){
+  var body = req.body
+  var duty = parseInt(body.duty)
+  if(duty==1){
+    //teacher  1
+    var str = "select * from teacher where num ='"+body.num+"';"
+    db.query(str, (err, result)=> {
+      if(err) {throw err}
+      if(result.length == 0){
+        //账号不存在,就可以用来注册
+        var str1 = "insert into teacher (num, name, password) values ('"+body.num+"','"+body.name+"','"+body.password+"')"
+        db.query(str1, (err, data)=>{
+          if(err) throw(err)
+          req.session.user = body
+          res.status(200).json({
+            err_code: 0,
+            message: 'ok'
+          })
+        })
+      }else{
+        //已存在账号，无法注册
+        res.status(200).json({
+          err_code: 1,
+          message: '已存在账号'
+        })
+      }
+    })
+  }else if(duty ==2){
+    //student
+    var str = "select * from student where num ='"+body.num+"';"
+    db.query(str, (err, result)=> {
+      if(err) {throw err}
+      // console.log(result)
+      // console.log(result.length)
+      if(result.length == 0){
+        //账号不存在,就可以用来注册
+        var str1 = "insert into student (num, name, password) values ('"+body.num+"','"+body.name+"','"+body.password+"')"
+        db.query(str1, (err, data)=>{
+          if(err) throw(err)
+          req.session.user = body
+          req.session.user.num = parseInt(body.num)
+          res.status(200).json({
+            err_code: 0,
+            message: 'ok'
+          })
+        })
+      }else{
+        //已存在账号，无法注册
+        res.status(200).json({
+          err_code: 1,
+          message: '已存在账号'
+        })
+      }
+    })
+  }
+})
 module.exports = router;

@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
+  <link rel="shortcut icon " type="images/x-icon" href="../../public/img/favicon.ico">
   <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
   <link rel="stylesheet" href="/public/css/login.css">
 </head>
@@ -19,8 +20,8 @@
     </div>
     <form id="login_form">
       <div class="form-group">
-        <label for="">学号</label>
-        <input type="text" class="form-control"  name="number" placeholder="学号" autofocus>
+        <label for="">账号</label>
+        <input type="text" class="form-control"  name="number" placeholder="账号" autofocus>
       </div>
       <div class="form-group">
         <label for="">密码</label>
@@ -35,14 +36,14 @@
           <input type="radio" name="duty" value="1">教师
         </label>
         <label>
-          <input type="radio" name="duty" value="2">学生
+          <input type="radio" name="duty" value="2" checked>学生
         </label>
       </div>
       <button type="submit" class="btn btn-success btn-block">登录</button>
     </form>
-    <!-- <div class="message">
+    <div class="message">
       <p>没有账号? <a href="/register">点击创建</a>.</p>
-    </div> -->
+    </div>
   </div>
   <script src="/node_modules/jquery/dist/jquery.js"></script>
   <!-- <script src="../public/js/main.js"></script> -->
@@ -50,8 +51,6 @@
     $('#login_form').on('submit', function (e) {
       e.preventDefault()
       var formData = $(this).serialize()
-     // console.log(formData)
-    // console.log('eeeeeeeee')
       $.ajax({
         url: '/login',
         type: 'post',

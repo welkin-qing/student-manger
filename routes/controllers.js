@@ -46,55 +46,82 @@ router.get('/class', function(req, res){
 })
 
 //group
-router.get('/group', function(req, res){
+router.get('/group', function (req, res) {
   var id = req.query.id
-  //根据当前课程渲染组列表
-  var num = req.session.user.num
-  var str1 = "select * from mygroup2 where id in (select id from mygroup2 where num ='"+num+"');"
-  db.query(str1, (err, data) => {
-    if(err) {throw err}
-    if(data.length == 0){
-      //自己的组不存在
-      req.session.user.group_id = 0
-    }else{
-      req.session.user.group_id = data[0].id
-    }
-    //console.log(data.length)
-    let dataFilter = {} //自己的组
-    data.map((item) => {
-      if (dataFilter[String(item.id)]) {
-        dataFilter[String(item.id)].push(item)
-        //   console.log(item)
-      } else {
-        let arr = []
-        arr.push(item)
-        dataFilter[String(item.id)] = arr
-      }
-    })
-   // console.log(dataFilter)
-    var str = "select * from mygroup2 where course_id = '"+id+"';"
+  var duty = parseInt(req.session.user.duty)
+  if (duty == 1) {
+    //teacher
+    var str = "select * from mygroup2 where course_id = '" + id + "';"
     db.query(str, (err, result) => {
-      if(err) {throw err}
-     // var data = JSON.stringify(result)
+      if (err) { throw err }
+     // console.log(result)
       let resultFilter = {}
       result.map((item) => {
-          if (resultFilter[String(item.id)]) {
-              resultFilter[String(item.id)].push(item)
-             // console.log(item)
-          } else {
-              let arr = []
-              arr.push(item)
-              resultFilter[String(item.id)] = arr
-          }
+        if (resultFilter[String(item.id)]) {
+          resultFilter[String(item.id)].push(item)
+          // console.log(item)
+        } else {
+          let arr = []
+          arr.push(item)
+          resultFilter[String(item.id)] = arr
+        }
       })
-      // console.log(dataFilter)
+     //console.log(resultFilter)
       res.render('controllers/group.html', {
         user: req.session.user,
-        data: dataFilter,
         result: resultFilter
       })
     })
-  })
+  } else if (duty == 2) {
+    //student
+    //根据当前课程渲染组列表
+    var num = req.session.user.num
+    var str1 = "select * from mygroup2 where id in (select id from mygroup2 where num ='" + num + "');"
+    db.query(str1, (err, data) => {
+      if (err) { throw err }
+      if (data.length == 0) {
+        //自己的组不存在
+        req.session.user.group_id = 0
+      } else {
+        req.session.user.group_id = data[0].id
+      }
+      //console.log(data.length)
+      let dataFilter = {} //自己的组
+      data.map((item) => {
+        if (dataFilter[String(item.id)]) {
+          dataFilter[String(item.id)].push(item)
+          //   console.log(item)
+        } else {
+          let arr = []
+          arr.push(item)
+          dataFilter[String(item.id)] = arr
+        }
+      })
+      // console.log(dataFilter)
+      var str = "select * from mygroup2 where course_id = '" + id + "';"
+      db.query(str, (err, result) => {
+        if (err) { throw err }
+        // var data = JSON.stringify(result)
+        let resultFilter = {}
+        result.map((item) => {
+          if (resultFilter[String(item.id)]) {
+            resultFilter[String(item.id)].push(item)
+            // console.log(item)
+          } else {
+            let arr = []
+            arr.push(item)
+            resultFilter[String(item.id)] = arr
+          }
+        })
+        // console.log(dataFilter)
+        res.render('controllers/group.html', {
+          user: req.session.user,
+          data: dataFilter,
+          result: resultFilter
+        })
+      })
+    })
+  }
 })
 //quit group
 router.get('/group/quit', function (req, res) {

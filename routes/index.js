@@ -48,9 +48,11 @@ router.get('/test',function(req, res){
   res.render("test.html")
 })
 
-/*后台系统登录界面*/
+/*后台系统登录注册界面*/
 router.get('/login',require("./login"));
 router.post('/login',require("./login"));
+router.get('/register',require("./login"));
+router.post('/register',require("./login"));
 //settings
 router.get('/admin',require('./settings'))
 router.post('/admin',require('./settings'))

@@ -22,21 +22,21 @@
         <label for="exampleInputPassword1">姓名：</label>
         <input type="text" class="form-control" name="name" value="{{user.name}}" placeholder="请输入姓名" autofocus>
       </div>
-      {{ if user.class }}
+      {{ if user.duty == 2}}
       <div class="form-group">
         <label for="exampleInputPassword1">班级：</label>
         <input type="text" class="form-control" name="class" value="{{ user.class }}" placeholder="请输入班级">
       </div>
       {{ /if }}
-      {{ if user.book }}
+      {{ if user.duty == 1 }}
       <div class="form-group">
         <label for="exampleInputPassword1">负责科目：</label>
-        <input type="text" class="form-control" name="book" value="{{ user.book }}" placeholder="请输入班级">
+        <input type="text" class="form-control" name="book" value="{{ user.book }}" placeholder="请输入科目">
       </div>
       {{ /if }}
       <div class="form-group">
         <label for="exampleInputPassword1">性别</label>
-        {{ if user.sex }}
+        {{ if user.sex == 1 }}
         <div>
           <label class="radio-inline">
             <input type="radio" name="sex" value="1" checked> 男
@@ -83,6 +83,7 @@
 $('#profile_form').on('submit', function(e){
   e.preventDefault()
   var formData = $(this).serialize()
+  console.log(formData)
   var password0 = $('input[name="name"]').val()
  // console.log(password0,password1,password2)
   if(password0 == ""){
