@@ -1,61 +1,122 @@
-{{extend '../_layouts/home.html'}}
-
-{{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
-{{block 'head'}}
+{{extend '../_layouts/home.html'}} {{block 'title'}}{{'科协管理 - 首页'}}{{/block}} {{block 'head'}}
 <link rel="stylesheet" href="../../public/css/talk.css">
 <style>
-  #name_talk{
-    display: none;
-  }
-</style>
-{{/block}}
+    #name_talk {
+        display: none;
+    }
 
+    /* .attention{
+    color: red;
+    float: left;
+    margin-left: 5px;
+    margin-top: 2px;
+  } */
+
+    #wrapper {
+        overflow: hidden;
+        height: 25px;
+        width: 400px;
+        /* background:#ccc; */
+        line-height: 14px;
+        font-size: 14px;
+        color: #006600;
+        /* margin: 100px auto; */
+        /* text-align: center; */
+        float: left;
+        margin-left: 5px;
+        /* margin-top: 2px; */
+        color: red;
+    }
+</style>
+{{/block}} 
 {{block 'body'}}
-      <div class="chat-box">
-          <!--聊天框头部-->
-          <div class="chat-header">
-              <div class="button-box">
-                  <!-- <input type="button" class="log-out" value="LOGOUT"> -->
-                  <a href="/">
-                  <img width="25px;" src="../../public/img/delete.png" alt="">
-                  </a>
-              </div>
-          </div>
-          <!--聊天框主体-->
-          <div class="chat-body">
-              <!--聊天框左侧-->
-              <div class="chat-body-left">
-                  <!--聊天框左侧聊天内容-->
-                  <div class="chat-content"></div>
-                  <!--聊天框左侧聊天输入框-->
-                  <div class="chat-edit">
-                      <input type="text" class="edit-box" placeholder="Please Type You Message" maxlength="15"> 
-                      <input type="button" class="edit-button" value="发送">
-                  </div>
-              </div>
-              <!--聊天框右侧-->
-              <div class="chat-body-right">
-                  <!--聊天框右侧统计人数-->
-                  <div class="online-count">Online:0</div>
-                  <!--聊天框右侧用户名-->
-                  <div class="user-name">user-name</div>
-                  <!-- <div class="user-name">{{user.name}}</div> -->
-                  <!--聊天框右侧头像-->
-                  <img class="user-img" />
-              </div>
-          </div>
-  </div>
-  
-<input id="name_talk" type="text" value="{{user.name}}">
-{{/block}}
-{{block 'script'}}
+<div class="chat-box">
+    <!--聊天框头部-->
+    <div class="chat-header">
+        <!-- <span class="attention">注意：当online人数大于1时，再开启聊天!</span> -->
+        <div id="wrapper">
+            <div id="demo1">
+                <p class="attention">注意：当online人数大于1时，再开始聊天!</p>
+                <p class="attention">注意：当online人数大于1时，再开始聊天!</p>
+            </div>
+            <div id="demo2"></div>
+        </div>
+        <div class="button-box">
+
+            <!-- <input type="button" class="log-out" value="LOGOUT"> -->
+            <a href="/">
+                <img width="25px;" src="../../public/img/delete.png" alt="">
+            </a>
+        </div>
+    </div>
+    <!--聊天框主体-->
+    <div class="chat-body">
+        <!--聊天框左侧-->
+        <div class="chat-body-left">
+            <!--聊天框左侧聊天内容-->
+            <div class="chat-content"></div>
+            <!--聊天框左侧聊天输入框-->
+            <div class="chat-edit">
+                <input type="text" class="edit-box" placeholder="Please Type You Message" maxlength="15">
+                <input type="button" class="edit-button" value="发送">
+            </div>
+        </div>
+        <!--聊天框右侧-->
+        <div class="chat-body-right">
+            <div class="chat_message" id="talk_message">
+                <!-- <p id="talk_p" style="font-size: 12px;"><span id="talk_time">20:12:34 </span><span id="talk_user">nihao </span></p> -->
+                
+                 <!-- <p id="talk_message"></p> -->
+            </div>
+            <!--聊天框右侧统计人数-->
+            <div class="online-count">Online:0</div>
+            <!--聊天框右侧用户名-->
+            <div class="user-name">user-name</div>
+            <!-- <div class="user-name">{{user.name}}</div> -->
+            <!--聊天框右侧头像-->
+            <img class="user-img" />
+        </div>
+    </div>
+</div>
+
+<input id="name_talk" type="text" value="{{user.name}}"> {{/block}} {{block 'script'}}
 <script src="../../public/js/socket.io.js"></script>
 <script src="../../public/js/talk.js"></script>
 <script>
-  var str = $('#name_talk').val()
-  //console.log(str)
+    var str = $('#name_talk').val()
+    //console.log(str)
 
-  $('.user-name').html(str)
+    $('.user-name').html(str)
 
+</script>
+<script>
+    var speed = 80;  // 可自行设置文字滚动的速度
+
+    var wrapper = document.getElementById('wrapper');
+    var demo1 = document.getElementById('demo1');
+    var demo2 = document.getElementById('demo2');
+
+    demo2.innerHTML = demo1.innerHTML   //克隆demo1为demo2  
+    function Marquee() {
+        if (demo2.offsetHeight - wrapper.scrollTop <= 0)  //当滚动至demo1与demo2交界时  
+            wrapper.scrollTop -= demo1.offsetHeight    //demo跳到最顶端  
+        else {
+            wrapper.scrollTop++   //如果是横向的 将 所有的 height top 改成 width left  
+        }
+    }
+
+    var MyMar = setInterval(Marquee, speed)  //设置定时器  
+    wrapper.οnmοuseοver = function () { clearInterval(MyMar) }   //鼠标移上时清除定时器达到滚动停止的目的  
+    wrapper.οnmοuseοut = function () { MyMar = setInterval(Marquee, speed) }  //鼠标移开时重设定时器  
+</script> 
+<script>
+socket.on('connected', function(talkname, datetime){
+    // talkUser.innerHTML = talkname
+    // talkTime.innerHTML = datetime
+    // p.innerHTML = talkname +'  '+datetime
+    // talkMsg.appendChild(p)
+    var msg =`<p id="talk_p" style="font-size: 12px;"><span id="talk_time">`+datetime+` </span><span id="talk_user">`+talkname+`</span></p>`
+    $('#talk_message').append(msg)
+})
 </script>
 {{/block}}

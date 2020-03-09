@@ -35,7 +35,7 @@ router.get('/course', function(req, res){
 router.get('/class', function(req, res){
   var id = req.query.id
   req.session.user.course  = id
-  var str = "select * from course where id = '"+id+"' and duty ='2';"
+  var str = "select * from course where id = '"+id+"' and duty ='2' order by class, num;"
   db.query(str, (err, result) => {
     if(err) {throw err}
     res.render('controllers/class.html', {

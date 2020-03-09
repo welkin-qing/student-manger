@@ -47,6 +47,10 @@ router.get('/delete', function (req, res) {
 router.get('/test',function(req, res){
   res.render("test.html")
 })
+//test1
+router.get('/test1',function(req, res){
+  res.render("test1.html")
+})
 
 /*后台系统登录注册界面*/
 router.get('/login',require("./login"));

@@ -3,6 +3,11 @@
 {{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
 {{block 'head'}}
 <link rel="stylesheet" href="../../public/css/choice.css">
+<style>
+#talk_name{
+    display: none;
+}
+</style>
 {{/block}}
 
 {{block 'body'}}
@@ -39,7 +44,7 @@
             <span class="error-message">Welcome to chatroom!</span>
         </div>
     </div>
-
+<input id="talk_name" type="text" value="{{user.name}}">
 {{/block}}
 {{block 'script'}}
 <script src="../../public/js/socket.io.js"></script>
@@ -49,9 +54,35 @@ $('.start_talk').on('click', function(){
   var str = $('.p3').attr('src')
   var a = str.split('/')
   var num = a[2].split('.')
+  var username= $('#talk_name').val()
+  var str = tounicode(username)//汉字转码
   console.log(num[0])
-  window.location.href = "/talk?selectpicture="+num[0]+""
+  window.location.href = "/talk?selectpicture="+num[0]+"&user="+str+""
+   // window.location.href = "/talk?selectpicture="+num[0]+""
 })
 
+</script>
+<script>
+function tounicode(data)
+{
+   if(data == '') return '请输入汉字';
+   var str =''; 
+   for(var i=0;i<data.length;i++)
+   {
+      str+="\\u"+parseInt(data[i].charCodeAt(0),10).toString(16);
+   }
+   return str;
+}
+function tohanzi(data)
+{
+    if(data == '') { return ;}
+    data = data.split("\\u");
+    var str ='';
+    for(var i=0;i<data.length;i++)
+    {
+        str+=String.fromCharCode(parseInt(data[i],16).toString(10));
+    }
+    return str;
+}
 </script>
 {{/block}}

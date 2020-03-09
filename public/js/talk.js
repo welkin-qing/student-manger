@@ -1,7 +1,7 @@
 // 获取url里面的内容
-//var url = decodeURI(location.href).split('?')[1].split('&');
-var url = decodeURI(location.href).split('?')[1].split('=')
-
+var url = decodeURI(location.href).split('?')[1].split('&');
+//var url = decodeURI(location.href).split('?')[1].split('=')
+console.log(url)
 // 获取聊天内容框
 var chatContent = document.getElementsByClassName('chat-content')[0];
 
@@ -16,15 +16,22 @@ var userName = document.getElementsByClassName('user-name')[0];
 
 // 获取在线人数栏
 var onlineCount = document.getElementsByClassName('online-count')[0];
+var talkUser = document.getElementById('talk_user')
+var talkTime = document.getElementById('talk_time')
+var talkP  = document.getElementById('talk_p')
+var talkMsg = document.getElementById('talk_message')
+var p=document.createElement("p");
 
 // 把登录页面的名称放在右侧
 // userName.innerHTML = url[1].split('=')[1];
 userName.innerHTML = url[0].split('=')[1];
+console.log(userName.innerHTML)
 var userImg = document.getElementsByClassName('user-img')[0];
 
 // 把登录页面的头像放在右侧
-// userImg.src = 'img/' + url[0].split('=')[1];
-userImg.src = '../public/img/'+url[1]+'.png'
+ userImg.src = '../public/img/'+url[0].split('=')[1]+'.png'
+//userImg.src = '../public/img/'+url[1]+'.png'
+console.log(userImg.src)
 var logOut = document.getElementsByClassName('log-out')[0];
 
 // 发送按钮绑定点击事件
@@ -66,9 +73,10 @@ socket.on('message', function (information) {
 
 // 当接收到有人连接进来
 socket.on('connected', function (onlinecount) {
-    console.log(onlinecount);
+    //console.log(onlinecount);
     onlineCount.innerHTML = 'Online:' + onlinecount;
 });
+
 
 // 当接收到有人断开后
 socket.on('disconnected', function (onlinecount) {
@@ -112,6 +120,7 @@ function createMyMessage() {
     var userChatImg = document.createElement('img');
     userChatImg.className = 'user-chat-img';
     userChatImg.src = userImg.src;
+    console.log('111 '+userChatImg.src)
     var userChatName = document.createElement('div');
     userChatName.className = 'user-chat-name';
     userChatName.innerHTML = userName.textContent;
@@ -133,7 +142,15 @@ function createOtherMessage(information) {
     otherUserInformation.className = 'other-user-information';
     var userChatImg = document.createElement('img');
     userChatImg.className = 'user-chat-img';
-    userChatImg.src = information.img;
+
+   // welkin 
+    // userChatImg.src = information.img;// 源码
+    var str = information.img;
+    var a = str.split('/')
+    userChatImg.src = '../public/img/'+a[5]
+    console.log('222 '+userChatImg.src)
+
+    //welkin end
     var userChatName = document.createElement('span');
     userChatName.className = 'user-chat-name';
     userChatName.innerHTML = information.name;
