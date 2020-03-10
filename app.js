@@ -72,49 +72,26 @@ app.use(function (err, req, res, next) {
 var onlineCount = 0;
 app.use(express.static(__dirname));
 
-//console.log(111)
 // 当有用户连接进来时
 io.on('connection', function (socket) {
   console.log('a user connected');
+
   // 发送给客户端在线人数
   io.emit('connected', ++onlineCount);
-  //name
- // console.log(socket.handshake.headers.referer)
-  var str = socket.handshake.headers.referer
-  var a = str.split('?')[1].split('&');
-  var ss = a[1].split('=')[1]
-  function tohanzi(data) {
-    if (data == '') { return; }
-    data = data.split("\\u");
-    var str = '';
-    for (var i = 0; i < data.length; i++) {
-      str += String.fromCharCode(parseInt(data[i], 16).toString(10));
-    }
-    return str;
-  }
-  var talkname = tohanzi(ss)
-  //console.log(talkname)
- 
-  //time
-  //console.log(socket.handshake.time)
-  var str1 = socket.handshake.time
-  var d = new Date(str1);  
-  var datetime=d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ' ' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(); 
-  //console.log(datetime)
-  io.emit('connected', talkname, datetime)
+
   // 当有用户断开
   socket.on('disconnect', function () {
-    console.log('user disconnected');
+      console.log('user disconnected');
 
-    // 发送给客户端断在线人数
-    io.emit('disconnected', --onlineCount);
-    console.log(onlineCount);
+      // 发送给客户端断在线人数
+      io.emit('disconnected', --onlineCount);
+      console.log(onlineCount);
   });
 
   // 收到了客户端发来的消息
   socket.on('message', function (message) {
-    // 给客户端发送消息
-    io.emit('message', message);
+      // 给客户端发送消息
+      io.emit('message', message);
   });
 
 });

@@ -63,7 +63,7 @@
         </div>
         <!--聊天框右侧-->
         <div class="chat-body-right">
-            <div class="chat_message" id="talk_message">
+            <div style="display: none;"class="chat_message" id="talk_message">
                 <!-- <p id="talk_p" style="font-size: 12px;"><span id="talk_time">20:12:34 </span><span id="talk_user">nihao </span></p> -->
                 
                  <!-- <p id="talk_message"></p> -->
@@ -82,6 +82,7 @@
 <input id="name_talk" type="text" value="{{user.name}}"> {{/block}} {{block 'script'}}
 <script src="../../public/js/socket.io.js"></script>
 <script src="../../public/js/talk.js"></script>
+<script src="../../public/js/main.js"></script>
 <script>
     var str = $('#name_talk').val()
     //console.log(str)
@@ -110,13 +111,25 @@
     wrapper.οnmοuseοut = function () { MyMar = setInterval(Marquee, speed) }  //鼠标移开时重设定时器  
 </script> 
 <script>
-socket.on('connected', function(talkname, datetime){
-    // talkUser.innerHTML = talkname
-    // talkTime.innerHTML = datetime
-    // p.innerHTML = talkname +'  '+datetime
-    // talkMsg.appendChild(p)
-    var msg =`<p id="talk_p" style="font-size: 12px;"><span id="talk_time">`+datetime+` </span><span id="talk_user">`+talkname+`</span></p>`
-    $('#talk_message').append(msg)
-})
+// socket.on('user connected', function(talkname, datetime){
+//     // talkUser.innerHTML = talkname
+//     // talkTime.innerHTML = datetime
+//     // p.innerHTML = talkname +'  '+datetime
+//     // talkMsg.appendChild(p)
+//     // $('.online-count').html('Online:'+ onlinecount)
+//     console.log(talkname, datetime)
+//     var msg =`<p id="talk_p" style="margin:0;"><span id="talk_time">`+datetime+` </span><span id="talk_user">`+talkname+`</span>进入房间</p>`
+//     $('#talk_message').append(msg)
+// })
+// // 当接收到有人断开后
+// socket.on('user disconnected', function ( talkname, date) {
+//     // console.log(onlinecount);
+//     //onlineCount.innerHTML = 'Online:' + onlinecount;
+//     var dateTime = formatDate(date)
+//     // $('.online-count').html('Online:'+ onlinecount)
+//     var msg1 = `<p id="talk_p" style="margin:0;"><span id="talk_time">`+dateTime+` </span><span id="talk_user">`+talkname+`</span>离开房间</p>`
+//     $('#talk_message').append(msg1)
+// });
+// 
 </script>
 {{/block}}

@@ -245,11 +245,17 @@ body {
   /* border: 1px solid #ccc */
   /* color: yellow; */
 }
-#talk_user{
-font-size: 14px;
-}
+/* #talk_user{
+font-size: .12rem;
+} */
 #talk_time{
-  margin-right: 20px;
+  margin-right: 5px;
+}
+#talk_p{
+  white-space: nowrap;
+  font-size: 1.3rem;
+  -webkit-transform-origin-x: 0; 
+  -webkit-transform: scale(0.80);  
 }
 /*右侧内容*/
 

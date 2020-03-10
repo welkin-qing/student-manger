@@ -25,7 +25,7 @@ var p=document.createElement("p");
 // 把登录页面的名称放在右侧
 // userName.innerHTML = url[1].split('=')[1];
 userName.innerHTML = url[0].split('=')[1];
-console.log(userName.innerHTML)
+//console.log(userName.innerHTML)
 var userImg = document.getElementsByClassName('user-img')[0];
 
 // 把登录页面的头像放在右侧
@@ -71,14 +71,14 @@ socket.on('message', function (information) {
     }
 });
 
-// 当接收到有人连接进来
+//当接收到有人连接进来
 socket.on('connected', function (onlinecount) {
     //console.log(onlinecount);
     onlineCount.innerHTML = 'Online:' + onlinecount;
 });
 
 
-// 当接收到有人断开后
+//当接收到有人断开后
 socket.on('disconnected', function (onlinecount) {
     console.log(onlinecount);
     onlineCount.innerHTML = 'Online:' + onlinecount;
