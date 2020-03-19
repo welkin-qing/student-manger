@@ -130,6 +130,7 @@ router.get('/group/quit', function (req, res) {
   //将session中的自己的组group_id置空
   req.session.user.group_id = 0
   var str = "update mygroup2 set name='',num = '',class='' where num = '" + num + "';"
+  console.log(str)
   db.query(str, (err, result) => {
     if (err) { throw err }
     //res.redirect('/group')
