@@ -6,8 +6,17 @@
 <section class="container">
   {{include '../_partials/controllers-nav.html'}}
   <div class="col-md-7">
+    {{if result.length == 0}}
+      <h4>当前课程：{{data[0].course_name}}</h4>
+      <p>课程ID:{{data[0].id}}</p>
+      <hr>
+      <div>
+        <p style="margin-left: 150px;">当前没有学生加入课程!</p>
+      </div>
+    {{ else }}
     <div class="info">
-      <h4>当前课程：{{result[0].course_name}}</h4>
+      <h4>当前课程：{{data[0].course_name}}</h4>
+      <p>课程ID:{{data[0].id}}</p>
       <hr>
     </div>
     <div class="list">
@@ -23,7 +32,6 @@
           {{ each result }}
           <tr>
             <td>{{'0'+$value.num}}</td>
-            <!-- <td>0{{$value.num}}</td> -->
             <td>{{$value.name}}</td>
             <td>{{$value.class}}</td>
           </tr>
@@ -31,11 +39,11 @@
         </tbody>
       </table>
     </div>
-    <!-- <a href="/talk?username={{user.num}}" class="btn btn-success">开始会话</a> -->
-    <a href="/choice" class="btn btn-success">会话</a>
-    {{ if user.duty == 1}}
-    <button id="btn" class="btn btn-success">导出</button>
-    {{ /if }}
+      <a href="/choice" class="btn btn-success">会话</a>
+      {{ if user.duty == 1 }}
+      <button id="btn" class="btn btn-success">导出</button>
+      {{ /if }}
+    {{/if}}
   </div>
 </section>
 {{/block}}

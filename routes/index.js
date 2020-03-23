@@ -70,10 +70,17 @@ router.post('/show',require('./topic'))
 router.get('/put', require('./topic'))
 //controllers
 router.get('/course', require('./controllers'))
+//课程的创建、添加、删除、结束
+router.post('/course/new',require('./controllers'))
+router.post('/course/add',require('./controllers'))
+//班级
 router.get('/class', require('./controllers'))
 router.get('/group', require('./controllers'))
+//组的退出与加入
 router.get('/group/quit', require('./controllers'))
 router.get('/group/add', require('./controllers'))
+
+
 //talk
 router.get('/talk', require('./talk'))
 router.get('/choice', require('./talk'))

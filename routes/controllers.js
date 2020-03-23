@@ -1,6 +1,7 @@
 var express = require('express')
 var md5 = require('blueimp-md5')
 var db = require('../models/db')
+var random = require('string-random')
 var router = express.Router()
 
 //course
@@ -31,16 +32,85 @@ router.get('/course', function(req, res){
   }
 })
 
+//course new 老师创建课程 
+router.post('/course/new', function(req,res){
+  var body = req.body
+ // console.log(body)
+  var course_id = random(7,{letters:false})
+ // console.log(course_id)
+  var num = req.session.user.num
+  var name = req.session.user.name
+  var str = `insert into course (id, course_name, num, name, duty, info) values
+  (`+parseInt(course_id)+`,'`+body.course_name+`',`+num+`,'`+name+`',1,'`+body.course_info+`');`
+  db.query(str, (err, result)=>{
+    if(err) {throw err}
+    var str1 = `insert into mygroup2 (id, name, num, class, course_id, sort) values
+    (1,null,null,null,'`+course_id+`',1),(1,null,null,null,'`+course_id+`',2),(1,null,null,null,'`+course_id+`',3),(1,null,null,null,'`+course_id+`',4),
+    (2,null,null,null,'`+course_id+`',1),(2,null,null,null,'`+course_id+`',2),(2,null,null,null,'`+course_id+`',3),(2,null,null,null,'`+course_id+`',4),
+    (3,null,null,null,'`+course_id+`',1),(3,null,null,null,'`+course_id+`',2),(3,null,null,null,'`+course_id+`',3),(3,null,null,null,'`+course_id+`',4),
+    (4,null,null,null,'`+course_id+`',1),(4,null,null,null,'`+course_id+`',2),(4,null,null,null,'`+course_id+`',3),(4,null,null,null,'`+course_id+`',4),
+    (5,null,null,null,'`+course_id+`',1),(5,null,null,null,'`+course_id+`',2),(5,null,null,null,'`+course_id+`',3),(5,null,null,null,'`+course_id+`',4),
+    (6,null,null,null,'`+course_id+`',1),(6,null,null,null,'`+course_id+`',2),(6,null,null,null,'`+course_id+`',3),(6,null,null,null,'`+course_id+`',4),
+    (7,null,null,null,'`+course_id+`',1),(7,null,null,null,'`+course_id+`',2),(7,null,null,null,'`+course_id+`',3),(7,null,null,null,'`+course_id+`',4),
+    (8,null,null,null,'`+course_id+`',1),(8,null,null,null,'`+course_id+`',2),(8,null,null,null,'`+course_id+`',3),(8,null,null,null,'`+course_id+`',4),
+    (9,null,null,null,'`+course_id+`',1),(9,null,null,null,'`+course_id+`',2),(9,null,null,null,'`+course_id+`',3),(9,null,null,null,'`+course_id+`',4),
+    (10,null,null,null,'`+course_id+`',1),(10,null,null,null,'`+course_id+`',2),(10,null,null,null,'`+course_id+`',3),(10,null,null,null,'`+course_id+`',4);`
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.status(200).json({
+        err_code: 0,
+        message: 'ok'
+      })
+    })
+  })
+})
+//course add 学生添加课程
+router.post('/course/add', function(req, res){
+  var body = req.body
+  var num = req.session.user.num
+  var name = req.session.user.name
+  var class_id = req.session.user.class
+  //console.log(body)
+  //1. 查询id是否存在
+  var str1 = "select * from course where id = '"+parseInt(body.course_id)+"';"
+  db.query(str1, (err, data)=>{
+    if(err) {throw err}
+    if(data.length == 0){
+      //查不到这个课
+      res.status(200).json({
+        err_code: 1,
+        message: '课程id输入错误，请重新输入!'
+      })
+    }else{
+      var str = `insert into course (id, num, name,class,duty) values
+      (`+body.course_id+`,`+num+`,'`+name+`','`+class_id+`',2);`
+      db.query(str, (err, result)=>{
+        if(err) {throw err}
+        res.status(200).json({
+          err_code: 0,
+          message: 'ok'
+        })
+      })
+    }
+  })
+})
 //class
 router.get('/class', function(req, res){
   var id = req.query.id
   req.session.user.course  = id
-  var str = "select * from course where id = '"+id+"' and duty ='2' order by class, num;"
-  db.query(str, (err, result) => {
+  var str1 = "select id, course_name from course where id = '"+id+"' and duty ='1';"
+  db.query(str1, (err, data)=>{
     if(err) {throw err}
-    res.render('controllers/class.html', {
-      user: req.session.user,
-      result: result
+    //console.log(data)
+    //查学生信息
+    var str = "select * from course where id = '"+id+"' and duty ='2' order by class, num;"
+    db.query(str, (err, result) => {
+      if(err) {throw err}
+      res.render('controllers/class.html', {
+        user: req.session.user,
+        result: result,
+        data: data
+      })
     })
   })
 })
@@ -130,7 +200,7 @@ router.get('/group/quit', function (req, res) {
   //将session中的自己的组group_id置空
   req.session.user.group_id = 0
   var str = "update mygroup2 set name=null, num=null, class=null where num = '" + num + "';"
-  console.log(str)
+
   db.query(str, (err, result) => {
     if (err) { throw err }
     //res.redirect('/group')
@@ -140,7 +210,10 @@ router.get('/group/quit', function (req, res) {
 })
 // add group
 router.get('/group/add', function(req, res){
-  var group_id  = req.query.id
+//  console.log(req.query.group)
+  var isGroup = req.query.group
+  if(parseInt(isGroup) == 0){
+    var group_id  = req.query.id
   var course_id = req.session.user.course
   var name = req.session.user.name
   var num = req.session.user.num
@@ -175,6 +248,7 @@ router.get('/group/add', function(req, res){
       })
      }
    })
+  }
 })
 
 

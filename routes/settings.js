@@ -84,11 +84,11 @@ router.post('/profile', function(req, res){
  // console.log(duty)
   if(duty == 1){
     //teacher
-    var str = "update teacher set name='"+body.name+"',book='"+body.book+"',sex='"+body.sex+"',phone='"+body.phone+"' where num='"+num+"';"
+    var str = "update teacher set name='"+body.name+"',email='"+body.email+"',sex='"+body.sex+"',phone='"+body.phone+"' where num='"+num+"';"
     db.query(str, (err, result) => {
       if(err) { throw err }
       req.session.user.name = body.name
-      req.session.user.book = body.book
+      req.session.user.email = body.email
       req.session.user.sex = body.sex
       req.session.user.phone = body.phone
       res.status(200).json({

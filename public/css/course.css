@@ -11,7 +11,7 @@
   }
   .course_item{
     width: 220px;
-    height: 296px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -58,7 +58,6 @@
     padding-right: 10px;
   }
   .info_name{
-    margin-bottom: 7px;
     height: 20px;
     font-size: 17px;
     color: #333333;
@@ -67,8 +66,22 @@
     display: inline-block;
     overflow: hidden;
     line-height: 18px;
-    /* padding-top: 5px; */
-    padding-right: 10px;
+    position: absolute;
+    top: 11px;
+    margin-left: 50px;
+  }
+  .info_class{
+    color: #666666;
+  }
+  .class_del{
+    margin-top: 5px;
+    color: #00BBDD;
+    margin-left: 10px;
+  }
+  .class_end{
+    margin-top: -20px;
+    margin-left: 156px;
+    color: #00BBDD;
   }
   .info_target{
     margin-left: auto;
@@ -77,4 +90,44 @@
     position: relative;
     margin-right: 5px;
     margin-top: -25px;
+  }
+  #new_course{
+    width: 400px;
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    height: 280px;
+    z-index: 4;
+    top: 50%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -140px;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+  }
+  #add_course{
+    width: 400px;
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    height: 210px;
+    z-index: 4;
+    top: 50%;
+    left: 50%;
+    margin-left: -200px;
+    margin-top: -105px;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+  }
+  .mask{
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    z-index: 1;
+    opacity: 0.4;
+    display: none;
+    position: absolute;
+    top: 0px;
   }

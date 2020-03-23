@@ -5,21 +5,27 @@
 <link rel="stylesheet" href="../../public/css/course.css">
 {{/block}}
 {{block 'body'}}
+<div class="mask"></div>
 <section class="container">
   <div class="course">
     <h4>我的课程：</h4>
     <ul class="course_list">
       {{ each result }}
           <li class="course_item">
-            <a href="/class?id={{$value.id}}" onclick="return false;">
+            <a href="/class?id={{$value.id}}" style="text-decoration: none;"onclick="return false;">
             <div class="course_img">
               <img src="../../public/img/course.png" alt="">
             </div>
             <div class="course_info">
               <span class="info_teacher">{{ $value.name }}</span>
               <span class="info_name">{{ $value.course_name}}</span>
+              <span class="info_class">计科1601-1603</span>
               <span class="info_target">进入<i class="glyphicon glyphicon-menu-right"></i></span>
             </div>
+            {{ if user.duty == 1}}
+            <a class="class_del course_set" href="">删除课程</a> 
+            <a class="class_end course_set" href="">结束课程</a>
+            {{/if}}
           </a>
           </li>
           {{ /each }}
@@ -48,8 +54,51 @@
         </div>
       </li> -->
     </ul>
+    {{ if user.duty == 1}}
+    <button type="submit" class="student_add btn btn-primary"style="float: right;">创建课程</button>
+    {{/if}}
+    {{ if user.duty == 2}}
+    <button type="submit" class="student_add btn btn-primary"style="float: right;">添加课程</button>
+    {{/if}}
   </div>
+
 </section>
+<!-- 老师创建课程表单 -->
+<div id="new_course">
+  <div style="position: relative;margin-top: 20px;">
+    <img class="delete_img" style="cursor:pointer;height:40px;width:40px;position:absolute;top:-22px;right:0px;" src="../../public/img/delete.png">
+  </div>
+  <h2 style="text-align: center;">创建课程</h2>
+  <form id="course_form">
+    <div class="form-group">
+      <label for="course_name">课程名称：</label>
+      <input type="text" class="form-control" name="course_name" value="" placeholder="请输入课程名称" autofocus>
+    </div>
+    <div class="form-group">
+      <label for="course_info">课程信息：</label>
+      <input type="text" class="form-control" name="course_info" value="" placeholder="不得超过15个字" max='15'>
+    </div>
+    <button type="submit" class="btn btn-success">创建</button>
+  </form>
+</div>
+<!-- 学生添加课程表单 -->
+<div id="add_course">
+  <div style="position: relative;margin-top: 20px;">
+    <img class="delete_img1" style="cursor:pointer;height:40px;width:40px;position:absolute;top:-22px;right:0px;" src="../../public/img/delete.png">
+  </div>
+  <h2 style="text-align: center;">添加课程</h2>
+  <form id="course_stu">
+    <!-- <div class="form-group">
+      <label for="course_name">课程名称：</label>
+      <input type="text" class="form-control" name="course_name" value="" placeholder="请输入课程名称" autofocus>
+    </div> -->
+    <div class="form-group">
+      <label for="course_name">课程ID：</label>
+      <input type="text" class="form-control" name="course_id" value="" placeholder="请输入课程ID" autofocus>
+    </div>
+    <button type="submit" class="btn btn-success">添加</button>
+  </form>
+</div>
 {{/block}}
 {{block 'script'}}
 <script>
@@ -60,5 +109,76 @@ $('.course_item').on('click', function () {
   window.location.href = $(obj[0]).attr("href");
   //  console.log(obj[0].href)
 })
+</script>
+<script>
+  //teacher
+$('.course_btn').on('click', function(e){
+  e.preventDefault()
+  $('#new_course').css('display','block')
+  $('.mask').css('display', 'block')
+})
+$('.delete_img').on('click',function(e){
+  e.preventDefault()
+  $('#new_course').css('display','none')
+  $('.mask').css('display', 'none')
+})
+//student
+$('.student_add').on('click', function(e){
+  e.preventDefault()
+  $('#add_course').css('display','block')
+  $('.mask').css('display', 'block')
+})
+$('.delete_img1').on('click',function(e){
+  e.preventDefault()
+  $('#add_course').css('display','none')
+  $('.mask').css('display', 'none')
+})
+</script>
+<script>
+  //创建课程
+  $('#course_form').on('submit', function (e) {
+    e.preventDefault()
+    var formData = $(this).serialize()
+    //console.log(formData)
+    $.ajax({
+      url: '/course/new',
+      type: 'post',
+      data: formData,
+      dataType: 'json',
+      success: function(data){
+        var err_code = data.err_code
+        if(err_code == 0){
+          window.alert('创建成功!')
+          window.location.replace(window.location.href)
+        }else if(err_code === 500){
+          window.alert('服务器忙，请稍后重试!')
+        }
+      }
+    })
+  })
+  //添加课程
+  $('#course_stu').on('submit',function(e){
+    e.preventDefault()
+    var formData = $(this).serialize()
+    console.log(formData)
+    $.ajax({
+      url: '/course/add',
+      type: 'post',
+      data: formData,
+      dataType: 'json',
+      success: function(data){
+        var err_code = data.err_code
+        if(err_code == 0){
+          window.alert('添加成功!')
+          window.location.replace(window.location.href)
+        }else if(err_code == 1){
+          var msg = data.message
+          window.alert(msg)
+        }else if(err_code === 500){
+          window.alert('服务器忙，请稍后重试!')
+        }
+      }
+    })
+  })
 </script>
 {{/block}}
