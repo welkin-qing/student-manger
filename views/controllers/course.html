@@ -10,52 +10,62 @@
   <div class="course">
     <h4>我的课程：</h4>
     <ul class="course_list">
-      {{ each result }}
-          <li class="course_item">
-            <a href="/class?id={{$value.id}}" style="text-decoration: none;"onclick="return false;">
+      {{ each result }} 
+        <li class="course_item">
+          <a href="/class?id={{$value.id}}" style="text-decoration: none;" onclick="return false;">
+             {{ if $value.end ==1}}
+            <div class="course_img class-img-con">
+              <img src="../../public/img/course.png" alt="">
+            </div>
+            {{else}}
+            <div class="course_img">
+              <img src="../../public/img/course.png" alt="">
+            </div>
+            {{/if}}
+            <div class="course_info">
+              <span class="info_teacher">{{ $value.name }}</span>
+              <span class="info_name">{{ $value.course_name}}</span>
+              <span class="info_class">{{ $value.info}}&nbsp;</span>
+              <span class="info_target">进入
+                <i class="glyphicon glyphicon-menu-right"></i>
+              </span>
+            </div>
+          </a>
+          {{ if user.duty == 1}}
+          <div class="class_set">
+            <a class="class_del" href="/course/delete?id={{$value.id}}">删除课程</a>
+            <a class="class_end" href="/course/end?id={{$value.id}}" >结束课程</a>
+          </div>
+          {{/if}}
+        </li>
+      {{ /each }}
+      <!-- <li class="course_item">
             <div class="course_img">
               <img src="../../public/img/course.png" alt="">
             </div>
             <div class="course_info">
-              <span class="info_teacher">{{ $value.name }}</span>
-              <span class="info_name">{{ $value.course_name}}</span>
-              <span class="info_class">计科1601-1603</span>
-              <span class="info_target">进入<i class="glyphicon glyphicon-menu-right"></i></span>
+              <span class="info_teacher">董梁</span>
+              <span class="info_name">verilog</span>
+              <span class="info_target">进入
+                <i class="glyphicon glyphicon-menu-right"></i>
+              </span>
             </div>
-            {{ if user.duty == 1}}
-            <a class="class_del course_set" href="">删除课程</a> 
-            <a class="class_end course_set" href="">结束课程</a>
-            {{/if}}
-          </a>
           </li>
-          {{ /each }}
-      <!-- <li class="course_item">
-        <div class="course_img">
-          <img src="../../public/img/course.png" alt="">
-        </div>
-        <div class="course_info">
-          <span class="info_teacher">董梁</span>
-          <span class="info_name">verilog</span>
-          <span class="info_target">进入
-            <i class="glyphicon glyphicon-menu-right"></i>
-          </span>
-        </div>
-      </li>
-      <li class="course_item">
-        <div class="course_img">
-          <img src="../../public/img/course.png" alt="">
-        </div>
-        <div class="course_info">
-          <span class="info_teacher">董梁</span>
-          <span class="info_name">verilog</span>
-          <span class="info_target">进入
-            <i class="glyphicon glyphicon-menu-right"></i>
-          </span>
-        </div>
-      </li> -->
+          <li class="course_item">
+            <div class="course_img">
+              <img src="../../public/img/course.png" alt="">
+            </div>
+            <div class="course_info">
+              <span class="info_teacher">董梁</span>
+              <span class="info_name">verilog</span>
+              <span class="info_target">进入
+                <i class="glyphicon glyphicon-menu-right"></i>
+              </span>
+            </div>
+          </li> -->
     </ul>
     {{ if user.duty == 1}}
-    <button type="submit" class="student_add btn btn-primary"style="float: right;">创建课程</button>
+    <button type="submit" class="course_btn btn btn-primary"style="float: right;">创建课程</button>
     {{/if}}
     {{ if user.duty == 2}}
     <button type="submit" class="student_add btn btn-primary"style="float: right;">添加课程</button>
@@ -102,9 +112,35 @@
 {{/block}}
 {{block 'script'}}
 <script>
-$('.course_item').on('click', function () {
-
+  //delete
+  $('.class_del').on('click', function(e){
+  var a = confirm("确定删除？")
+  var obj = $(this)
+  if(a){
+    window.location.href = $(obj[0]).attr("href")
+    return false;
+  }else{
+    //window.location.href='/course'
+    return false;
+  }
+})
+  //end
+  $('.class_end').on('click', function(e){
+  var a = confirm("此过程不可逆，确定结束？")
+  var obj = $(this)
+  if(a){
+    window.location.href = $(obj[0]).attr("href")
+    return false;
+  }else{
+    //window.location.href='/course'
+    return false;
+  }
+})
+//点击li跳转
+$('.course_item').on('click', function (e) {
+  e.preventDefault()
   var obj = $(this).children("a");
+  console.log(obj[0])
   /*获取第一个a标签，进行跳转*/
   window.location.href = $(obj[0]).attr("href");
   //  console.log(obj[0].href)

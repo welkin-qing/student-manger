@@ -64,6 +64,33 @@ router.post('/course/new', function(req,res){
     })
   })
 })
+
+//course delete 老师删除课程
+router.get('/course/delete', function(req, res){
+  var id = req.query.id
+  //1. delete course  学生处也会删除
+  var str = "delete from course where id='"+id+"';"
+  db.query(str, (err, result)=>{
+    if(err) {throw err}
+    //2. delete group
+    var str1 = "delete from mygroup2 where course_id='"+id+"';"
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.redirect('/course')
+    })
+  })
+})
+
+//course end 老师结束课程
+router.get('/course/end', function(req, res){
+  var id = req.query.id
+  var str = "update course set end='1' where id='"+id+"' and duty='1';"
+  db.query(str, (err, result)=>{
+    if(err) {throw err}
+    res.redirect('/course')
+  })
+})
+
 //course add 学生添加课程
 router.post('/course/add', function(req, res){
   var body = req.body
@@ -94,9 +121,11 @@ router.post('/course/add', function(req, res){
     }
   })
 })
+
 //class
 router.get('/class', function(req, res){
   var id = req.query.id
+  //console.log('class'+ id)
   req.session.user.course  = id
   var str1 = "select id, course_name from course where id = '"+id+"' and duty ='1';"
   db.query(str1, (err, data)=>{
@@ -117,7 +146,7 @@ router.get('/class', function(req, res){
 
 //group
 router.get('/group', function (req, res) {
-  var id = req.query.id
+  var id = req.query.id //课程id
   var duty = parseInt(req.session.user.duty)
   if (duty == 1) {
     //teacher
@@ -146,7 +175,7 @@ router.get('/group', function (req, res) {
     //student
     //根据当前课程渲染组列表
     var num = req.session.user.num
-    var str1 = "select * from mygroup2 where id in (select id from mygroup2 where num ='" + num + "');"
+    var str1 = "select * from mygroup2 where id in (select id from mygroup2 where num ='" + num + "') and course_id = '"+id+"';"
     db.query(str1, (err, data) => {
       if (err) { throw err }
       if (data.length == 0) {
@@ -156,6 +185,7 @@ router.get('/group', function (req, res) {
         req.session.user.group_id = data[0].id
       }
       //console.log(data.length)
+      //console.log(data)
       let dataFilter = {} //自己的组
       data.map((item) => {
         if (dataFilter[String(item.id)]) {

@@ -2,7 +2,7 @@
 /*global plupload */
 /*global FileProgress */
 /*global hljs */
-
+//console.log(q_token)
 $(function() {
     var uploader = Qiniu.uploader({
         runtimes: 'html5,flash,html4',
@@ -12,8 +12,8 @@ $(function() {
         flash_swf_url: 'bower_components/plupload/js/Moxie.swf',
         dragdrop: true,
         chunk_size: '4mb',
-        // uptoken_url: $('#uptoken_url').val(),
-        uptoken: "T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ:bPT_0R3Y4zDisQIsKMFwfO0LwSY=:eyJzY29wZSI6Imt4Z2wyMzMzIiwiZGVhZGxpbmUiOjE1ODE0OTM0MTZ9",
+        uptoken: q_token,
+        //uptoken: "T_22tq0Cj6E5MxfpMrdGezdCEVf3cb2sHh3fROmJ:Fp-gEGSImJnWfipUD_CUHxwbwGI=:eyJzY29wZSI6Imt4Z2wyMzMzIiwiZGVhZGxpbmUiOjE1ODUwNjQ4MjR9",
         multi_selection: !(mOxie.Env.OS.toLowerCase()==="ios"),
 
 

@@ -27,6 +27,8 @@
   .course_item:hover{
     box-shadow: 0 0 10px 0 rgba(0,0,0,0.16);
   }
+
+
   .course_img{
     position: relative;
     width: 220px;
@@ -37,6 +39,18 @@
     width: 100%;
     height: 100%;
   }
+  .course_img :hover{
+    animation: pic 4s linear forwards;
+    animation-play-state: running;
+  }
+  @keyframes pic {
+    0% { 
+        transform: scale(1, 1);
+    }
+    100% {
+        transform: scale(1.2, 1.2);
+    }
+}
   .course_info{
     position: relative;
     font-family: MicrosoftYaHei;
@@ -73,20 +87,27 @@
   .info_class{
     color: #666666;
   }
+  .class_set{
+    margin-top: 5px;
+  }
   .class_del{
     margin-top: 5px;
     color: #00BBDD;
     margin-left: 10px;
   }
   .class_end{
-    margin-top: -20px;
-    margin-left: 156px;
+        /* margin-top: -52px; */
+    /* margin-left: 153px; */
     color: #00BBDD;
+    /* position: absolute; */
+    bottom: 21px;
+    float: right;
+    padding-right: 10px;
   }
   .info_target{
     margin-left: auto;
     color: #00BBDD;
-    width: 45px;
+    width: 50px;
     position: relative;
     margin-right: 5px;
     margin-top: -25px;
@@ -131,3 +152,14 @@
     position: absolute;
     top: 0px;
   }
+  .class-img-con::before {
+    content: '';
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: rgba(0,0,0,0.41);
+    background-image: url(../img/index_creat_icon_end.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100px 100px;
+}

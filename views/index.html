@@ -45,6 +45,17 @@
   /* .download{
     display: none;
   } */
+.class-img-con::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(0,0,0,0.41);
+  background-image: url(../public/img/index_creat_icon_end.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 40px 40px;
+}
 </style>
 {{/block}}
 {{block 'body'}}
@@ -52,7 +63,7 @@
   <ul class="media-list">
     {{each result}}
      <li class="media">
-      <div class="media-left">
+      <div class="media-left class-img-con">
         {{ if $value.file_name}}
         <img width="40" height="40" class="media-object" src="../public/img/file.png" alt="...">
         {{else}}
@@ -78,7 +89,7 @@
           {{ if user}}
           <!-- <span>111</span> -->
               {{if user.num == $value.teacher_num}}
-          <span>   |   &nbsp;<a href="javascript:del_btn('/delete?id={{$value.id}}+')">删除</a></span>
+          <span>   |   &nbsp;<a href="javascript:del_btn('/delete?id={{$value.id}}')">删除</a></span>
               {{/if}}
           {{else}}
           <!-- <span>777</span> -->

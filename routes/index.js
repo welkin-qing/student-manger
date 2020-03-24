@@ -73,6 +73,8 @@ router.get('/course', require('./controllers'))
 //课程的创建、添加、删除、结束
 router.post('/course/new',require('./controllers'))
 router.post('/course/add',require('./controllers'))
+router.get('/course/delete',require('./controllers'))
+router.get('/course/end',require('./controllers'))
 //班级
 router.get('/class', require('./controllers'))
 router.get('/group', require('./controllers'))
