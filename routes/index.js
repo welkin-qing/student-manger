@@ -6,28 +6,53 @@ var md5 = require('blueimp-md5')
 var router = express.Router()
 
 router.get('/', function (req, res) {
- // console.log(req.session.user)
-  var str = "select * from file;"
-  db.query(str, (err, result) => {
-    if(err) { throw err}
-    //console.log(result)
-    res.render('index.html', {
-      user: req.session.user,
-      result: result
+  var dl = req.session.user
+  //var num = req.session.user.num
+  if(dl){
+    //登录成功 判断身份
+    //console.log('1')
+    if(duty == 0){
+      //manger
+    }else{
+      //teacher student
+      var duty = req.session.user.duty
+      var num = req.session.user.num
+      var str="select * from file where course_id in(select id from course where num='"+num+"');"
+      db.query(str, (err, result)=>{
+        if(err) {throw err}
+        res.render('index.html', {
+          user: req.session.user,
+          result: result
+        })
+      })
+    }
+  }else{
+    //未登录成功 显示所有file
+    //console.log('2')
+    var str = "select * from file;"
+    db.query(str, (err, result) => {
+      if(err) { throw err}
+      //console.log(result)
+      res.render('index.html', {
+        user: req.session.user,
+        result: result
+      })
     })
-  })
-  // res.render('index.html', {
-  //   user: req.session.user
+  }
+  //var str="select * from file where course_id in(select id from course where num='"+num+"');"
+  //console.log(str)
+  // db.query(str, (err, result)=>{
+  //   if(err) {throw err}
+  //   console.log(result)
   // })
 })
-// router.get('/file', function(req, res){
+// router.get('/', function(req, res){
 //   var str = "select * from file;"
 //   db.query(str, (err, result) => {
 //     if(err) { throw err}
 //     //console.log(result)
-//     res.status(200).json({
-//       err_code: 0,
-//       message: 'ok',
+//     res.render('index.html', {
+//       user: req.session.user,
 //       result: result
 //     })
 //   })

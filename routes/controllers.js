@@ -87,7 +87,11 @@ router.get('/course/end', function(req, res){
   var str = "update course set end='1' where id='"+id+"' and duty='1';"
   db.query(str, (err, result)=>{
     if(err) {throw err}
-    res.redirect('/course')
+    var str1 = "update file set end='1' where course_id ='"+id+"';"
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.redirect('/course')
+    })
   })
 })
 

@@ -12,9 +12,14 @@
   <div class="row">
     <div class="col-md-2"></div>
     <div class="col-md-7">
+      {{ if result.length == 0}}
+      <div style="height: 300px;">
+        <h4 style="color: black;">您当前课程已结束，快去新建课程吧!</h4>
+      </div>
+      {{else}}
       <form id="new_form">
         <div class="form-group">
-          <label for="text2">标题</label>
+          <label for="text2">课题</label>
           <select name="topic" class="form-control">
             {{ each result }}
             <option value="{{$value.id}}">{{$value.course_name}}</option>
@@ -49,6 +54,7 @@
         </div>
         <button type="submit" id="new_btn" class="btn btn-success">提交</button>
       </form>
+      {{/if}}
     </div>
   </div>
   <div class="tips">
@@ -173,10 +179,13 @@ $('#new_btn').on('click', function(e){
   e.preventDefault()
   //var formData = $(this).serialize()
   var time = new Date().getTime()
-  var topic = $('select[name="topic"]').val()
+  var topic = $('option:selected').html()
+//  console.log(topic)
+  var course_id = $('select[name="topic"]').val()
+ // console.log(course_id)
   var content = $('textarea[name="content"]').val() //3.24
-  var group = $('input[name="group"]').val()
-  //console.log(group)
+  var group = $('input[name="group"]:checked').val()
+ // console.log(group)
   //var fileUrl = 'http://q57rsiym9.bkt.clouddn.com/'+$('#hh').val()
   var fileUrl = $('#hh').val()
  // console.log(content)
@@ -194,7 +203,8 @@ $('#new_btn').on('click', function(e){
       'content': content,
       'fileUrl': fileUrl,
       'time': time,
-      'group': group
+      'group': group,
+      'course_id': course_id
     },
     dataType: 'json',
     success: function (data){

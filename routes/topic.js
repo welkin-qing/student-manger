@@ -9,7 +9,8 @@ var router = express.Router()
 //new 发布作业
 router.get('/new', function (req, res) {
   var num = req.session.user.num
-  var str = "select * from course where num ='"+num+"';"
+  //选择未结束的课程
+  var str = "select * from course where num ='"+num+"'and end='0';"
   db.query(str, (err, result)=>{
     if(err) {throw err}
     res.render('topic/new.html', {
@@ -22,15 +23,15 @@ router.post('/new', function (req, res) {
 
   var duty = req.session.user.duty
   var body = req.body
-  //console.log(body)
+  console.log(body)
   if (duty === 1) {
     //teacher
     var num = req.session.user.num
     var name = req.session.user.name
     var id = body.time
     // str = 'select * from file;'
-    var str = `insert into file (topic, content, time, teacher_name, teacher_num, file_name, is_group)
-       values('`+body.topic+`', '`+body.content+`', '`+body.time+`', '`+name+`', '`+num+`', '`+body.fileUrl+`', '`+body.group+`');`
+    var str = `insert into file (topic, content, time, teacher_name, teacher_num, file_name, is_group,course_id)
+       values('`+body.topic+`', '`+body.content+`', '`+body.time+`', '`+name+`', '`+num+`', '`+body.fileUrl+`', '`+body.group+`','`+body.course_id+`');`
     db.query(str, (err, result) => {
       if (err) { throw err }
       //console.log(result.length)//得到数据长度
