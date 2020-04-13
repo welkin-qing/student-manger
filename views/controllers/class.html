@@ -46,19 +46,56 @@
     {{/if}}
   </div>
 </section>
+
+<!-- 导出学生信息模态框 -->
+<div class="modal fade" id="export_modal" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">导出班级信息</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3 col-sm-3" style="text-align: center;">
+            <img src="../../public/img/warning-icon.png" alt="" style="width: 70px; height: 70px; margin-top: 20px;">
+          </div>
+          <div class="col-md-8 col-sm-8">
+            <h3>是否确认导出班级信息</h3>
+            <p>(注意：请确定要导出的班级信息，导出的内容为当前列表的搜索结果)</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">
+          <span>取消</span>
+        </button>
+        <button class="btn btn-success" type="button" id="classtable_download">
+          <span>确认下载</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {{/block}}
 {{block 'script'}}
 <script src="../../public/lib/jquery-table2excel/dist/jquery.table2excel.js"></script>
 <script>
+
   $("#btn").click(function(){
-		$("#class_table").table2excel({
-			exclude: ".noExl",
-			name: "Excel Document Name",
-			filename: "classFile",
-			exclude_img: true,
-			exclude_links: true,
-			exclude_inputs: true
-		});
-	});
+    $('#export_modal').modal("show");
+  });
+  $('#classtable_download').click(function(){
+    $("#class_table").table2excel({
+      exclude: ".noExl",
+      name: "Excel Document Name",
+      filename: "classFile",
+      exclude_img: true,
+      exclude_links: true,
+      exclude_inputs: true
+    });
+  })
 </script>
 {{/block}}

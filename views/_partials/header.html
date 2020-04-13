@@ -38,6 +38,10 @@
       
       <ul class="nav navbar-nav navbar-right">
         {{ if user }}
+
+        {{ if user.duty ==0 }}
+        <span class="user_name">管理员</span>
+        {{/if}}
         <span class="user_name">{{ user.name }}</span>
         {{ if user.duty === 1}}
         <a class="btn btn-default navbar-btn" href="/new">发起</a>
@@ -49,10 +53,14 @@
               当前登录用户: {{ user.name }}
             </li> -->
             <!-- <li role="separator" class="divider"></li> -->
+            {{ if user.duty == 0}}
+            <li><a href="/logout">退出</a></li>
+            {{else}}
             <li><a href="/">个人主页</a></li>
             <li><a href="/profile">用户设置</a></li>
             <li><a href="/course">课程信息</a></li>
             <li><a href="/logout">退出</a></li>
+            {{/if}}
           </ul>
         </li>
         {{ else }}

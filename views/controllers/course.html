@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="../../public/css/course.css">
 {{/block}}
 {{block 'body'}}
-<div class="mask"></div>
 <section class="container">
   <div class="course">
     <h4>我的课程：</h4>
@@ -73,47 +72,81 @@
   </div>
 
 </section>
+
 <!-- 老师创建课程表单 -->
-<div id="new_course">
-  <div style="position: relative;margin-top: 20px;">
-    <img class="delete_img" style="cursor:pointer;height:40px;width:40px;position:absolute;top:-22px;right:0px;" src="../../public/img/delete.png">
+<div class="modal fade" id="new_course" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">创建课程</h4>
+      </div>
+      <div class="modal-body">
+        <form id="course_form">
+            <div class="form-group">
+              <label for="course_name">课程名称：</label>
+              <input type="text" class="form-control" name="course_name" value="" placeholder="请输入课程名称" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="course_info">课程信息：</label>
+              <input type="text" class="form-control" name="course_info" value="" placeholder="不得超过15个字" max='15'>
+            </div>
+            <!-- <button type="submit" class="btn btn-success">创建</button> -->
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">
+          <span>取消</span>
+        </button>
+        <button class="btn btn-success" type="submit" id="course_table">
+          <span>确认创建</span>
+        </button>
+      </div>
+    </div>
   </div>
-  <h2 style="text-align: center;">创建课程</h2>
-  <form id="course_form">
-    <div class="form-group">
-      <label for="course_name">课程名称：</label>
-      <input type="text" class="form-control" name="course_name" value="" placeholder="请输入课程名称" autofocus>
-    </div>
-    <div class="form-group">
-      <label for="course_info">课程信息：</label>
-      <input type="text" class="form-control" name="course_info" value="" placeholder="不得超过15个字" max='15'>
-    </div>
-    <button type="submit" class="btn btn-success">创建</button>
-  </form>
 </div>
+
 <!-- 学生添加课程表单 -->
-<div id="add_course">
-  <div style="position: relative;margin-top: 20px;">
-    <img class="delete_img1" style="cursor:pointer;height:40px;width:40px;position:absolute;top:-22px;right:0px;" src="../../public/img/delete.png">
-  </div>
-  <h2 style="text-align: center;">添加课程</h2>
-  <form id="course_stu">
-    <!-- <div class="form-group">
-      <label for="course_name">课程名称：</label>
-      <input type="text" class="form-control" name="course_name" value="" placeholder="请输入课程名称" autofocus>
-    </div> -->
-    <div class="form-group">
-      <label for="course_name">课程ID：</label>
-      <input type="text" class="form-control" name="course_id" value="" placeholder="请输入课程ID" autofocus>
+<div class="modal fade" id="add_course" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;
+        </button>
+        <h4 class="modal-title" id="myModalLabel">添加课程</h4>
+      </div>
+      <div class="modal-body">
+        <form id="course_stu">
+            <!-- <div class="form-group">
+              <label for="course_name">课程名称：</label>
+              <input type="text" class="form-control" name="course_name" value="" placeholder="请输入课程名称" autofocus>
+            </div> -->
+            <div class="form-group">
+              <label for="course_name">课程ID：</label>
+              <input type="text" class="form-control" name="course_id" value="" placeholder="请输入课程ID" autofocus>
+            </div>
+            <!-- <button type="submit" class="btn btn-success">添加</button> -->
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">
+          <span>取消</span>
+        </button>
+        <button class="btn btn-success" type="submit" id="course_addtable">
+          <span>确认添加</span>
+        </button>
+      </div>
     </div>
-    <button type="submit" class="btn btn-success">添加</button>
-  </form>
+  </div>
 </div>
 {{/block}}
 {{block 'script'}}
 <script>
   //delete
-  $('.class_del').on('click', function(e){
+  $('.class_del').on('click', function(){
   var a = confirm("确定删除？")
   var obj = $(this)
   if(a){
@@ -148,38 +181,24 @@ $('.course_item').on('click', function (e) {
 </script>
 <script>
   //teacher
-$('.course_btn').on('click', function(e){
-  e.preventDefault()
-  $('#new_course').css('display','block')
-  $('.mask').css('display', 'block')
-})
-$('.delete_img').on('click',function(e){
-  e.preventDefault()
-  $('#new_course').css('display','none')
-  $('.mask').css('display', 'none')
+$('.course_btn').on('click', function(){
+  $('#new_course').modal("show");
 })
 //student
 $('.student_add').on('click', function(e){
-  e.preventDefault()
-  $('#add_course').css('display','block')
-  $('.mask').css('display', 'block')
+  $('#add_course').modal("show");
 })
-$('.delete_img1').on('click',function(e){
-  e.preventDefault()
-  $('#add_course').css('display','none')
-  $('.mask').css('display', 'none')
-})
-</script>
-<script>
   //创建课程
-  $('#course_form').on('submit', function (e) {
-    e.preventDefault()
-    var formData = $(this).serialize()
-    //console.log(formData)
+  $('#course_table').on('click',function(){
+    var course_name = $('input[name="course_name"]').val()
+    var course_info = $('input[name="course_info"]').val()
     $.ajax({
       url: '/course/new',
       type: 'post',
-      data: formData,
+      data: {
+        'course_name': course_name,
+        'course_info': course_info
+      },
       dataType: 'json',
       success: function(data){
         var err_code = data.err_code
@@ -193,14 +212,12 @@ $('.delete_img1').on('click',function(e){
     })
   })
   //添加课程
-  $('#course_stu').on('submit',function(e){
-    e.preventDefault()
-    var formData = $(this).serialize()
-    console.log(formData)
+  $('#course_addtable').on('click',function(){
+    var course_id = $('input[name="course_id"]').val()
     $.ajax({
       url: '/course/add',
       type: 'post',
-      data: formData,
+      data: {'course_id':course_id},
       dataType: 'json',
       success: function(data){
         var err_code = data.err_code

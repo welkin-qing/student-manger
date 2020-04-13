@@ -106,12 +106,12 @@ router.get('/group', require('./controllers'))
 //组的退出与加入
 router.get('/group/quit', require('./controllers'))
 router.get('/group/add', require('./controllers'))
-
-
 //talk
 router.get('/talk', require('./talk'))
 router.get('/choice', require('./talk'))
 
+//manger
+router.get('/list',require('./manger'))
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

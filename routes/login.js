@@ -41,9 +41,10 @@ router.post('/login', function (req, res, next) {
         // console.log("成功登陆!")
         req.session.user = result[0]
         req.session.user.duty = 0
+        //res.redirect('/list')
         res.status(200).json({
-          err_code: 0,
-          message: 'OK'
+          err_code: 201,
+          message: 'manger OK'
         })
       }
     })

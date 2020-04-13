@@ -186,8 +186,10 @@
   <!-- tips -->
   <div class="tips" style="position: fixed">
     <div style="margin-top: 20px;">
-        <img class="delete_img" style="cursor:pointer;height:40px;width:40px;position:absolute;top:5px;right:10px;" src="../../public/img/delete.png"></div>
-        <h2>文件上传</h2>
+        <button type="button" class="close" style="margin-right: 15px;" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <!-- <img class="delete_img" style="cursor:pointer;height:40px;width:40px;position:absolute;top:5px;right:10px;" src="../../public/img/delete.png"></div> -->
+        <h4 style="color: black;font-weight: 500;margin-left: 15px;">文件上传</h4>
+        <hr>
         <div style="text-align:left;margin-left:20px;">
         <p>1.上传作品时请使用压缩文件(ZIP/RAR/Z7)</p>
         <p>2.压缩文件大小不超过20MB</p>
@@ -195,7 +197,7 @@
         <p>4.请在文件上传完成后再关闭网页，勿中途关闭</p>
         <p>5.请使用电脑上传作品</p>
     </div>
-
+    <hr>
     <div style="margin-top: 30px;">
       <div class="">
     
@@ -205,7 +207,7 @@
     
     
         <div id="container">
-          <a class="btn btn-warning btn-lg " id="pickfiles" href="http://jssdk.demo.qiniu.io/#" style="position: relative; z-index: 1;">
+          <a class="btn btn-warning btn-lg " id="pickfiles" href="http://jssdk.demo.qiniu.io/#" style="position: relative; left:50%;margin-left:-80px;top:-15px;z-index: 1;">
             <i style="font-size: 12px;"class="glyphicon glyphicon-plus"></i>
             <span style="font-size:16px;">选择文件</span>
           </a>
@@ -273,11 +275,12 @@
   }
   //处理文本框，mask的一些逻辑
   $('.upload_file').on('click', function(e){
+
     e.preventDefault()
-    $('.tips').css('display','block')
+   $('.tips').css('display','block')
     $('.mask').css('display', 'block')
   })
-  $('.delete_img').on('click',function(e){
+  $('.close').on('click',function(e){
     e.preventDefault()
     $('.tips').css('display','none')
     $('.mask').css('display', 'none')

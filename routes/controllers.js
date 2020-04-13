@@ -35,7 +35,7 @@ router.get('/course', function(req, res){
 //course new 老师创建课程 
 router.post('/course/new', function(req,res){
   var body = req.body
- // console.log(body)
+  //console.log(body)
   var course_id = random(7,{letters:false})
  // console.log(course_id)
   var num = req.session.user.num
@@ -72,8 +72,8 @@ router.get('/course/delete', function(req, res){
   var str = "delete from course where id='"+id+"';"
   db.query(str, (err, result)=>{
     if(err) {throw err}
-    //2. delete group
-    var str1 = "delete from mygroup2 where course_id='"+id+"';"
+    //2. delete group file
+    var str1 = "delete mygroup2,file from mygroup2 left join file on mygroup2.course_id = file.course_id where mygroup2.course_id ='"+id+"';"
     db.query(str1, (err, data)=>{
       if(err) {throw err}
       res.redirect('/course')
