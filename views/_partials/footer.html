@@ -1,4 +1,21 @@
-<footer class="container">
-  <a style="color:#333;text-decoration: none;" href="http://www.miit.gov.cn/">陕ICP备20004124号-1</a>
-  <p>Copyright © 2019</p>
+<footer style="background: #f5f6f5;
+border-top: 1px solid #ebebeb;
+bottom: 0;width: 100%;">
+  <div class="container">
+    <a style="color:#333;text-decoration: none;" href="http://www.miit.gov.cn/">陕ICP备20004124号-1</a>
+    <p>Copyright © 2019</p>
+  </div>
+
 </footer>
+<script>
+  // footer 始终在页面最底部
+  var foot, windowH, bodyH
+  foot = document.getElementsByTagName('footer')[0];
+  function footer() {
+    windowH = document.documentElement.clientHeight;
+    bodyH = document.body.offsetHeight;
+    bodyH < windowH ? (foot.style.position = 'fixed', foot.style.bottom = '0') : (foot.style.position = '');
+  };
+  footer();
+  window.onresize = function () { footer(); }
+</script>

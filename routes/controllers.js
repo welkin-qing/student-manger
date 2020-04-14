@@ -29,6 +29,16 @@ router.get('/course', function(req, res){
         result: result
       })
     })
+  }else if(duty == 0){
+    //manger 显示所有课程信息
+    var str = "select * from course where duty = '1'"
+    db.query(str, (err, result)=>{
+      if(err) {throw err}
+      res.render('controllers/course.html', {
+        user: req.session.user,
+        result: result
+      })
+    })
   }
 })
 
@@ -88,6 +98,20 @@ router.get('/course/end', function(req, res){
   db.query(str, (err, result)=>{
     if(err) {throw err}
     var str1 = "update file set end='1' where course_id ='"+id+"';"
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.redirect('/course')
+    })
+  })
+})
+
+//cancel course manger cancel 课程
+router.get('/course/cancelend',function(req, res){
+  var id = req.query.id
+  var str = "update course set end='0' where id='"+id+"' and duty='1';"
+  db.query(str, (err, result)=>{
+    if(err) {throw err}
+    var str1 = "update file set end='0' where course_id ='"+id+"';"
     db.query(str1, (err, data)=>{
       if(err) {throw err}
       res.redirect('/course')

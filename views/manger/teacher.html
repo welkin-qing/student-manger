@@ -3,52 +3,45 @@
 {{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
 {{ block 'head' }}
 <link rel="stylesheet" href="../../public/css/new.css">
-<style>
-  .teacher_info{
-    float: right;
-    margin-top: -100px;
-  }
-</style>
+
 {{ /block }}
 
 {{block 'body'}}
 <section class="container">
-  {{include '../_partials/list-nav.html'}}
+  {{include '../_partials/human-nav.html'}}
   <div class="col-md-7">
-    <div class="info">
-      <div class="course_info">
-        <h4>当前课程：{{data[0].course_name}}</h4>
-        <p>课程ID: {{data[0].id}}</p>
-        <hr>
-      </div>
-      <div class="teacher_info">
-        <h4>授课教师：{{data[0].name}}</h4>
-        <p>教工号：{{data[0].num}}</p>
-      </div>
-    </div>
     <div class="list">
       <table id="class_table" class="table table-striped table-bordered table-hover">
         <thead style="color: #0087dc;">
           <tr>
-            <th style="text-align: center">学号</th>
+            <th style="text-align: center">教工号</th>
             <th style="text-align: center">姓名</th>
-            <th style="text-align: center">班级</th>
+            <th style="text-align: center">邮箱</th>
+            <th style="text-align: center">电话</th>
             <th style="text-align: center">操作</th>
           </tr>
         </thead>
         <tbody style="text-align: center">
           {{ each result }}
           <tr>
-            <td>{{'0'+$value.num}}</td>
+            {{if $value.end == 1}}
+            <td style="text-decoration: line-through;font-style:italic;">{{$value.num}}</td>
+            <td style="text-decoration: line-through;font-style:italic;">{{$value.name}}</td>
+            <td style="text-decoration: line-through;font-style:italic;">{{$value.email}}</td>
+            <td style="text-decoration: line-through;font-style:italic;">{{$value.phone}}</td>
+            {{else}}
+            <td>{{$value.num}}</td>
             <td>{{$value.name}}</td>
-            <td>{{$value.class}}</td>
+            <td>{{$value.email}}</td>
+            <td>{{$value.phone}}</td>
+            {{/if}}
             <td>
-              <a style="padding: 2px 6px;font-size: 12px;"class="btn btn-danger" href="javascript:del_btn('/manger/del?id={{$value.id}}&num={{$value.num}}')">删除</a>
-              <!-- {{if $value.end == 0}}
-              <a style="padding: 2px 6px;font-size: 12px;"class="btn btn-warning" href="javascript:stop_btn('/manger/stop?id={{$value.id}}&num={{$value.num}}')">停用</a>
+              <a style="padding: 2px 6px;font-size: 12px;" class="btn btn-danger" href="javascript:del_btn('/teacher/del?num={{$value.num}}')">删除</a>
+              {{if $value.end == 0}}
+              <a style="padding: 2px 6px;font-size: 12px;"class="btn btn-warning" href="javascript:stop_btn('/teacher/stop?num={{$value.num}}')">停用</a>
               {{else}}
-              <a style="padding: 2px 6px;font-size: 12px;"class="btn btn-success" href="javascript:use_btn('/manger/use?id={{$value.id}}&num={{$value.num}}')">启用</a>
-              {{/if}} -->
+              <a style="padding: 2px 6px;font-size: 12px;"class="btn btn-success" href="javascript:use_btn('/teacher/use?num={{$value.num}}')">启用</a>
+              {{/if}}
             </td>
           </tr>
           {{ /each }}
@@ -64,7 +57,7 @@
 <script>
   //del
   function del_btn(url) {
-    layer.confirm('确定删除该课程中的学生？', {
+    layer.confirm('确定删除该账户？', {
       btn: ['删除', '取消'] //按钮
     }, function () {
       layer.msg('删除成功', { icon: 1 });   //点击删除按钮，页面跳转
@@ -75,7 +68,7 @@
   }
   //stop
   function stop_btn(url) {
-    layer.confirm('确定停用？', {
+    layer.confirm('确定停用该账户？', {
       btn: ['确定', '取消'] //按钮
     }, function () {
       layer.msg('停用成功', { icon: 1 });   //点击删除按钮，页面跳转
@@ -86,7 +79,7 @@
   }
   //use
   function use_btn(url) {
-    layer.confirm('确定启用？', {
+    layer.confirm('确定启用该账户？', {
       btn: ['确定', '取消'] //按钮
     }, function () {
       layer.msg('启用成功', { icon: 1 });   //点击删除按钮，页面跳转

@@ -11,8 +11,12 @@
     <ul class="course_list">
       {{ each result }} 
         <li class="course_item">
+          {{ if user.duty == 0}}
+          <a href="/list?id={{$value.id}}" style="text-decoration: none;" onclick="return false;"></a>
+          {{else}}
           <a href="/class?id={{$value.id}}" style="text-decoration: none;" onclick="return false;">
-             {{ if $value.end ==1}}
+          {{/if}}
+            {{ if $value.end ==1}}
             <div class="course_img class-img-con">
               <img src="../../public/img/course.png" alt="">
             </div>
@@ -33,7 +37,17 @@
           {{ if user.duty == 1}}
           <div class="class_set">
             <a class="class_del" href="/course/delete?id={{$value.id}}">删除课程</a>
+            {{ if $value.end == 0}}
             <a class="class_end" href="/course/end?id={{$value.id}}" >结束课程</a>
+            {{/if}}
+          </div>
+          {{/if}}
+          {{ if user.duty == 0}}
+          <div class="class_set">
+            <a class="class_del" href="/course/delete?id={{$value.id}}">删除课程</a>
+            {{ if $value.end == 1}}
+            <a class="cancel_end" href="/course/cancelend?id={{$value.id}}">取消课程结束</a>
+            {{/if}}
           </div>
           {{/if}}
         </li>
@@ -64,16 +78,16 @@
           </li> -->
     </ul>
     {{ if user.duty == 1}}
-    <button type="submit" class="course_btn btn btn-primary"style="float: right;">创建课程</button>
+    <button type="submit" class="course_btn btn btn-primary"style="float: right;"><i style="font-size: 12px;margin-right: 5px;"class="glyphicon glyphicon-plus"></i>创建课程</button>
     {{/if}}
     {{ if user.duty == 2}}
-    <button type="submit" class="student_add btn btn-primary"style="float: right;">添加课程</button>
+    <button type="submit" class="student_add btn btn-primary"style="float: right;"><i style="font-size: 12px;margin-right: 5px;"class="glyphicon glyphicon-plus"></i>添加课程</button>
     {{/if}}
   </div>
 
 </section>
 
-<!-- 老师创建课程表单 -->
+<!-- 老师创建课程表单 modal-->
 <div class="modal fade" id="new_course" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   data-backdrop="static">
   <div class="modal-dialog">
@@ -108,7 +122,7 @@
   </div>
 </div>
 
-<!-- 学生添加课程表单 -->
+<!-- 学生添加课程表单 modal-->
 <div class="modal fade" id="add_course" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
   data-backdrop="static">
   <div class="modal-dialog">
@@ -142,12 +156,25 @@
     </div>
   </div>
 </div>
+
 {{/block}}
 {{block 'script'}}
 <script>
-  //delete
-  $('.class_del').on('click', function(){
-  var a = confirm("确定删除？")
+//delete
+  $('.class_del').on('click', function () {
+    var a = confirm("确定删除？")
+    var obj = $(this)
+    if (a) {
+      window.location.href = $(obj[0]).attr("href")
+      return false;
+    } else {
+      //window.location.href='/course'
+      return false;
+    }
+  })
+  //end
+  $('.class_end').on('click', function(e){
+  var a = confirm("此过程不可逆，确定结束？")
   var obj = $(this)
   if(a){
     window.location.href = $(obj[0]).attr("href")
@@ -157,9 +184,10 @@
     return false;
   }
 })
-  //end
-  $('.class_end').on('click', function(e){
-  var a = confirm("此过程不可逆，确定结束？")
+//cancel end
+//end
+$('.cancel_end').on('click', function(e){
+  var a = confirm("确定取消课程结束？")
   var obj = $(this)
   if(a){
     window.location.href = $(obj[0]).attr("href")

@@ -95,11 +95,12 @@ router.post('/show',require('./topic'))
 router.get('/put', require('./topic'))
 //controllers
 router.get('/course', require('./controllers'))
-//课程的创建、添加、删除、结束
+//课程的创建、添加、删除、结束、取消结束（manger）
 router.post('/course/new',require('./controllers'))
 router.post('/course/add',require('./controllers'))
 router.get('/course/delete',require('./controllers'))
 router.get('/course/end',require('./controllers'))
+router.get('/course/cancelend', require('./controllers'))
 //班级
 router.get('/class', require('./controllers'))
 router.get('/group', require('./controllers'))
@@ -112,6 +113,16 @@ router.get('/choice', require('./talk'))
 
 //manger
 router.get('/list',require('./manger'))
+router.get('/score',require('./manger'))
+router.get('/manger/del', require('./manger'))
+router.get('/teacher',require('./manger'))
+router.get('/teacher/del', require('./manger'))
+router.get('/teacher/stop', require('./manger'))
+router.get('/teacher/use', require('./manger'))
+router.get('/student',require('./manger'))
+router.get('/student/del', require('./manger'))
+router.get('/student/stop', require('./manger'))
+router.get('/student/use', require('./manger'))
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

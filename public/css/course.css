@@ -104,6 +104,13 @@
     float: right;
     padding-right: 10px;
   }
+  .cancel_end{
+    color: #00BBDD;
+    /* position: absolute; */
+    bottom: 21px;
+    float: right;
+    padding-right: 10px;
+  }
   .info_target{
     margin-left: auto;
     color: #00BBDD;
