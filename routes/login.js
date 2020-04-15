@@ -54,7 +54,7 @@ router.post('/login', function (req, res, next) {
     var str = 'select * from teacher where num = ' + num;
     db.query(str, (err, result) => {
       if (err) { throw err }
-      // console.log(result)
+       //console.log(result)
       if (result.length === 0) {
         //console.log("找不到账号！")
         res.status(200).json({
@@ -67,8 +67,12 @@ router.post('/login', function (req, res, next) {
           err_code: 1,
           message: 'password error'
         })
-      }
-      else {
+      }else if(result[0].end == 1){
+        res.status(200).json({
+          err_code: 3,
+          message: '该账户已停用，请联系管理员处理!'
+        })
+      }else {
         // console.log("成功登陆！!")
         req.session.user = result[0]
        // console.log(req.session.user)
@@ -98,8 +102,12 @@ router.post('/login', function (req, res, next) {
           err_code: 1,
           message: 'password error'
         })
-      }
-      else {
+      }else if(result[0].end == 1){
+        res.status(200).json({
+          err_code: 3,
+          message: '该账户已停用，请联系管理员处理!'
+        })
+      }else {
         // console.log("成功登陆！!")
         //console.log(result[0].password)
         req.session.user = result[0]

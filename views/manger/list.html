@@ -39,9 +39,15 @@
         <tbody style="text-align: center">
           {{ each result }}
           <tr>
+            {{ if $value.end == 1}}
+            <td style="text-decoration: line-through;font-style:italic;">{{'0'+$value.num}}</td>
+            <td style="text-decoration: line-through;font-style:italic;">{{$value.name}}</td>
+            <td style="text-decoration: line-through;font-style:italic;">{{$value.class}}</td>
+            {{else}}
             <td>{{'0'+$value.num}}</td>
             <td>{{$value.name}}</td>
             <td>{{$value.class}}</td>
+            {{/if}}
             <td>
               <a style="padding: 2px 6px;font-size: 12px;"class="btn btn-danger" href="javascript:del_btn('/manger/del?id={{$value.id}}&num={{$value.num}}')">删除</a>
               <!-- {{if $value.end == 0}}

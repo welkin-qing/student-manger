@@ -31,7 +31,7 @@ router.get('/score', function(req, res){
     user: req.session.user
   })
 })
-// manger delete
+// manger course delete
 router.get('/manger/del',function(req, res){
   var id = req.query.id
   var num = req.query.num
@@ -78,11 +78,31 @@ router.get('/teacher/del',function(req, res){
 })
 //teacher stop 
 router.get('/teacher/stop',function(req, res){
-  
+  var num = req.query.num
+  //console.log(num,id)
+  var str = "update course set end = '1' where num = '" + num + "';"
+  db.query(str, (err, result)=>{
+    if(err) {throw err}
+    var str1 = "update teacher set end = '1' where num = '" + num + "';"
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.redirect('/teacher')
+    })
+  })
 })
 //teacher use
 router.get('/teacher/use',function(req, res){
-  
+  var num = req.query.num
+  //console.log(num,id)
+  var str = "update course set end = '0' where num = '" + num + "';"
+  db.query(str, (err, result)=>{
+    if(err) {throw err}
+    var str1 = "update teacher set end = '0' where num = '" + num + "';"
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.redirect('/teacher')
+    })
+  })
 })
 // student
 router.get('/student',function(req, res){
@@ -111,9 +131,8 @@ router.get('/student/del', function(req, res){
     })
   })
 })
-// manger stop
-router.get('/manger/stop',function(req, res){
-  var id = req.query.id
+// student stop
+router.get('/student/stop',function(req, res){
   var num = req.query.num
   //console.log(num,id)
   var str = "update course set end = '1' where num = '" + num + "';"
@@ -122,21 +141,22 @@ router.get('/manger/stop',function(req, res){
     var str1 = "update student set end = '1' where num = '" + num + "';"
     db.query(str1, (err, data)=>{
       if(err) {throw err}
-      var url = '/list?id=' + id
-      res.redirect(url)
+      res.redirect('/student')
     })
   })
 })
-//manger use
-router.get('/manger/use',function(req, res){
-  var id = req.query.id
+//student use
+router.get('/student/use',function(req, res){
   var num = req.query.num
   //console.log(num,id)
   var str = "update course set end = '0' where num = '" + num + "';"
   db.query(str, (err, result)=>{
     if(err) {throw err}
-    var url = '/list?id=' + id
-    res.redirect(url)
+    var str1 = "update student set end = '0' where num = '" + num + "';"
+    db.query(str1, (err, data)=>{
+      if(err) {throw err}
+      res.redirect('/student')
+    })
   })
 })
 module.exports = router;

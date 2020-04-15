@@ -21,7 +21,8 @@
     </div>
   </div>
 </section>
-<!-- 导入客户信息模态框 -->
+
+<!-- 导入学生成绩信息模态框 -->
 <div class="modal fade" id="import_modal" table-index="-1" role="dialog"
      aria-labelledby="myModalLabel" aria-hidden="true"
      data-backdrop="static">
@@ -31,7 +32,7 @@
                 <button class="close" type="button" data-dismiss="modal"
                         aria-hidden="true">&times;
                 </button>
-                <h4 class="modal-title" id="myModalLabel">导入客户信息</h4>
+                <h4 class="modal-title" id="myModalLabel">导入学生成绩信息</h4>
             </div>
             <div class="modal-body">
                 <div id="step1">
@@ -39,12 +40,12 @@
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-10 col-sm-10">
                             <div>
-                                <h4>点击下面的下载按钮，下载客户信息电子表格</h4>
+                                <h4>点击下面的下载按钮，下载学生信息电子表格</h4>
                             </div>
                             <div style="margin-top: 30px; margin-buttom: 15px">
                                 <a class="btn btn-info"
-                                   href="commons/fileSource/download/customerInfo.xlsx"
-                                   target="_blank"> <span class="glyphicon glyphicon-download"></span>
+                                   href="../../public/fileSource/score.xlsx" download="score"> 
+                                   <span class="glyphicon glyphicon-download"></span>
                                     <span>下载</span>
                                 </a>
                             </div>
@@ -56,7 +57,7 @@
                         <div class="col-md-1 col-sm-1"></div>
                         <div class="col-md-10 col-sm-10">
                             <div>
-                                <h4>请按照客户信息电子表格中指定的格式填写需要添加的一个或多个客户信息</h4>
+                                <h4>请按照学生信息电子表格中指定的格式填写需要添加的一个或多个学生信息</h4>
                             </div>
                             <div class="alert alert-info"
                                  style="margin-top: 10px; margin-buttom: 30px">
@@ -71,13 +72,15 @@
                         <div class="col-md-8 col-sm-10">
                             <div>
                                 <div>
-                                    <h4>请点击下面上传文件按钮，上传填写好的客户信息电子表格</h4>
+                                    <h4>请点击下面上传文件按钮，上传填写好的学生成绩信息电子表格</h4>
                                 </div>
                                 <div style="margin-top: 30px; margin-buttom: 15px">
-									<span class="btn btn-info btn-file"> <span> <span
-                                            class="glyphicon glyphicon-upload"></span> <span>上传文件</span>
+									<span class="btn btn-info btn-file"> <span> 
+                                        <span class="glyphicon glyphicon-upload"></span> <span>上传文件</span>
 									</span> 
-									<form id="import_file_upload"><input type="file" id="file" name="file"></form>
+									<form id="import_file_upload" style="position: relative;">
+                                        <input type="file" id="file" style="width:100px;opacity: 0;position: absolute;left:-14px;top:-25px;" name="file">
+                                    </form>
 									</span>
                                 </div>
                             </div>
@@ -109,11 +112,11 @@
                         <div class="col-md-4 col-sm-4">
                             <div id="import_result" class="hide">
                                 <div id="import_success" class="hide" style="text-align: center;">
-                                    <img src="media/icons/success-icon.png" alt=""
+                                    <img src="../../public/img/success-icon.png" alt=""
                                          style="width: 100px; height: 100px;">
                                 </div>
                                 <div id="import_error" class="hide" style="text-align: center;">
-                                    <img src="media/icons/error-icon.png" alt=""
+                                    <img src="../../public/img/error-icon.png" alt=""
                                          style="width: 100px; height: 100px;">
                                 </div>
                             </div>
@@ -155,71 +158,80 @@
   var import_step = 1;
     var import_start = 1;
     var import_end = 3;
-$('#btn').click(function(){
-  $('#import_modal').modal("show")
-})
-$('#next').click(function () {
-  if (import_step < import_end) {
-    var nowID = "step" + import_step;
-    var nextID = "step" + (import_step + 1);
+    $('#btn').click(function () {
+        $('#import_modal').modal("show")
+    })
+    $('#next').click(function () {
+        if (import_step < import_end) {
+            var nowID = "step" + import_step;
+            var nextID = "step" + (import_step + 1);
 
-    $('#' + nowID).addClass("hide");
-    $('#' + nextID).removeClass("hide");
-    import_step++;
-  }
-})
-  $('#previous').click(function () {
-    if (import_step > import_start) {
-      var preID = "step" + (import_step - 1)
-      var nowID = "step" + import_step;
+            $('#' + nowID).addClass("hide");
+            $('#' + nextID).removeClass("hide");
+            import_step++;
+        }
+    })
+    $('#previous').click(function () {
+        if (import_step > import_start) {
+            var preID = "step" + (import_step - 1)
+            var nowID = "step" + import_step;
 
-      $('#' + nowID).addClass("hide");
-      $('#' + preID).removeClass("hide");
-      import_step--;
+            $('#' + nowID).addClass("hide");
+            $('#' + preID).removeClass("hide");
+            import_step--;
+        }
+    })
+    // 导入客户模态框重置
+  function importModalReset() {
+    var i;
+    for (i = import_start; i <= import_end; i++) {
+      var step = "step" + i;
+      $('#' + step).removeClass("hide")
     }
-  })
-// 导入客户模态框重置
-function importModalReset() {
-        var i;
-        for (i = import_start; i <= import_end; i++) {
-            var step = "step" + i;
-            $('#' + step).removeClass("hide")
-        }
-        for (i = import_start; i <= import_end; i++) {
-            var step = "step" + i;
-            $('#' + step).addClass("hide")
-        }
-        $('#step' + import_start).removeClass("hide");
+    for (i = import_start; i <= import_end; i++) {
+      var step = "step" + i;
+      $('#' + step).addClass("hide")
+    }
+    $('#step' + import_start).removeClass("hide");
 
-        $('#import_progress_bar').removeClass("hide");
-        $('#import_result').removeClass("hide");
-        $('#import_success').removeClass('hide');
-        $('#import_error').removeClass('hide');
-        $('#import_progress_bar').addClass("hide");
-        $('#import_result').addClass("hide");
-        $('#import_success').addClass('hide');
-        $('#import_error').addClass('hide');
-        $('#import_info').text("");
-        $('#file').val("");
+    $('#import_progress_bar').removeClass("hide");
+    $('#import_result').removeClass("hide");
+    $('#import_success').removeClass('hide');
+    $('#import_error').removeClass('hide');
+    $('#import_progress_bar').addClass("hide");
+    $('#import_result').addClass("hide");
+    $('#import_success').addClass('hide');
+    $('#import_error').addClass('hide');
+    $('#import_info').text("");
+    $('#file').val("");
 
-        $('#previous').removeClass("hide");
-        $('#next').removeClass("hide");
+    $('#previous').removeClass("hide");
+    $('#next').removeClass("hide");
+    $('#submit').removeClass("hide");
+    $('#confirm').removeClass("hide");
+    $('#submit').addClass("hide");
+    $('#confirm').addClass("hide");
+
+    //$('#file').wrap('<form>').closest('form').get(0).reset();
+    //$('#file').unwrap();
+    //var control = $('#file');
+    //control.replaceWith( control = control.clone( true ) );
+    $('#file').on("change", function () {
+        $('#previous').addClass("hide");
+        $('#next').addClass("hide");
         $('#submit').removeClass("hide");
-        $('#confirm').removeClass("hide");
-        $('#submit').addClass("hide");
-        $('#confirm').addClass("hide");
+    })
 
-        //$('#file').wrap('<form>').closest('form').get(0).reset();
-        //$('#file').unwrap();
-        //var control = $('#file');
-        //control.replaceWith( control = control.clone( true ) );
-        $('#file').on("change", function () {
-            $('#previous').addClass("hide");
-            $('#next').addClass("hide");
-            $('#submit').removeClass("hide");
-        })
-
-        import_step = 1;
+    import_step = 1;
     }
+</script>
+<script>
+$('#file').click(function(){
+    console.log('111')
+    //构建 FormData 对象
+    var formData = new FormData(document.getElementById("import_file_upload"));
+    // formData.append("file", fileObj);
+    console.log(formData)
+})
 </script>
 {{/block}}
