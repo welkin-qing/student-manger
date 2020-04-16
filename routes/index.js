@@ -123,6 +123,7 @@ router.get('/student',require('./manger'))
 router.get('/student/del', require('./manger'))
 router.get('/student/stop', require('./manger'))
 router.get('/student/use', require('./manger'))
+router.post('/manger/score',require('./manger'))
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

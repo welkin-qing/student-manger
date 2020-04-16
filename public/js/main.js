@@ -81,3 +81,43 @@ function formatDate(date) {
     // template.defaults.imports.dateFmt = function(ns){
     //   return new Date(parseInt(ns)).toLocaleString();
     //   };
+
+
+//判断非空
+	function isnull(val) {
+
+		var val_str = new String(val)
+      var str = val_str.replace(/(^\s*)|(\s*$)/g, '');//去除空格;
+//	console.log(str)
+
+	if(str == undefined){
+		console.log('999')
+	}
+		if (str == '' || str == undefined || str == null || str == 'undefined' || str == 'null') {
+			//return true;
+			console.log('空')
+			return false
+		} else {
+			//return false;
+			console.log('非空');
+			return true
+		}
+	}
+//isnull(null)
+//判断多输入是否为空
+	function str_null(a, b, c, d) {
+		console.log(a, b, c, d)
+		var a1 = isnull(a)
+		var b1 = isnull(b)
+		var c1 = isnull(c)
+		var d1 = isnull(d)
+		console.log(a1, b1, c1, d1)
+		if (a1 && b1 && c1 && d1) {
+			//console.log('true')
+			return true
+		} else {
+			//console.log('false')
+			return false
+		}
+	}
+//str_null(4161122, ' 刘健' ,' 计科1603', 76)
