@@ -10,15 +10,34 @@
   line-height:30px;
   padding:0 20px;
   color:#333;
+  cursor: pointer;
 }
 .res-row-title .slidedown-button {
   float: right;
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 6px;
   color: #0BD;
   cursor: pointer;
+  transition: transform 1s;
+}
+.rotate{
+  transform: rotate(0);
+  transition: transform 1s;
+}
+.rotate1{
+  transform: rotate(-180);
+  transition: transform 1s;
+  /* -webkit-transform: rotate(-180);
+  -webkit-transtion: all .3s linear; */
 }
 #class_table{
   border-left: 0;
   border-right: 0;
 }
+.hide-div{
+  display: none;
+}
+
+/*
+动画 表格
+*/

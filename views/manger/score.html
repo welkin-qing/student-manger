@@ -1,6 +1,7 @@
 {{extend '../_layouts/home.html'}} {{block 'title'}}{{'科协管理 - 首页'}}{{/block}} {{ block 'head' }}
 <link rel="stylesheet" href="../../public/css/new.css">
 <link rel="stylesheet" href="../../public/lib/bootstrapvalidator/dist/css/bootstrapValidator.css">
+<link rel="stylesheet" href="../../node_modules/bootstrap-table/dist/bootstrap-table.css">
 <link rel="stylesheet" href="../../public/css/score.css">
 <style>
 	.teacher_info {
@@ -11,44 +12,61 @@
 {{ /block }} {{block 'body'}}
 <section class="container">
 	{{include '../_partials/list-nav.html'}}
-	<div class="col-md-7">
+	<div class="col-md-9">
+		<div class="info">
+			<div class="course_info">
+				<h4>当前课程：{{data[0].course_name}}</h4>
+				<p>课程ID: {{data[0].id}}</p>
+				<hr>
+			</div>
+			<div style="margin-right:200px;"class="teacher_info">
+				<h4>授课教师：{{data[0].name}}</h4>
+				<p>教工号：{{data[0].num}}</p>
+			</div>
+		</div>
 		{{ if result.length == 0 }}
 		<div>
-			<p>当前这门课还没有导入成绩，快快导入吧！</p>
+			<p>当前这门课还没有成绩！</p>
 		</div>
-		{{ /if }}
+		{{else}}
 		<div id="res-list-box">
+			{{ each result}}
 			<div class="res-row-box drag-res-box">
 				<div class="res-row-title">
-					<span>gggg</span> <span>（共45人）</span>
-					<i class="glyphicon glyphicon-menu-down slidedown-button"></i>
+					<span>{{$value[0].score_info}}</span> <span style="line-height: 30px;">（共{{$value.length}}人）</span>
+					<i class="glyphicon glyphicon-menu-down slidedown-button rotate"></i>
 				</div>
 				<div class="hide-div">
 					<table id="class_table" class="table table-striped table-bordered table-hover"
-					style="border-left: 0;border-right: 0;">
+					style="border-left: 0;border-right: 0;" >
 						<thead style="color: #0087dc;">
 							<tr>
 								<th style="text-align: center">学号</th>
 								<th style="text-align: center">姓名</th>
 								<th style="text-align: center">班级</th>
 								<th style="text-align: center">得分</th>
+								<th style="text-align: center">操作</th>
 							</tr>
 						</thead>
 						<tbody style="text-align: center">
-							{{ each result }}
+							{{each $value}}
 							<tr>
 								<td>{{'0'+$value.num}}</td>
 								<td>{{$value.name}}</td>
 								<td>{{$value.class}}</td>
 								<td>{{$value.score}}</td>
+								<td><a class="mod_score"href="javascript:;" name="num={{$value.num}}&class={{$value.class}}&name={{$value.name}}&score_id={{$value.score_id}}&score={{$value.score}}">修改</a>
+								<a href="javascript:del_btn('/score/del?course_id={{data[0].id}}&score_id={{$value.score_id}}&num={{$value.num}}')">删除</a></td>
 							</tr>
 							{{/each}}
 						</tbody>
 					</table>
+					<a  class="btn btn-primary add_score" href="javascript:;" name="score_id={{$value[0].score_id}}&score_info={{$value[0].score_info}}">添加学生成绩</a>
 				</div>
 			</div>
-		</div>
-
+			{{/each}}
+		{{ /if }}
+		
 		<hr>
 		<div>
 			<button id="btn" class="btn btn-success">
@@ -58,7 +76,6 @@
 </section>
 <input type="text" value="{{id}}" id="course_id" style="display: none;">
 
-{{result}}
 
 <!-- 导入学生成绩信息模态框 -->
 <div class="modal fade" id="import_modal" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
@@ -185,9 +202,100 @@
 		</div>
 	</div>
 </div>
+
+<!-- 修改学生信息模态框 -->
+<div class="modal fade" id="mod_modal" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;
+        </button>
+				<h4 class="modal-title" id="myModalLabel">修改学生成绩：</h4>
+				<p>当前学生的学号为：<span id="score_num"></span></p>
+      </div>
+      <div class="modal-body">
+        <form id="mod_form">
+            <div class="form-group">
+              <label for="st_name">姓名：</label>
+              <input type="text" class="form-control" name="mod_name" value="" placeholder="请输入姓名" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="st_class">班级：</label>
+              <input type="text" class="form-control" name="mod_class" value="" placeholder="请输入班级">
+						</div>
+						<div class="form-group">
+								<label for="st_class">成绩：</label>
+								<input type="text" class="form-control" name="mod_score" value="" placeholder="请输入成绩">
+							</div>
+						<!-- <button type="submit" class="btn btn-success">添加</button> -->
+						<input name="mod_score_id" type="text" value='' style="display: none;">
+						<input name="mod_course_id" type="text" value='{{data[0].id}}' style="display: none;">
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">
+          <span>取消</span>
+        </button>
+        <button class="btn btn-success" type="submit" id="score_modtable">
+          <span>确认修改</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 添加学生信息模态框 -->
+<div class="modal fade" id="add_modal" table-index="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+  data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-hidden="true">&times;
+        </button>
+				<h4 class="modal-title" id="myModalLabel">添加学生成绩：</h4>
+      </div>
+      <div class="modal-body">
+        <form id="add_form">
+						<div class="form-group">
+								<label for="st_name">学号：</label>
+								<input type="text" class="form-control" name="add_num" value="" placeholder="请输入学号" autofocus>
+							</div>
+            <div class="form-group">
+              <label for="st_name">姓名：</label>
+              <input type="text" class="form-control" name="add_name" value="" placeholder="请输入姓名" autofocus>
+            </div>
+            <div class="form-group">
+              <label for="st_class">班级：</label>
+              <input type="text" class="form-control" name="add_class" value="" placeholder="请输入班级">
+						</div>
+						<div class="form-group">
+								<label for="st_class">成绩：</label>
+								<input type="text" class="form-control" name="add_score" value="" placeholder="请输入成绩">
+							</div>
+						<!-- <button type="submit" class="btn btn-success">添加</button> -->
+						<input name="add_score_id" type="text" value='' style="display: none;">
+						<input name="add_course_id" type="text" value='{{data[0].id}}' style="display: none;">
+						<input name="add_score_info" type="text" value='' style="display: none;">
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">
+          <span>取消</span>
+        </button>
+        <button class="btn btn-success" type="submit" id="score_addtable">
+          <span>确认添加</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 {{/block}} {{block 'script'}}
 <script src="../../public/lib/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
+<script src="../../public/lib/layer-v3.1.1/layer/layer.js"></script>
+<script src="../../public/js/score.js"></script>
 <script>
+	//上传信息
 	$(function () {
 		$('#scoreid_info').bootstrapValidator({
 			message: 'This value is not valid',
@@ -202,6 +310,43 @@
 						notEmpty: {
 							message: '输入不能为空'
 						}
+					}
+				},
+				wqfile: {
+					trigger: 'input propertychange change focus',
+					validators: {
+						regexp: {
+							regexp: /\w(\.xlsx)/i,
+							message: '仅支持上传xlsx格式的文件'
+						},
+						notEmpty: {
+							message: '请上传文件！'
+						},
+					}
+				}
+			}
+		});
+	});
+	//上传文件后缀
+	$(function () {
+		$('#import_file_upload').bootstrapValidator({
+			message: 'This value is not valid',
+			feedbackIcons: {
+				valid: 'glyphicon glyphicon-ok',
+				invalid: 'glyphicon glyphicon-remove',
+				validating: 'glyphicon glyphicon-refresh'
+			},
+			fields: {
+				wqfile: {
+					trigger: 'input propertychange change focus',
+					validators: {
+						regexp: {
+							regexp: /\w(\.xlsx)/i,
+							message: '仅支持上传xlsx格式的文件'
+						},
+						notEmpty: {
+							message: '请上传文件！'
+						},
 					}
 				}
 			}
@@ -294,12 +439,23 @@
 		$('#confirm').removeClass("hide");
 		$('#submit').addClass("hide");
 		var course_id = $('#course_id').val()
+		//判断上传文件描述
 		var score_info = $('input[name="score_info"]').val()
 		if (score_info == '') {
 			window.alert('学生成绩表描述不能为空，请重新输入!')
 			window.location.replace(window.location.href)
 			return;
 		}
+		//判断上传文件类型
+		var fileType = $('input[name="wqfile"]').val()
+		file_type = fileType.split('.')[1]
+		console.log(file_type)
+		if(file_type != 'xlsx'){
+			window.alert('文件类型出错，请重新上传!')
+			window.location.replace(window.location.href)
+			return;
+		}
+		
 		// var fileObj = document.getElementById("import_file_upload"); // js 获取文件对象
 		// console.log(fileObj)
 		// //构建 FormData 对象
@@ -349,5 +505,124 @@
 		})
 	})
 </script> 
+<script>
+	$('.res-row-title').click(function () {
+		var that = $(this)[0].lastElementChild
+		if ($(that).hasClass("rotate")) {
+			$(that).removeClass("rotate").addClass("rotate1");
+			$(that).css('transform', 'rotate(-180deg)')
+		} else {
+			$(that).removeClass("rotate1").addClass("rotate");
+			$(that).css('transform', 'rotate(0deg)')
+		}
+		$($(this)[0].nextElementSibling).toggle();
 
+	})
+</script>
+<script>
+	function del_btn(url) {
+    layer.confirm('确定删除？', {
+      btn: ['删除', '取消'] //按钮
+    }, function () {
+      layer.msg('删除成功', { icon: 1 });   //点击删除按钮，页面跳转
+      self.location.href = url
+    }, function () {
+      layer.msg('取消', {});   // 点击取消按钮，弹出框消失，页面不跳转
+    });
+  }
+</script>
+<script>
+$('.mod_score').click(function(){
+	$('#mod_modal').modal('show')
+	var info_score = $(this).attr('name').split('&')
+	console.log(info_score)
+	var data_info={}
+	for (var i = 0; i < info_score.length; i++) {
+		data_info[info_score[i].split("=")[0]] = info_score[i].split("=")[1].trim()
+	}
+	//console.log(data_info)
+	//显示默认值
+	$('#score_num').html('0'+data_info.num)
+	$('input[name="mod_name"]').val(data_info.name)
+	$('input[name="mod_class"]').val(data_info.class)
+	$('input[name="mod_score"]').val(data_info.score)
+	$('input[name="mod_score_id"]').val(data_info.score_id)
+})
+$('#score_modtable').click(function(){
+	var num = parseInt($('#score_num').html())
+	var name = $('input[name="mod_name"]').val()
+	var class_i = $('input[name="mod_class"]').val()
+	var score = $('input[name="mod_score"]').val()
+	var score_id = 	$('input[name="mod_score_id"]').val()
+	var course_id = $('input[name="mod_course_id"]').val()
+	$.ajax({
+		url:'/score/mod',
+		type:'post',
+		data:{
+			'num': num,
+			'class': class_i,
+			'name': name,
+			'score': score,
+			'score_id': score_id,
+			'course_id': course_id
+		},
+		dataType: 'json',
+		success: function(data){
+			var err_code = data.err_code
+			if(err_code == 0){
+				window.location.replace(window.location.href)
+			}
+		},
+		error: function(){
+			window.location.href='/login'
+		}
+	})
+})
+</script>
+<script>
+	$('.add_score').click(function(){
+		$('#add_modal').modal('show')
+		var info_score = $(this).attr('name').split('&')
+		//console.log(info_score)
+		var data_info = {}
+		for (var i = 0; i < info_score.length; i++) {
+			data_info[info_score[i].split("=")[0]] = info_score[i].split("=")[1].trim()
+		}
+		//console.log(data_info)
+		$('input[name="add_score_id"]').val(data_info.score_id)
+		$('input[name="add_score_info"]').val(data_info.score_info)
+	})
+$('#score_addtable').click(function(){
+	var num = $('input[name="add_num"]').val()
+	var name = $('input[name="add_name"]').val()
+	var class_i = $('input[name="add_class"]').val()
+	var score = $('input[name="add_score"]').val()
+	var score_id = 	$('input[name="add_score_id"]').val()
+	var score_info = 	$('input[name="add_score_info"]').val()
+	var course_id = $('input[name="add_course_id"]').val()
+	$.ajax({
+		url: '/score/add',
+		type: 'post',
+		data: {
+			'num': num,
+			'class': class_i,
+			'name': name,
+			'score': score,
+			'score_id': score_id,
+			'score_info': score_info,
+			'course_id': course_id
+		},
+		dataType: 'json',
+		success: function(data){
+			var err_code = data.err_code
+			if(err_code == 0){
+				window.location.replace(window.location.href)
+			}
+		},
+		error: function(){
+			window.location.href = '/login'
+		}
+	})
+})
+</script>
 {{/block}}

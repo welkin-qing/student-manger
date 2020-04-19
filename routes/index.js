@@ -124,6 +124,9 @@ router.get('/student/del', require('./manger'))
 router.get('/student/stop', require('./manger'))
 router.get('/student/use', require('./manger'))
 router.post('/manger/score',require('./manger'))
+router.get('/score/del', require('./manger'))
+router.post('/score/mod', require('./manger'))
+router.post('/score/add', require('./manger'))
 //logout
 router.get('/logout', function (req, res) {
   // 清除登陆状态

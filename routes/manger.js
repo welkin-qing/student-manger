@@ -1,8 +1,6 @@
-var express = require('express')
-var url = require('url')
-var formidable = require('formidable');
+var express = require('express')//
 var path = require('path');
-//var User = require('./models/user')
+var random = require('string-random')
 var md5 = require('blueimp-md5')
 //var mysql = require('mysql')
 var db = require('../models/db')
@@ -11,7 +9,7 @@ var fs = require('fs')
 var xlsx = require('node-xlsx');
 var multiparty = require('multiparty');
 var router = express.Router()
-var upload = multer({dest:'upload/'});
+//var upload = multer({dest:'upload/'});
 router.get('/list', function (req, res) {
   var id = req.query.id
  // console.log('class'+ id)
@@ -163,20 +161,37 @@ router.get('/student/use',function(req, res,next){
 })
 
 //score
-router.get('/score', function(req, res, next){
+router.get('/score', function (req, res, next) {
   var id = req.query.id
-  var str = "select * from st_score where course_id = '"+id+"';"
-  db.query(str, (err, result) => {
-    if(err) {return next(err)}
-    res.render('manger/score.html', {
-      user: req.session.user,
-      id: id,
-      result: result
+  var str1 = "select * from course where id = '" + id + "' and duty ='1';"
+  db.query(str1, (err, data) => {
+    if (err) { return next(err) }
+    var str = "select * from st_score where course_id = '" + id + "';"
+    db.query(str, (err, result) => {
+      let resultFilter = {}
+      result.map((item) => {
+        if (resultFilter[String(item.score_id)]) {
+          resultFilter[String(item.score_id)].push(item)
+          // console.log(item)
+        } else {
+          let arr = []
+          arr.push(item)
+          resultFilter[String(item.score_id)] = arr
+        }
+      })
+      res.render('manger/score.html', {
+        user: req.session.user,
+        data: data,
+        result: resultFilter
+      })
     })
   })
+
 })
 
 router.post('/manger/score', function (req, res, next) {
+  //生成记录 8位 id
+  var score_id = random(8,{letters:false})
   var form = new multiparty.Form()
   form.uploadDir = path.join(__dirname, '../upload')
   var folder = form.uploadDir
@@ -238,20 +253,20 @@ router.post('/manger/score', function (req, res, next) {
     var available = 0;
     var total = parseInt(data_msg.length-1)
     var str = ``
-    var str1 = 'insert into st_score (course_id, score_info, num, name, class, score) values '
+    var str1 = 'insert into st_score (course_id, score_info, num, name, class, score, score_id) values '
     var str2 = ''
     for(let i=1; i<data_msg.length-1; i++){
       var msg_isnull = str_null(data_msg[i][0],data_msg[i][1],data_msg[i][2],data_msg[i][3])
       //console.log(msg_isnull)
       if(msg_isnull){
-        str2 = str2+"('"+course_id+"','"+score_info+"','"+data_msg[i][0]+"','"+data_msg[i][1]+"','"+data_msg[i][2]+"','"+data_msg[i][3]+"'),"
+        str2 = str2+"('"+course_id+"','"+score_info+"','"+data_msg[i][0]+"','"+data_msg[i][1]+"','"+data_msg[i][2]+"','"+data_msg[i][3]+"','"+score_id+"'),"
         available++
       }
     }
     var j = parseInt(data_msg.length-1)
     var msg_isnull1 = str_null(data_msg[j][0],data_msg[j][1],data_msg[j][2],data_msg[j][3])
     if(msg_isnull1){
-      str3 = "('"+course_id+"','"+score_info+"','"+data_msg[j][0]+"','"+data_msg[j][1]+"','"+data_msg[j][2]+"','"+data_msg[j][3]+"');"
+      str3 = "('"+course_id+"','"+score_info+"','"+data_msg[j][0]+"','"+data_msg[j][1]+"','"+data_msg[j][2]+"','"+data_msg[j][3]+"','"+score_id+"');"
       available++
     }else{
       str3=";"
@@ -286,6 +301,56 @@ router.post('/manger/score', function (req, res, next) {
         total: total,
         available: available
       })
+    })
+  })
+})
+//score del
+router.get('/score/del', function(req, res, next){
+  var course_id = req.query.course_id
+  var num = req.query.num
+  var score_id = req.query.score_id
+  //console.log(num, score_id, course_id)
+  var str = "delete from st_score where course_id='"+course_id+"' and num='"+num+"' and score_id='"+score_id+"';"
+  db.query(str, (err, data)=>{
+    if(err) {return next(err)}
+    //score?id=2020213
+    var url = '/score?id='+course_id
+    res.redirect(url)
+  })
+
+
+
+})
+//score mod
+router.post('/score/mod', function(req, res, next){
+  var body = req.body
+  var num = body.num
+  var score_id = body.score_id
+  var course_id = body.course_id
+  str = "update st_score set name='"+body.name+"',class='"+body.class+"',score='"+body.score+"' where num='"+num+"' and score_id='"+score_id+"' and course_id='"+course_id+"';"
+  //console.log(str)
+  db.query(str, (err, result)=>{
+    if(err) {return next(err)}
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok'
+    })
+  })
+})
+// score add
+router.post('/score/add', function(req, res, next){
+  var body = req.body
+  //console.log(body)
+  var score_id = body.score_id
+  var course_id = body.course_id
+  var str = `insert into st_score (course_id, score_info, num, name, class, score, score_id) values
+   ('`+course_id+`','`+body.score_info+`','`+body.num+`','`+body.name+`','`+body.class+`','`+body.score+`','`+score_id+`');`
+  //console.log(str)
+  db.query(str, (err, result) => {
+    if(err) {return next(err)}
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok'
     })
   })
 })
