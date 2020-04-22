@@ -2,6 +2,7 @@
 
 {{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
 {{block 'head'}}
+<link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap-theme.css">
 <style>
   .table, th ,td{
     text-align: center
@@ -13,6 +14,7 @@
 {{/block}}
 {{block 'body'}}
 <section class="container">
+    <a href="#" data-toggle="tooltip" title="Some tooltip text!">Hover over me</a>
   {{include '../_partials/controllers-nav.html'}}
   <div class="col-md-7">
     {{ if user.duty == 2}}
@@ -39,19 +41,19 @@
         <tr>
           <td width="60px;">{{$value[0].id}}</td>
           {{if $value[0].name}}
-          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
+          <td data-toggle="tooltip" data-trigger="hover" data-container="body" data-placement="top" data-title="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
           {{else}}
           <td></td>
           {{/if}} {{if $value[1].name}}
-          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
+          <td data-toggle="tooltip" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
           {{else}}
           <td></td>
           {{/if}} {{if $value[2].name}}
-          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
+          <td data-toggle="tooltip" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
           {{else}}
           <td></td>
           {{/if}} {{if $value[3].name}}
-          <td data-toggle="popover" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
+          <td data-toggle="tooltip" data-trigger="hover" data-container="body" data-placement="top" data-content="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
           {{else}}
           <td></td>
           {{/if}}
@@ -88,22 +90,23 @@
             <td>{{$value[2].name}}</td>
             <td>{{$value[3].name}}</td> -->
             {{if $value[0].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">{{$value[0].name}}</td>
+            <td data-toggle="tooltip"data-trigger="hover"data-container="body" data-placement="top" title="{{'0'+$value[0].num+' - '}}{{$value[0].class}}">
+              <a href="#" data-toggle="tooltip" title="Some tooltip text!">{{$value[0].name}}</a></td>
             {{else}}
             <td></td>
             {{/if}}
             {{if $value[1].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
+            <td data-toggle="tooltip"data-trigger="hover"data-container="body" data-placement="top" data-title="{{'0'+$value[1].num+' - '}}{{$value[1].class}}">{{$value[1].name}}</td>
             {{else}}
             <td></td>
             {{/if}}
             {{if $value[2].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
+            <td data-toggle="tooltip" data-trigger="hover" data-container="body" data-placement="top" data-title="{{'0'+$value[2].num+' - '}}{{$value[2].class}}">{{$value[2].name}}</td>
             {{else}}
             <td></td>
             {{/if}}
             {{if $value[3].name}}
-            <td data-toggle="popover"data-trigger="hover"data-container="body" data-placement="top" data-content ="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
+            <td data-toggle="tooltip"data-trigger="hover"data-container="body" data-placement="top" data-title="{{'0'+$value[3].num+' - '}}{{$value[3].class}}">{{$value[3].name}}</td>
             {{else}}
             <td></td>
             {{/if}}
@@ -136,13 +139,23 @@
 </section>
 {{/block}}
 {{block 'script'}}
-<script src="../../public/lib/layer-v3.1.1/layer/layer.js"></script>
 <script>
-  // $('#example').tooltip(options)
+  // $(function () {
+  //       $("[data-toggle='tooltip']").tooltip();
+  //       $("[data-toggle='popover']").popover();
+ 
+  //   });
+</script>
+<script src="../../public/lib/layer-v3.1.1/layer/layer.js"></script>
+<script src="../../public/js/tooltip_wq.js"></script>
+<!-- <script src="../../node_modules/@popperjs/core/dist/umd/popper.js"></script> -->
+<!-- <script src="../../node_modules/@popperjs/core/dist/umd/"></script> -->
+<script>
+  
+
   $(function () {
-    $('[data-toggle="popover"]').popover(); // 也可以使用 $('#text').tooltip(); 来启用弹窗
-    // $('[data-toggle="popover"]').css('z-index','4')
-  });
+      $('[data-toggle="popover"]').popover()
+    })
 </script>
 <script>
   function del_btn(url) {

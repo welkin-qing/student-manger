@@ -20,6 +20,7 @@
   cursor: pointer;
   transition: transform 1s;
 }
+
 .rotate{
   transform: rotate(0);
   transition: transform 1s;

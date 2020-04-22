@@ -24,13 +24,25 @@ router.get('/list', function (req, res) {
       if(err) {throw err}
       res.render('manger/list.html', {
         user: req.session.user,
-        result: result, //student
+        result: JSON.stringify(result), //student
         data: data  //课程
       })
     })
   })
 })
-
+router.get('/course/list', function(req, res){
+  var id = req.query.id
+ // console.log(id)
+  var str = "select * from course where id = '" + id + "' and duty ='2' order by class, num;"
+  db.query(str, (err, result) => {
+    if (err) { throw err }
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      rows: result
+    })
+  })
+})
 // manger course delete
 router.get('/manger/del',function(req, res){
   var id = req.query.id
@@ -52,16 +64,22 @@ router.get('/manger/del',function(req, res){
 
 //teacher
 router.get('/teacher',function(req, res){
+  res.render('manger/teacher.html', {
+    user: req.session.user,
+  })
+})
+//获取teacher list
+router.get('/teacher/list', function(req, res, next){
   var str = "select * from teacher;"
   db.query(str, (err, result) => {
-    if(err) {throw err}
-    res.render('manger/teacher.html', {
-      user: req.session.user,
-      result: result
+    if(err) {return next(err)}
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      rows: result
     })
   })
 })
-
 //teacher del
 router.get('/teacher/del',function(req, res){
   var num = req.query.num
@@ -106,12 +124,19 @@ router.get('/teacher/use',function(req, res){
 })
 // student
 router.get('/student',function(req, res){
+  res.render('manger/student.html', {
+    user: req.session.user,
+  })
+})
+//获取student列表
+router.get('/student/list', function(req, res, next){
   var str = "select * from student;"
   db.query(str, (err, result) => {
-    if(err) {throw err}
-    res.render('manger/student.html', {
-      user: req.session.user,
-      result: result
+    if(err) {return next(err)}
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      rows: result
     })
   })
 })
@@ -188,7 +213,20 @@ router.get('/score', function (req, res, next) {
   })
 
 })
-
+//score/list
+router.get('/score/list', function(req, res, next){
+  var course_id = req.query.course_id
+  var score_id = req.query.score_id
+  var str = "select * from st_score where course_id='"+course_id+"' and score_id='"+score_id+"';"
+  db.query(str, (err, result) =>{
+    if(err) {return next(err)}
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      rows: result
+    })
+  })
+})
 router.post('/manger/score', function (req, res, next) {
   //生成记录 8位 id
   var score_id = random(8,{letters:false})
@@ -321,7 +359,7 @@ router.get('/score/del', function(req, res, next){
 
 
 })
-//score mod
+//score 修改
 router.post('/score/mod', function(req, res, next){
   var body = req.body
   var num = body.num

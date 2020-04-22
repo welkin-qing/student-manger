@@ -3,7 +3,7 @@
 {{block 'title'}}{{'科协管理 - 首页'}}{{/block}}
 {{ block 'head' }}
 <link rel="stylesheet" href="../../public/css/new.css">
-
+<link rel="stylesheet" href="../../node_modules/bootstrap-table/dist/bootstrap-table.css">
 {{ /block }}
 
 {{block 'body'}}
@@ -11,8 +11,8 @@
   {{include '../_partials/human-nav.html'}}
   <div class="col-md-7">
     <div class="list">
-        <table id="class_table" class="table table-striped table-bordered table-hover">
-          <thead style="color: #0087dc;">
+        <table style="text-align: center;"id="student_table" class="table table-striped table-bordered table-hover">
+          <!-- <thead style="color: #0087dc;">
             <tr>
               <th style="text-align: center">学号</th>
               <th style="text-align: center">姓名</th>
@@ -42,7 +42,7 @@
               </td>
             </tr>
             {{ /each }}
-          </tbody>
+          </tbody> -->
         </table>
         </div>
   </div>
@@ -51,6 +51,7 @@
 
 {{block 'script'}}
 <script src="../../public/lib/layer-v3.1.1/layer/layer.js"></script>
+<script src="../../node_modules/bootstrap-table/dist/bootstrap-table.js"></script>
 <script>
   //del
   function del_btn(url) {
@@ -85,5 +86,63 @@
       layer.msg('取消', {});   // 点击取消按钮，弹出框消失，页面不跳转
     });
   }
+</script>
+<script>
+  $('#student_table').bootstrapTable({
+    url: '/student/list',
+    method: 'GET',
+    dataType: 'json',
+    //搜索功能
+    search: true,
+    showSearchClearButton: true,// 清空搜索的 button
+    responseHandler: function (res) {
+       console.log(res)
+      var data_info = res.rows
+      $.each(data_info, function (row, el) {
+        //  console.log(row)
+        $.inArray(row)
+      })
+      return res;
+    },
+    columns: [
+          {
+            field: 'num',
+            title: '学号',
+            formatter: function(data){
+              return '0'+data
+            },
+            halign :"center",
+            sortable: true
+          },
+          {
+            field: 'name',
+            title: '姓名',
+            halign :"center"
+          },
+          {
+            field: 'class',
+            title: '班级',
+            halign :"center",
+          },
+          {
+            field: 'operation',
+            title: '操作',
+            halign :"center",
+            formatter: function (value, row, index) {
+             // console.log(row)
+              var end = row.end
+              if(end){
+                return `<a style="padding: 2px 6px;font-size: 12px;"class="btn btn-danger" href="javascript:del_btn('/student/del?id=`+row.id+`&num=`+row.num+`')">删除</a><a style="padding: 2px 6px;font-size: 12px;"class="btn btn-success" href="javascript:use_btn('/student/use?id=`+row.id+`&num=`+row.num+`')">启用</a>`
+              }else{
+                return `<a style="padding: 2px 6px;font-size: 12px;"class="btn btn-danger" href="javascript:del_btn('/student/del?id=`+row.id+`&num=`+row.num+`')">删除</a><a style="padding: 2px 6px;font-size: 12px;"class="btn btn-warning" href="javascript:stop_btn('/student/stop?id=`+row.id+`&num=`+row.num+`')">停用</a>`
+              }
+              //return `<a style="padding: 2px 6px;font-size: 12px;"class="btn btn-danger" href="javascript:del_btn('/manger/del?id=`+row.id+`&num=`+row.num+`')">删除</a>`
+              // return [
+              //   '<button class="btn btn-danger btn-sm delete"><span>删除</span></button>'
+              // ].join('')
+            }
+          }
+        ]
+  })
 </script>
 {{/block}}
