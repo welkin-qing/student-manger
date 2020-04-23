@@ -12,7 +12,11 @@
 {{ /block }} {{block 'body'}}
 <section class="container">
 	<!-- {{result}} -->
-	{{include '../_partials/list-nav.html'}}
+	{{if user.duty == 0 }}
+		{{include '../_partials/list-nav.html'}}
+	{{else}}
+		{{include '../_partials/controllers-nav.html'}}
+	{{/if}}
 	<div class="col-md-9">
 		<div class="info">
 			<div class="course_info">
@@ -29,6 +33,29 @@
 		<div>
 			<p>当前这门课还没有成绩！</p>
 		</div>
+		{{else if user.duty == 2}}
+			<table class="table table-striped table-bordered table-hover" style="text-align: center;width:700px;">
+				<thead>
+					<tr>
+						<th style="text-align: center;">测试类型</th>
+						<th style="text-align: center;">学号</th>
+						<th style="text-align: center;">班级</th>
+						<th style="text-align: center;">姓名</th>
+						<th style="text-align: center;">得分</th>
+					</tr>
+				</thead>
+				<tbody>
+					{{each result}}
+					<tr>
+						<td>{{$value.score_info}}</td>
+						<td>{{$value.num}}</td>
+						<td>{{$value.class}}</td>
+						<td>{{$value.name}}</td>
+						<td>{{$value.score}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
 		{{else}}
 		<div id="res-list-box">
 			{{ each result}}
@@ -42,27 +69,6 @@
 				<div class="hide-div">
 					<table id="{{$value[0].score_id}}" class="table table-striped table-bordered table-hover"
 					style="text-align: center;" >
-						<!-- <thead style="color: #0087dc;">
-							<tr>
-								<th style="text-align: center">学号</th>
-								<th style="text-align: center">姓名</th>
-								<th style="text-align: center">班级</th>
-								<th style="text-align: center">得分</th>
-								<th style="text-align: center">操作</th>
-							</tr>
-						</thead>
-						<tbody style="text-align: center">
-							{{each $value}}
-							<tr>
-								<td>{{'0'+$value.num}}</td>
-								<td>{{$value.name}}</td>
-								<td>{{$value.class}}</td>
-								<td>{{$value.score}}</td>
-								<td><a class="mod_score"href="javascript:;" name="num={{$value.num}}&class={{$value.class}}&name={{$value.name}}&score_id={{$value.score_id}}&score={{$value.score}}">修改</a>
-								<a href="javascript:del_btn('/score/del?course_id={{data[0].id}}&score_id={{$value.score_id}}&num={{$value.num}}')">删除</a></td>
-							</tr>
-							{{/each}}
-						</tbody> -->
 					</table>
 					<a  style="margin-top: 10px;" class="btn btn-primary add_score" href="javascript:;" name="score_id={{$value[0].score_id}}&score_info={{$value[0].score_info}}">添加学生成绩</a>
 				</div>
@@ -70,11 +76,13 @@
 			{{/each}}
 		{{ /if }}
 		
+		{{if user.duty == 0}}
 		<hr>
 		<div>
 			<button id="btn" class="btn btn-success">
 				<i style="font-size: 12px;margin-right: 5px;" class="glyphicon glyphicon-import"></i>成绩批量导入</button>
 		</div>
+		{{/if}}
 	</div>
 </section>
 <input type="text" value="{{id}}" id="course_id" style="display: none;">

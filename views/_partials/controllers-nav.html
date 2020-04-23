@@ -2,6 +2,7 @@
   <a href="#" class="list-group-item disabled">课程信息</a>
   <a id="class" href="/class?id={{user.course}}" class="list-group-item">成员</a>
   <a id="group" href="/group?id={{user.course}}" class="list-group-item">小组</a>
+  <a id="score" href="/score?id={{user.course}}" class="list-group-item">成绩</a>
 </div>
 <script src="../../node_modules/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
@@ -14,6 +15,9 @@ switch(current){
           break;
   case 'group':
           $("#group").addClass("active").siblings().removeClass("active")
+          break;
+  case 'score':
+          $("#score").addClass("active").siblings().removeClass("active")
           break;
     default:
           break;

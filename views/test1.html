@@ -1,72 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width" />
-    <title>BootStrap Table使用</title>
-    <!-- 1。Jquery组件引用-->
-    <script src="js/jquery-1.10.2.min.js"></script>
-
-    <!--2。bootstrap组件引用-->
-    <script src="js/bootstrap.js"></script>
-    <link href="css/bootstrap.css" rel="stylesheet" />
-    
-	<!-- 3.bootstrap table组件以及中文包的引用-->
-    <script src="js/bootstrap-table.js"></script>
-    <link href="css/bootstrap-table.css" rel="stylesheet" />
-    <script src="js/bootstrap-table-zh-CN.js"></script>
-    <!--4.拖放组件引用-->
-    <script src="js/jquery.tablednd_0_5.js"></script>
-   <script src="js/bootstrap-table-reorder-rows.js"></script>
-   <link rel="stylesheet" href="css/bootstrap-table-reorder-rows.css" />
+	<meta charset="utf-8"> 
+	<title>Bootstrap 实例 - 弹出框（Popover）插件</title>
+	<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>BootStrap-table实现表内行拖放功能</h1>
-        
-        <div id="toolbar">
-            <button id="button" class="btn btn-default">点此生成数据</button>
-        </div>
-        <table id="table"
-               data-toggle="table"
-               data-toolbar="#toolbar"
-               data-height="460"
-               clickToSelect="true"	
-               data-use-row-attr-func="true" 
-               data-reorderable-rows="true">
-               <!--date-use和date-reorderable 拖放属性		clickTOSelect点击选中-->
-            <thead>
-            <tr>
-                <th data-field="id">ID</th>
-                <th data-field="name">Item Name</th>
-                <th data-field="price">Item Price</th>
-            </tr>
-            </thead>
-        </table>
-    </div>
+
+<div class="container" style="padding: 100px 50px 10px;" >
+	<button type="button" class="btn btn-default" title="Popover title"  
+			data-container="body" data-toggle="popover" data-placement="left" 
+			data-content="左侧的 Popover 中的一些内容">
+		左侧的 Popover
+	</button>
+	<button type="button" class="btn btn-primary" title="Popover title"  
+			data-container="body" data-toggle="popover" data-placement="top" 
+			data-content="顶部的 Popover 中的一些内容">
+		顶部的 Popover
+	</button>
+	<button type="button" class="btn btn-success" title="Popover title"  
+			data-container="body" data-toggle="popover" data-placement="bottom" 
+			data-content="底部的 Popover 中的一些内容">
+		底部的 Popover
+	</button>
+	<button type="button" class="btn btn-warning" title="Popover title"  
+			data-container="body" data-toggle="popover" data-placement="right" 
+			data-content="右侧的 Popover 中的一些内容">
+		右侧的 Popover
+	</button>
+</div>
 <script>
-		/*初始化table以及绑定按钮加载随机数据， 可更改为自动加载数据库数据（table添加url属性）*/
-    var $table = $('#table'),
-        $button = $('#button');
-
-    $(function () {
-        $button.click(function () {
-            $table.bootstrapTable('load', randomData());
-        });
-    });
-
-    function randomData() {
-        var startId = ~~(Math.random() * 100),
-            rows = [];
-
-        for (var i = 0; i < 10; i++) {
-            rows.push({
-                id: startId + i,
-                name: 'test' + (startId + i),
-                price: '$' + (startId + i)
-            });
-        }
-        return rows;
-    }
+$(function () { 
+	$("[data-toggle='popover']").popover();
+});
 </script>
+
 </body>
 </html>

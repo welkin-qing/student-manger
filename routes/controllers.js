@@ -171,7 +171,19 @@ router.get('/class', function(req, res){
     })
   })
 })
-
+//class list
+router.get('/class/list', function(req, res, next){
+  var id = req.query.id
+  var str = "select * from course where id = '"+id+"' and duty ='2' order by class, num;"
+  db.query(str, (err, result) => {
+    if(err) {return next(err)}
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      rows: result
+    })
+  })
+})
 //group
 router.get('/group', function (req, res) {
   var id = req.query.id //课程id

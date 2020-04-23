@@ -188,29 +188,49 @@ router.get('/student/use',function(req, res,next){
 //score
 router.get('/score', function (req, res, next) {
   var id = req.query.id
-  var str1 = "select * from course where id = '" + id + "' and duty ='1';"
-  db.query(str1, (err, data) => {
-    if (err) { return next(err) }
-    var str = "select * from st_score where course_id = '" + id + "';"
-    db.query(str, (err, result) => {
-      let resultFilter = {}
-      result.map((item) => {
-        if (resultFilter[String(item.score_id)]) {
-          resultFilter[String(item.score_id)].push(item)
-          // console.log(item)
-        } else {
-          let arr = []
-          arr.push(item)
-          resultFilter[String(item.score_id)] = arr
-        }
-      })
-      res.render('manger/score.html', {
-        user: req.session.user,
-        data: data,
-        result: resultFilter
+  var duty = req.session.user.duty
+  var num = req.session.user.num
+  if(duty == 2){
+    //student
+    var str1 = "select * from course where id = '" + id + "' and duty ='1';"
+    db.query(str1, (err, data) => {
+      if (err) { return next(err) }
+      var str = "select * from st_score where num = '" + num + "';"
+      db.query(str, (err, result) => {
+        if(err) {return next(err)}
+        res.render('manger/score.html', {
+          user: req.session.user,
+          data: data,
+          result: result
+        })
       })
     })
-  })
+  }else{
+    //manger teacher
+    var str1 = "select * from course where id = '" + id + "' and duty ='1';"
+    db.query(str1, (err, data) => {
+      if (err) { return next(err) }
+      var str = "select * from st_score where course_id = '" + id + "';"
+      db.query(str, (err, result) => {
+        let resultFilter = {}
+        result.map((item) => {
+          if (resultFilter[String(item.score_id)]) {
+            resultFilter[String(item.score_id)].push(item)
+            // console.log(item)
+          } else {
+            let arr = []
+            arr.push(item)
+            resultFilter[String(item.score_id)] = arr
+          }
+        })
+        res.render('manger/score.html', {
+          user: req.session.user,
+          data: data,
+          result: resultFilter
+        })
+      })
+    })
+  }
 
 })
 //score/list

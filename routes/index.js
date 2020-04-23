@@ -103,6 +103,7 @@ router.get('/course/end',require('./controllers'))
 router.get('/course/cancelend', require('./controllers'))
 //班级
 router.get('/class', require('./controllers'))
+router.get('/class/list', require('./controllers'))
 router.get('/group', require('./controllers'))
 //组的退出与加入
 router.get('/group/quit', require('./controllers'))
