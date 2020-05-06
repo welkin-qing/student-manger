@@ -133,7 +133,7 @@ router.post('/register', function(req, res){
       if(err) {throw err}
       if(result.length == 0){
         //账号不存在,就可以用来注册
-        var str1 = "insert into teacher (num, name, password) values ('"+body.num+"','"+body.name+"','"+body.password+"')"
+        var str1 = "insert into teacher (num, name, password,class) values ('"+body.num+"','"+body.name+"','"+body.password+"',null)"
         db.query(str1, (err, data)=>{
           if(err) throw(err)
           req.session.user = body

@@ -71,7 +71,6 @@ app.use(function (err, req, res, next) {
 // 在线人数统计
 var onlineCount = 0;
 app.use(express.static(__dirname));
-
 // 当有用户连接进来时
 io.on('connection', function (socket) {
   console.log('a user connected');

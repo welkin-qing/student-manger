@@ -125,7 +125,16 @@ router.post('/course/add', function(req, res){
   var num = req.session.user.num
   var name = req.session.user.name
   var class_id = req.session.user.class
-  //console.log(body)
+  var class_info = ''
+  console.log(class_id)
+  //判断班级是否存在
+  if(class_id){
+    //存在
+    class_info = class_id
+  }else{
+    //不存在
+    class_info = ''
+  }
   //1. 查询id是否存在
   var str1 = "select * from course where id = '"+parseInt(body.course_id)+"';"
   db.query(str1, (err, data)=>{
@@ -138,7 +147,7 @@ router.post('/course/add', function(req, res){
       })
     }else{
       var str = `insert into course (id, num, name,class,duty) values
-      (`+body.course_id+`,`+num+`,'`+name+`','`+class_id+`',2);`
+      (`+body.course_id+`,`+num+`,'`+name+`','`+class_info+`',2);`
       db.query(str, (err, result)=>{
         if(err) {throw err}
         res.status(200).json({

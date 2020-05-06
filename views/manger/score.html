@@ -85,7 +85,7 @@
 		{{/if}}
 	</div>
 </section>
-<input type="text" value="{{id}}" id="course_id" style="display: none;">
+<input type="text" value="{{data[0].id}}" id="course_id" style="display: none;">
 
 
 <!-- 导入学生成绩信息模态框 -->
@@ -537,13 +537,15 @@
 		// var fileObj = document.getElementById("import_file_upload"); // js 获取文件对象
 		// console.log(fileObj)
 		// //构建 FormData 对象
-		// var formData = new FormData(document.getElementById("import_file_upload"));
-		var formData = new FormData();
+		 var formData = new FormData(document.getElementById("import_file_upload"));
+		//console.log(course_id,score_info)
+		//console.log(file.files[0])
+		//var formData = new FormData();
 		//将文件信息追加到其中
-		formData.append('file', file.files[0]);
-		formData.append('course_id', course_id)
-		formData.append('score_info', score_info)
-		console.log(formData)
+		//formData.append('file', file.files[0]);
+		 formData.append('course_id', course_id)
+		 formData.append('score_info', score_info)
+		//console.log(formData)
 		$.ajax({
 			url: "/manger/score",
 			type: "post",

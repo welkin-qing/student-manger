@@ -112,10 +112,11 @@
       
 <!-- 评论 -->
       <div id="put">
-        {{ each data }}
+        {{ each data}}
           <div class="panel panel-default">
               <div class="panel-heading">
-                <span>{{ $value.student_name}}</span> 
+                  <!-- <span>{{$index+1}}</span> -->
+                <span>{{ $value.stu_name}}</span> 
                 <span class="time">{{ $value.time }}</span>
                 {{if $value.group_id}}
                 第<span>{{$value.group_id}}</span>组
@@ -228,7 +229,7 @@
     </div>
   </div>
 </section>
-<input type="text" id="hh">
+<input type="text" id="hh" style="display: none;">
 {{/block}}
 {{block 'script'}}
 <script>
@@ -315,7 +316,7 @@ $('#show_btn').on('click', function(e){
   // var num = '0'+{{user.num}}
   // var name = {{user.name}}
   var file_id = (window.location.href).split('=')
- // console.log(file_id[1])
+  console.log(file_id[1])
   var fileUrl = $('#hh').val()
  // console.log(fileUrl)
   if(content ==""){
@@ -333,10 +334,10 @@ $('#show_btn').on('click', function(e){
     url:'/show',
     type:'post',
     data: {
-      'id': time, 
+      //'id': time, 
       'content': content,     
       'time': time,
-      'file_id': file_id[1],
+      'file_id': file_id[1], //对应老师发布的
       'file_name': fileUrl,
       'group_id': group_id
     },

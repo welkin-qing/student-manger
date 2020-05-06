@@ -9,7 +9,7 @@ var fs = require('fs')
 var xlsx = require('node-xlsx');
 var multiparty = require('multiparty');
 var router = express.Router()
-//var upload = multer({dest:'upload/'});
+var upload = multer({dest:'upload/'});
 router.get('/list', function (req, res) {
   var id = req.query.id
  // console.log('class'+ id)
@@ -247,26 +247,39 @@ router.get('/score/list', function(req, res, next){
     })
   })
 })
-router.post('/manger/score', function (req, res, next) {
+
+
+router.post('/manger/score',upload.single('wqfile'), function (req, res, next) {
   //生成记录 8位 id
   var score_id = random(8,{letters:false})
-  var form = new multiparty.Form()
-  form.uploadDir = path.join(__dirname, '../upload')
-  var folder = form.uploadDir
-  //console.log(form.uploadDir)
-  form.keepExtensions = true
-  //console.log(form)
-  form.parse(req, (err, fields, files) => {
-    //console.log(fields)
-    var course_id = fields.course_id[0]
-    var score_info = fields.score_info[0]
-    //console.log(score_info,course_id)
-    var file_path = files.file[0].path
-    //console.log(file_path)
-    var sheets = xlsx.parse(file_path);
- 
-    // 遍历 sheet
-    var data_msg = []
+  var file=req.file;
+  var course_id = req.body.course_id
+  var score_info = req.body.score_info
+ // console.log(file)
+ // console.log(course_id, score_info)
+  //以下代码得到文件后缀
+  name=file.originalname;
+  nameArray=name.split('');
+  var nameMime=[];
+  l=nameArray.pop();
+  nameMime.unshift(l);
+  while(nameArray.length!=0&&l!='.'){
+  l=nameArray.pop();
+  nameMime.unshift(l);
+  }
+//Mime是文件的后缀
+  Mime=nameMime.join('');
+  //console.log(Mime);
+  //console.log("名称：%s",file.originalname)
+ // res.send("done");
+//重命名文件 加上文件后缀
+  fs.renameSync('./upload/'+file.filename,'./upload/'+file.originalname);
+  //获得file path
+  var load = path.join(__dirname, '../upload')
+  var file_path = load+'/'+file.originalname
+ // console.log(file_path)
+  var data_msg = []
+  var sheets = xlsx.parse(file_path);
     sheets.forEach(function (sheet) {
       //console.log(sheet['name']);
       // 读取每行内容
@@ -277,91 +290,91 @@ router.post('/manger/score', function (req, res, next) {
         //console.log(row);
       }
     });
-   // console.log(data_msg)
-    function isnull(val) {
-      var val_str = new String(val)
-      var str = val_str.replace(/(^\s*)|(\s*$)/g, '');//去除空格;
+ // console.log(data_msg)
+  function isnull(val) {
+    var val_str = new String(val)
+    var str = val_str.replace(/(^\s*)|(\s*$)/g, '');//去除空格;
 
-      if (str == '' || str == undefined || str == null || str == 'undefined' || str == 'null') {
-        //return true;
-        //	console.log('空')
-        return false
-      } else {
-        //return false;
-        //	console.log('非空');
-        return true
-      }
+    if (str == '' || str == undefined || str == null || str == 'undefined' || str == 'null') {
+      //return true;
+      //	console.log('空')
+      return false
+    } else {
+      //return false;
+      //	console.log('非空');
+      return true
     }
-   // isnull(1)
-    function str_null(a, b, c, d) {
-     // console.log(a,b,c,d)
-      var a1 = isnull(a)
-      var b1 = isnull(b)
-      var c1 = isnull(c)
-      var d1 = isnull(d)
-      //console.log(a1,b1,c1,d1)
-      if (a1 && b1 && c1 && d1) {
-        //console.log('true')
-        return true
-      } else {
-        //console.log('false')
-        return false
-      }
+  }
+  // isnull(1)
+  function str_null(a, b, c, d) {
+    // console.log(a,b,c,d)
+    var a1 = isnull(a)
+    var b1 = isnull(b)
+    var c1 = isnull(c)
+    var d1 = isnull(d)
+    //console.log(a1,b1,c1,d1)
+    if (a1 && b1 && c1 && d1) {
+      //console.log('true')
+      return true
+    } else {
+      //console.log('false')
+      return false
     }
-    var available = 0;
-    var total = parseInt(data_msg.length-1)
-    var str = ``
-    var str1 = 'insert into st_score (course_id, score_info, num, name, class, score, score_id) values '
-    var str2 = ''
-    for(let i=1; i<data_msg.length-1; i++){
-      var msg_isnull = str_null(data_msg[i][0],data_msg[i][1],data_msg[i][2],data_msg[i][3])
-      //console.log(msg_isnull)
-      if(msg_isnull){
-        str2 = str2+"('"+course_id+"','"+score_info+"','"+data_msg[i][0]+"','"+data_msg[i][1]+"','"+data_msg[i][2]+"','"+data_msg[i][3]+"','"+score_id+"'),"
-        available++
-      }
-    }
-    var j = parseInt(data_msg.length-1)
-    var msg_isnull1 = str_null(data_msg[j][0],data_msg[j][1],data_msg[j][2],data_msg[j][3])
-    if(msg_isnull1){
-      str3 = "('"+course_id+"','"+score_info+"','"+data_msg[j][0]+"','"+data_msg[j][1]+"','"+data_msg[j][2]+"','"+data_msg[j][3]+"','"+score_id+"');"
+  }
+  var available = 0;
+  var total = parseInt(data_msg.length - 1)
+  var str = ``
+  var str1 = 'insert into st_score (course_id, score_info, num, name, class, score, score_id) values '
+  var str2 = ''
+  for (let i = 1; i < data_msg.length - 1; i++) {
+    var msg_isnull = str_null(data_msg[i][0], data_msg[i][1], data_msg[i][2], data_msg[i][3])
+    //console.log(msg_isnull)
+    if (msg_isnull) {
+      str2 = str2 + "('" + course_id + "','" + score_info + "','" + data_msg[i][0] + "','" + data_msg[i][1] + "','" + data_msg[i][2] + "','" + data_msg[i][3] + "','" + score_id + "'),"
       available++
-    }else{
-      str3=";"
     }
-    
-    
-    str = str1+str2+str3
-    //console.log(str)
-    db.query(str, (err, result) => {
-      if(err) {return next(err)}
-      //删除已上传的文件
-      deleteFolder(folder);
-      function deleteFolder(path) {
-        let files = [];
-        if (fs.existsSync(path)) {
-          files = fs.readdirSync(path);
-          files.forEach(function (file, index) {
-            let curPath = path + "/" + file;
-            if (fs.statSync(curPath).isDirectory()) {
-              deleteFolder(curPath);
-            } else {
-              fs.unlinkSync(curPath);
-            }
-          });
-          fs.rmdirSync(path);
-        }
-      }
+  }
+  var j = parseInt(data_msg.length - 1)
+  var msg_isnull1 = str_null(data_msg[j][0], data_msg[j][1], data_msg[j][2], data_msg[j][3])
+  if (msg_isnull1) {
+    str3 = "('" + course_id + "','" + score_info + "','" + data_msg[j][0] + "','" + data_msg[j][1] + "','" + data_msg[j][2] + "','" + data_msg[j][3] + "','" + score_id + "');"
+    available++
+  } else {
+    str3 = ";"
+  }
 
-      res.status(200).json({
-        err_code: 0,
-        message: 'ok',
-        total: total,
-        available: available
-      })
+
+  str = str1 + str2 + str3
+  //console.log(str)
+  db.query(str, (err, result) => {
+    if (err) { return next(err) }
+    //删除已上传的文件
+    deleteFolder(load);
+    function deleteFolder(path) {
+      let files = [];
+      if (fs.existsSync(path)) {
+        files = fs.readdirSync(path);
+        files.forEach(function (file, index) {
+          let curPath = path + "/" + file;
+          if (fs.statSync(curPath).isDirectory()) {
+            deleteFolder(curPath);
+          } else {
+            fs.unlinkSync(curPath);
+          }
+        });
+        fs.rmdirSync(path);
+      }
+    }
+
+    res.status(200).json({
+      err_code: 0,
+      message: 'ok',
+      total: total,
+      available: available
     })
   })
 })
+
 //score del
 router.get('/score/del', function(req, res, next){
   var course_id = req.query.course_id

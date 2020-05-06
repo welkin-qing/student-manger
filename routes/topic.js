@@ -19,7 +19,7 @@ router.get('/new', function (req, res) {
     })
   })
 })
-router.post('/new', function (req, res) {
+router.post('/new', function (req, res,next) {
 
   var duty = req.session.user.duty
   var body = req.body
@@ -33,7 +33,7 @@ router.post('/new', function (req, res) {
     var str = `insert into file (topic, content, time, teacher_name, teacher_num, file_name, is_group,course_id)
        values('`+body.topic+`', '`+body.content+`', '`+body.time+`', '`+name+`', '`+num+`', '`+body.fileUrl+`', '`+body.group+`','`+body.course_id+`');`
     db.query(str, (err, result) => {
-      if (err) { throw err }
+      if (err) { return next(err) }
       //console.log(result.length)//得到数据长度
       res.status(200).json({
         err_code: 0,
@@ -48,7 +48,7 @@ router.get('/show', function (req, res) {
   var str = "select * from file where id = '"+id+"';"
   db.query(str, (err, result) => {
     if(err){ throw err}
-    var str1 = "select * from put where file_id ='"+id+"';"
+    var str1 = "select * from stu_put where file_id ='"+id+"';"
     db.query(str1, (err, data) => {
       if(err){ throw err}
       var length = data.length
@@ -64,17 +64,19 @@ router.get('/show', function (req, res) {
   
 })
 //评论
-router.post('/show', function(req, res){
+router.post('/show', function(req, res, next){
   var body = req.body
-//  console.log(body)
+  //console.log(body)
   var num = req.session.user.num
   var name = req.session.user.name
  // console.log(num, name)
-  var str = `insert into put (id, content, time, file_id, file_name, student_num, student_name, group_id)
+  var str = `insert into stu_put (content, time, file_id, file_name, stu_num, stu_name, group_id)
   values
-  ('`+body.id+`','`+body.content+`','`+body.time+`','`+body.file_id+`','`+body.file_name+`','`+num+`','`+name+`','`+body.group_id+`');`
+  ('`+body.content+`','`+body.time+`','`+body.file_id+`','`+body.file_name+`','`+num+`','`+name+`','`+body.group_id+`');`
+  console.log(str)
   db.query(str, (err, result) => {
-    if(err) { throw err }
+    if(err) { return next(err)}
+    console.log('111')
     res.status(200).json({
       err_code: 0,
       message: 'ok'
