@@ -195,7 +195,7 @@ router.get('/score', function (req, res, next) {
     var str1 = "select * from course where id = '" + id + "' and duty ='1';"
     db.query(str1, (err, data) => {
       if (err) { return next(err) }
-      var str = "select * from st_score where num = '" + num + "';"
+      var str = "select * from st_score where num = '" + num + "'and course_id='"+id+"';"
       db.query(str, (err, result) => {
         if(err) {return next(err)}
         res.render('manger/score.html', {
@@ -248,7 +248,7 @@ router.get('/score/list', function(req, res, next){
   })
 })
 
-
+//导入成绩
 router.post('/manger/score',upload.single('wqfile'), function (req, res, next) {
   //生成记录 8位 id
   var score_id = random(8,{letters:false})

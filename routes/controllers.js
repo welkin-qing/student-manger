@@ -126,7 +126,7 @@ router.post('/course/add', function(req, res){
   var name = req.session.user.name
   var class_id = req.session.user.class
   var class_info = ''
-  console.log(class_id)
+ // console.log(class_id)
   //判断班级是否存在
   if(class_id){
     //存在

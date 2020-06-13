@@ -23,7 +23,7 @@ router.post('/new', function (req, res,next) {
 
   var duty = req.session.user.duty
   var body = req.body
-  console.log(body)
+ // console.log(body)
   if (duty === 1) {
     //teacher
     var num = req.session.user.num
@@ -73,10 +73,10 @@ router.post('/show', function(req, res, next){
   var str = `insert into stu_put (content, time, file_id, file_name, stu_num, stu_name, group_id)
   values
   ('`+body.content+`','`+body.time+`','`+body.file_id+`','`+body.file_name+`','`+num+`','`+name+`','`+body.group_id+`');`
-  console.log(str)
+  //console.log(str)
   db.query(str, (err, result) => {
     if(err) { return next(err)}
-    console.log('111')
+    //console.log('111')
     res.status(200).json({
       err_code: 0,
       message: 'ok'
